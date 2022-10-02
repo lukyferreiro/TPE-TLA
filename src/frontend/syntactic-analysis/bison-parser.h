@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.1.  */
+/* A Bison parser, made by GNU Bison 3.3.2.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
    Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -49,21 +49,42 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    ADD = 258,
-    SUB = 259,
-    MUL = 260,
-    DIV = 261,
-    OPEN_PARENTHESIS = 262,
-    CLOSE_PARENTHESIS = 263,
-    INTEGER = 264
+    INTEGER = 258,
+    BST = 259,
+    AVL = 260,
+    RBT = 261,
+    TREE = 262,
+    TREE_NAME = 263,
+    FILE_NAME = 264,
+    FILE_PATH = 265,
+    CONFIGURE = 266,
+    ADD_SENTENCE = 267,
+    DELETE_SENTENCE = 268,
+    FIND_SENTENCE = 269,
+    CREATE = 270,
+    ADD_TREE_SENTENCE = 271,
+    ADD_SAVE_PATH_SENTENCE = 272,
+    ADD_TITLE_SENTENCE = 273,
+    MAX = 274,
+    MIN = 275,
+    COUNT = 276,
+    BALANCED = 277,
+    HEIGHT = 278,
+    COMMA = 279,
+    SEMICOLON = 280,
+    OPEN_PARENTHESIS = 281,
+    CLOSE_PARENTHESIS = 282,
+    OPEN_CURLY = 283,
+    CLOSE_CURLY = 284
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+
 union YYSTYPE
 {
-#line 8 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 8 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1921  */
 
 	// No-terminales (backend).
 	/*
@@ -76,17 +97,39 @@ union YYSTYPE
 
 	// No-terminales (frontend).
 	int program;
-	int expression;
-	int factor;
+	int constantArray;
 	int constant;
+    int block;
+    int integerParameters;
+    int integerArray;
+
+    int declaration;
+    int declarationParameters;
+    int treeType;
+
+    int configureBlock;
+    int treeSentences;
+    int treeSentence;
+
+    int createBlock;
+    int fileSentences;
+    int fileSentence;
+    int fileParameter;
+    int treeParameters;
+    int treeArray;
+    int titleParameters;
+    int titleArray;
+    int titleType;
 
 	// Terminales.
 	token token;
 	int integer;
+    char nameId[1024];
+    char filePath[1024];
 
-#line 88 "../src/frontend/syntactic-analysis/bison-parser.h"
-
+#line 131 "../src/frontend/syntactic-analysis/bison-parser.h" /* yacc.c:1921  */
 };
+
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

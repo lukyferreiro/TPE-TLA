@@ -57,6 +57,7 @@
 %token <token> TREE
 %token <nameId> TREE_NAME
 %token <nameId> FILE_NAME
+%token <filePath> FILE_PATH
 // Tokens para codigo trees
 %token <token> CONFIGURE
 %token <token> ADD_SENTENCE
@@ -66,7 +67,6 @@
 %token <token> CREATE
 %token <token> ADD_TREE_SENTENCE 
 %token <token> ADD_SAVE_PATH_SENTENCE 
-%token <filePath> FILE_PATH
 %token <token> ADD_TITLE_SENTENCE
 %token <token> MAX
 %token <token> MIN
@@ -121,7 +121,7 @@ program: constantArray													{ $$ = ProgramGrammarAction($1); }
 	;
 
 constantArray: constant                                                 { $$ = ConstantGrammarAction($1); }
-    | constant constantArray                                            { $$ = ConstantArrayGrammarAction($1, $2); } //check
+    | constant constantArray                                            { $$ = ConstantArrayGrammarAction($1, $2); }
     ;
 
 constant: declaration                                                   { $$ = DeclarationGrammarAction($1); }
@@ -133,7 +133,7 @@ declaration: TREE TREE_NAME declarationParameters SEMICOLON             { $$ = D
     ;
 
 declarationParameters: integerParameters                                { $$ = DeclarationTreeParametersGrammarAction($1); }
-    | /*lamba*/                                                         { $$ = 0 }
+    | /*lamba*/                                                         { $$ = 0; }
     ;
 
 integerParameters: OPEN_PARENTHESIS integerArray CLOSE_PARENTHESIS      { $$ = IntegerParametersGrammarAction($2); }
@@ -151,7 +151,7 @@ block: CONFIGURE treeType TREE_NAME configureBlock                      { $$ = C
 treeType: BST                                                           { $$ = TreeTypeBSTGrammarAction(); }
     | AVL                                                               { $$ = TreeTypeAVLGrammarAction(); }
     | RBT                                                               { $$ = TreeTypeRBTGrammarAction(); }
-    | /*lambda*/                                                        { $$ = 0 }
+    | /*lambda*/                                                        { $$ = 0; }
     ;
 
 // Reglas para utilizar un bloque configure de tree

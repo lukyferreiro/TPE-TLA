@@ -17,6 +17,10 @@
 %x COMMENT
 
 /* Patrones reutilizables. */
+/* https://www.regextester.com/115652 */
+treeName        [A-Za-z][A-Za-z0-9]*
+fileName        [A-Za-z][A-Za-z0-9]*
+filePath        ([\/]{1}[a-z0-9.]+)+(\/?){1}$|^([\/]{1})
 digit			[0-9]
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
@@ -28,17 +32,45 @@ whitespace		[ \f\n\r\t\v]
 <COMMENT>{endline}							{ ; }
 <COMMENT>"*/"								{ EndCommentPatternAction(); BEGIN(INITIAL); }
 
-"+"											{ return AdditionOperatorPatternAction(yytext); }
-"-"											{ return SubtractionOperatorPatternAction(yytext); }
-"*"											{ return MultiplicationOperatorPatternAction(yytext); }
-"/"											{ return DivisionOperatorPatternAction(yytext); }
 
-"("											{ return OpenParenthesisPatternAction(yytext); }
-")"											{ return CloseParenthesisPatternAction(yytext); }
+"tree"                                      { return TreePatternAction(yytext); }
+"configure"                                 { return ConfigurePatternAction(yytext); }
+"create"                                    { return CreatePatternAction(yytext); }
+
+"addNode"                                   { return AddNodePatternAction(yytext); }
+"deleteNode"                                { return DeleteNodePatternAction(yytext); }
+"findNode"                                  { return FindNodePatternAction(yytext); }
+
+"addTree"                                   { return AddTreePatternAction(yytext); }
+"addPath"                                   { return AddPathPatternAction(yytext); }
+"addLegend"                                 { return AddLegendPatternAction(yytext); }
+
+"bst"                                       { return BstPatternAction(yytext); }
+"avl"                                       { return AvlPatternAction(yytext); }
+"rbt"                                       { return RbtPatternAction(yytext); }
+
+"max"                                       { return MaxPatternAction(yytext); }
+"min"                                       { return MinPatternAction(yytext); }
+"count"                                     { return CountPatternAction(yytext); }
+"height"                                    { return HeightPatternAction(yytext); }
+"balanced"                                  { return BalancedPatternAction(yytext); }
+
+"{"                                         { return OpenBlockPatternAction(yytext); }
+"}"                                         { return CloseBlockPatternAction(yytext); }
+"("                                         { return OpenParenthesisPatternAction(yytext); }
+")"                                         { return CloseParenthesisPatternAction(yytext); }
+
+","                                         { return CommaPatternAction(yytext); }
+";"                                         { return SemiColonPatternAction(yytext); }
 
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }
 
+{treeName}                                  { return TreeNamePatternAction(yytext, yyleng); }
+{fileName}                                  { return FileNamePatternAction(yytext, yyleng); }
+{filePath}                                  { return FilePathPatternAction(yytext, yyleng); }
+
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
+{endline}                                   { IgnoredPatternAction(yytext, yyleng); }
 
 .											{ return UnknownPatternAction(yytext, yyleng); }
 

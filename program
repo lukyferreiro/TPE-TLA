@@ -1,1 +1,5 @@
-123123 + 123 - 2 * (454 + 890 / 89)
+tree hola(1);
+
+configure hola {
+    addNode(1);
+}
