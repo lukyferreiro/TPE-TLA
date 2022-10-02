@@ -70,9 +70,10 @@ token SubtractionOperatorPatternAction(const char * lexeme) {
 
 token UnknownPatternAction(const char * lexeme, const int length) {
 	LogDebug("UnknownPatternAction: '%s' (length = %d).", lexeme, length);
-	yylval.token = YYUNDEF;
+	//ALECA
+	yylval.token = 2;
 	// Al emitir este token, el compilador aborta la ejecución.
-	return YYUNDEF;
+	return 2;
 }
 
 void IgnoredPatternAction(const char * lexeme, const int length) {

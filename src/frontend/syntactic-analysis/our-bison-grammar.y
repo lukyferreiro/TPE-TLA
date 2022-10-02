@@ -32,6 +32,7 @@
     int fileSentences;
     int fileSentence;
     int treeParameters;
+    int treeArray;
 
 	// Terminales.
 	token token;
@@ -88,6 +89,7 @@
 %type <fileSentences> fileSentences
 %type <fileSentence> fileSentence
 %type <treeParameters> treeParameters
+%type <treeArray> treeArray
 
 // El símbolo inicial de la gramatica.
 %start program
@@ -102,14 +104,14 @@ constantArray: constant
     | constant constantArray
     ;
 
-constant: declaration
+constant: declaration                                                   { $$ = DeclarationGrammarActioN()}
     | block
     ;
 
 
 // Reglas para declarar una variable de tipo tree
 declaration: TREE_WORD TREE_ID SEMICOLON
-    | TREE_WORD TREE_ID integerParameters
+    | TREE_WORD TREE_ID integerParameters SEMICOLON
     ;
 
 integerParameters: OPEN_PARENTHESIS integerArray CLOSE_PARENTHESIS
@@ -128,13 +130,13 @@ block: CONFIGURE TREE_TYPE TREE_ID configureBlock
 configureBlock: OPEN_CURLY treeSentences CLOSE_CURLY 
     ;
 
-treeSentences: treeSentence
+treeSentences: treeSentence 
     | treeSentence treeSentences
     ;
 
-treeSentence: ADD_SENTENCE integerParameters 
-    | DELETE_SENTENCE integerParameters
-    | FIND_SENTENCE integerParameters
+treeSentence: ADD_SENTENCE integerParameters SEMICOLON
+    | DELETE_SENTENCE integerParameters SEMICOLON
+    | FIND_SENTENCE integerParameters SEMICOLON
     ;
 
 // Reglas para utilizar un bloque create de file
@@ -145,13 +147,16 @@ fileSentences: fileSentence
     | fileSentence fileSentences
     ;
 
-fileSentence: ADD_TREE_SENTENCE treeParameters
-    | ADD_SAVE_PATH_SENTENCE FILE_PATH
-    | ADD_TITLE_SENTENCE
+fileSentence: ADD_TREE_SENTENCE treeParameters SEMICOLON
+    | ADD_SAVE_PATH_SENTENCE FILE_PATH SEMICOLON
+    | ADD_TITLE_SENTENCE SEMICOLON
     ;
 
-treeParameters: TREE_ID
-    | TREE_ID treeParameters;
+treeParameters: OPEN_PARENTHESIS treeArray CLOSE_PARENTHESIS
+    ;
+
+treeArray: TREE_ID 
+    | TREE_ID COMMA treeArray;
     ;
 
 %%

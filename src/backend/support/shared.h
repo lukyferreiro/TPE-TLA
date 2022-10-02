@@ -27,7 +27,7 @@ extern void yyerror(const char * string);
 extern int yylex(void);
 
 // Función global del analizador sintáctico Bison.
-extern int yyparse(void);
+extern int yyparse();
 
 // Emular tipo "boolean".
 typedef enum {
