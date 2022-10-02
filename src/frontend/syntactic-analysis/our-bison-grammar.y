@@ -21,8 +21,10 @@
 	int constant;
     int block;
     int integerParameters;
+    int integerArray;
 
     int declaration;
+    int treeType;
 
     int configureBlock;
     int treeSentences;
@@ -31,8 +33,12 @@
     int createBlock;
     int fileSentences;
     int fileSentence;
+    int fileParameter;
     int treeParameters;
     int treeArray;
+    int titleParameters;
+    int titleArray;
+    int titleType;
 
 	// Terminales.
 	token token;
@@ -41,11 +47,13 @@
 
 // IDs y tipos de los tokens terminales generados desde Flex.
 %token <integer> INTEGER
+%token <token> BST
+%token <token> AVL
+%token <token> RBT
 
 // Tokens de arboles y archivos
 %token <token> TREE_WORD
 %token <token> TREE_ID
-%token <token> TREE_TYPE
 %token <token> FILE_ID
 
 // Tokens para codigo trees
@@ -60,6 +68,11 @@
 %token <token> ADD_SAVE_PATH_SENTENCE 
 %token <token> FILE_PATH
 %token <token> ADD_TITLE_SENTENCE
+%token <token> MAX
+%token <token> MIN
+%token <token> COUNT
+%token <token> BALANCED
+%token <token> HEIGHT
 
 // Tokens solamente lexicos 
 %token <token> COMMA
@@ -75,9 +88,12 @@
 // Generales del programa
 %type <program> program
 %type <constantArray> constantArray
-%type <constant> constant 
+%type <constant> constant
+%type <declaration> declaration 
 %type <block> block
 %type <integerParameters> integerParameters
+%type <integerArray> integerArray
+%type <treeType> treeType
 
 // Bloque configure
 %type <configureBlock> configureBlock
@@ -90,6 +106,10 @@
 %type <fileSentence> fileSentence
 %type <treeParameters> treeParameters
 %type <treeArray> treeArray
+%type <fileParameter> fileParameter
+%type <titleParameters> titleParameters
+%type <titleArray> titleArray
+%type <titleType> titleType
 
 // El símbolo inicial de la gramatica.
 %start program
@@ -100,63 +120,86 @@
 program: constantArray													{ $$ = ProgramGrammarAction($1); }
 	;
 
-constantArray: constant 
-    | constant constantArray
+constantArray: constant                                                 { $$ = ConstantGrammarAction($1); }
+    | constant constantArray                                            { $$ = ConstantArrayGrammarAction($1, $2); } //check
     ;
 
-constant: declaration                                                   { $$ = DeclarationGrammarActioN()}
-    | block
+constant: declaration                                                   { $$ = DeclarationGrammarAction($1); }
+    | block                                                             { $$ = BlockGrammarAction($1); }
     ;
 
 
 // Reglas para declarar una variable de tipo tree
-declaration: TREE_WORD TREE_ID SEMICOLON
-    | TREE_WORD TREE_ID integerParameters SEMICOLON
+declaration: TREE_WORD TREE_ID SEMICOLON                                { $$ = CreateTreeWithIdGrammarAction($1, $2) }
+    | TREE_WORD TREE_ID integerParameters SEMICOLON                     { $$ = CreateTreeWithIdParametersGrammarAction($1, $2, $3) }
     ;
 
-integerParameters: OPEN_PARENTHESIS integerArray CLOSE_PARENTHESIS
+integerParameters: OPEN_PARENTHESIS integerArray CLOSE_PARENTHESIS      { $$ = IntegerParametersGrammarAction($1) }
     ;
 
-integerArray: INTEGER
-    | INTEGER COMMA integerArray
+integerArray: INTEGER                                                   { $$ = IntegerConstantGrammarAction($1) }
+    | INTEGER COMMA integerArray                                        { $$ = IntegerConstantArrayGrammarAction($1, $3) }
     ;
 
 // Bloque de codigo, que puede referirse a un file o un tree
-block: CONFIGURE TREE_TYPE TREE_ID configureBlock
-    | CREATE FILE_ID createBlock
+block: CONFIGURE treeType TREE_ID configureBlock                        { $$ = ConfigureBlockGrammarAction($1, $2, $3, $4) }
+    | CREATE FILE_ID createBlock                                        { $$ = CreateBlockGrammarAction($1, $2, $3) }
+    ;
+
+treeType: BST                                                           { $$ = TreeTypeBSTGrammarAction($1) }
+    | AVL                                                               { $$ = TreeTypeAVLGrammarAction($1) }
+    | RBT                                                               { $$ = TreeTypeRBTGrammarAction($1) }
+    | /*lambda*/                                                        { $$ = TreeTypeLambdaGrammarAction($1) }
     ;
 
 // Reglas para utilizar un bloque configure de tree
-configureBlock: OPEN_CURLY treeSentences CLOSE_CURLY 
+configureBlock: OPEN_CURLY treeSentences CLOSE_CURLY                    { $$ = TreeSentencesGrammarAction($2) }
     ;
 
-treeSentences: treeSentence 
-    | treeSentence treeSentences
+treeSentences: treeSentence                                             { $$ = TreeSentenceGrammarAction($1) }
+    | treeSentence treeSentences                                        { $$ = TreeSentenceArrayGrammarAction($1, $2) }
     ;
 
-treeSentence: ADD_SENTENCE integerParameters SEMICOLON
-    | DELETE_SENTENCE integerParameters SEMICOLON
-    | FIND_SENTENCE integerParameters SEMICOLON
+treeSentence: ADD_SENTENCE integerParameters SEMICOLON                  { $$ = AddSentenceGrammarAction($1, $2) }
+    | DELETE_SENTENCE integerParameters SEMICOLON                       { $$ = DeleteSentenceGrammarAction($1, $2) }
+    | FIND_SENTENCE integerParameters SEMICOLON                         { $$ = FindSentenceGrammarAction($1, $2) }
     ;
 
 // Reglas para utilizar un bloque create de file
-createBlock: OPEN_CURLY fileSentences CLOSE_CURLY
+createBlock: OPEN_CURLY fileSentences CLOSE_CURLY                       { $$ = FileSentencesGrammarAction($2) }
     ;
 
-fileSentences: fileSentence
-    | fileSentence fileSentences
+fileSentences: fileSentence                                             { $$ = FileSentenceGrammarAction($1) }
+    | fileSentence fileSentences                                        { $$ = FileSentenceArrayGrammarAction($1, $2) }
     ;
 
-fileSentence: ADD_TREE_SENTENCE treeParameters SEMICOLON
-    | ADD_SAVE_PATH_SENTENCE FILE_PATH SEMICOLON
-    | ADD_TITLE_SENTENCE SEMICOLON
+fileSentence: ADD_TREE_SENTENCE treeParameters SEMICOLON                { $$ = AddTreeSentenceGrammarAction($1, $2) }
+    | ADD_SAVE_PATH_SENTENCE fileParameter SEMICOLON                    { $$ = AddSavePathSentenceGrammarAction($1, $2) }
+    | ADD_TITLE_SENTENCE titleParameters SEMICOLON                      { $$ = AddTitleSentenceGrammarAction($1, $2) }
     ;
 
-treeParameters: OPEN_PARENTHESIS treeArray CLOSE_PARENTHESIS
+treeParameters: OPEN_PARENTHESIS treeArray CLOSE_PARENTHESIS            { $$ = TreeParametersGrammarAction($2) }
     ;
 
-treeArray: TREE_ID 
-    | TREE_ID COMMA treeArray;
+fileParameter: OPEN_PARENTHESIS FILE_PATH CLOSE_PARENTHESIS             { $$ = FileParameterSentenceGrammarAction($2) }
+    ;
+
+treeArray: TREE_ID                                                      { $$ = TreeIdGrammarAction($1) }
+    | TREE_ID COMMA treeArray                                           { $$ = TreeIdArrayGrammarAction($1, $3) }
+    ;
+
+titleParameters: OPEN_PARENTHESIS titleArray CLOSE_PARENTHESIS          { $$ = TitleParametersGrammarAction($2) }
+    ;
+
+titleArray: titleType                                                   { $$ = TitleTypeGrammarAction($1) }
+    | titleType COMMA titleArray                                        { $$ = TitleTypeArrayGrammarAction($1, $3) }
+    ;
+
+titleType: MAX                                                          { $$ = TitleMaxGrammarAction($1) }
+    | MIN                                                               { $$ = TitleMinGrammarAction($1) }
+    | COUNT                                                             { $$ = TitleCountGrammarAction($1) }
+    | BALANCED                                                          { $$ = TitleBalancedGrammarAction($1) }
+    | HEIGHT                                                            { $$ = TitleHeightGrammarAction($1) }
     ;
 
 %%
