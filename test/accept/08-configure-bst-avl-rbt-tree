@@ -1,0 +1,20 @@
+tree miArbol;
+
+configure bst miArbol {
+    addNode(1);
+    addNode(2,3,4,5);
+    findNode(1);
+}
+
+tree miArbol2(1548);
+
+configure avl miArbol2 {
+    addNode(84,96,1035);
+    findNode(1548);
+}
+
+tree miArbol3(1,5,3);
+
+configure rbt miArbol3 {
+    findNode(5);
+}

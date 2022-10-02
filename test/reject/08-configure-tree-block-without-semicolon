@@ -1,0 +1,4 @@
+configure miArbol {
+    addNode(1,4,5)
+    
+}

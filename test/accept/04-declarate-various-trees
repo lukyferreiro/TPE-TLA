@@ -1,0 +1,5 @@
+tree miArbol1(1,2,3);
+tree miArbol2(4);
+tree miArbol3(4,5,6,7);
+tree miArbol4(8,9);
+tree miArbol5;

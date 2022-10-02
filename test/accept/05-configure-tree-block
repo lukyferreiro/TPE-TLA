@@ -1,0 +1,12 @@
+tree miArbol;
+
+configure miArbol {
+    addNode(1);
+    addNode(2);
+    addNode(3);
+    addNode(4);
+    addNode(5);
+    findNode(1);
+    findNode(3);
+    findNode(5);
+}

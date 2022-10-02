@@ -75,8 +75,8 @@ token AddPathPatternAction(const char * lexeme){
 	return ADD_SAVE_PATH_SENTENCE;
 }
 
-token AddLegendPatternAction(const char * lexeme){
-	LogDebug("AddLegendPatternAction: '%s'.", lexeme);
+token AddTitlePatternAction(const char * lexeme){
+	LogDebug("AddTitlePatternAction: '%s'.", lexeme);
 	yylval.token = ADD_TITLE_SENTENCE;
 	return ADD_TITLE_SENTENCE;
 }

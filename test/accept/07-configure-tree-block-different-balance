@@ -1,0 +1,5 @@
+tree miArbol;
+
+configure avl miArbol {
+    addNode(1);
+}

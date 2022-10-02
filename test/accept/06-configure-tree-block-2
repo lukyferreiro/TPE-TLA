@@ -1,0 +1,6 @@
+tree miArbol;
+
+configure miArbol {
+    addNode(1,2,3,4,5);
+    findNode(1,3,5);
+}

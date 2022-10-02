@@ -1,0 +1,6 @@
+tree miArbol;
+
+configure avr miArbol {
+    addNode(1);
+    findNode(1);
+}
