@@ -51,5 +51,18 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-/bin
+# Folders:
+.DS_Store/
+.vs/
+bin/
+cache/
+log/
+obj/
+node_modules/
 /.vscode
+
+# Project files:
+bison-parser.c
+bison-parser.h
+flex-scanner.c
+program
