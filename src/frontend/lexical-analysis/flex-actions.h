@@ -31,7 +31,7 @@ token DeleteNodePatternAction(const char * lexeme);
 token FindNodePatternAction(const char * lexeme);
 token AddTreePatternAction(const char * lexeme);
 token AddPathPatternAction(const char * lexeme);
-token AddTitlePatternAction(const char * lexeme);
+token AddLegendPatternAction(const char * lexeme);
 token BstPatternAction(const char * lexeme);
 token AvlPatternAction(const char * lexeme);
 token RbtPatternAction(const char * lexeme);

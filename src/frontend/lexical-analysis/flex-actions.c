@@ -47,38 +47,38 @@ token CreatePatternAction(const char * lexeme){
 
 token AddNodePatternAction(const char * lexeme){
 	LogDebug("AddNodePatternAction: '%s'.", lexeme);
-	yylval.token = ADD_SENTENCE;
-	return ADD_SENTENCE;
+	yylval.token = ADD_NODE;
+	return ADD_NODE;
 }
 
 token DeleteNodePatternAction(const char * lexeme){
 	LogDebug("DeleteNodePatternAction: '%s'.", lexeme);
-	yylval.token = DELETE_SENTENCE;
-	return DELETE_SENTENCE;
+	yylval.token = DELETE_NODE;
+	return DELETE_NODE;
 }
 
 token FindNodePatternAction(const char * lexeme){
 	LogDebug("FindNodePatternAction: '%s'.", lexeme);
-	yylval.token = FIND_SENTENCE;
-	return FIND_SENTENCE;
+	yylval.token = FIND_NODE;
+	return FIND_NODE;
 }
 
 token AddTreePatternAction(const char * lexeme){
 	LogDebug("AddTreePatternAction: '%s'.", lexeme);
-	yylval.token = ADD_TREE_SENTENCE;
-	return ADD_TREE_SENTENCE;
+	yylval.token = ADD_TREE;
+	return ADD_TREE;
 }
 
 token AddPathPatternAction(const char * lexeme){
 	LogDebug("AddPathPatternAction: '%s'.", lexeme);
-	yylval.token = ADD_SAVE_PATH_SENTENCE;
-	return ADD_SAVE_PATH_SENTENCE;
+	yylval.token = ADD_SAVE_PATH;
+	return ADD_SAVE_PATH;
 }
 
-token AddTitlePatternAction(const char * lexeme){
-	LogDebug("AddTitlePatternAction: '%s'.", lexeme);
-	yylval.token = ADD_TITLE_SENTENCE;
-	return ADD_TITLE_SENTENCE;
+token AddLegendPatternAction(const char * lexeme){
+	LogDebug("AddLegendPatternAction: '%s'.", lexeme);
+	yylval.token = ADD_LEGEND;
+	return ADD_LEGEND;
 }
 
 token BstPatternAction(const char * lexeme){
@@ -173,13 +173,13 @@ token IntegerPatternAction(const char * lexeme, const int length) {
 
 token TreeNamePatternAction(const char * lexeme, const int length){
 	LogDebug("TreeNamePatternAction: '%s' (length = %d).", lexeme, length);
-	strncpy(yylval.nameId, lexeme, sizeof(yylval.nameId) - 1);
+	strncpy(yylval.treeName, lexeme, sizeof(yylval.treeName) - 1);
 	return TREE_NAME;
 }
 
 token FileNamePatternAction(const char * lexeme, const int length){
 	LogDebug("FileNamePatternAction: '%s' (length = %d).", lexeme, length);
-	strncpy(yylval.nameId, lexeme, sizeof(yylval.nameId) - 1);
+	strncpy(yylval.fileName, lexeme, sizeof(yylval.fileName) - 1);
 	return FILE_NAME;
 }
 
