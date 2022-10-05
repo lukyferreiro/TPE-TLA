@@ -128,13 +128,13 @@ extern int yydebug;
     VARIABLE_NAME = 263,
     FILE_PATH = 264,
     CONFIGURE = 265,
-    ADD_SENTENCE = 266,
-    DELETE_SENTENCE = 267,
-    FIND_SENTENCE = 268,
+    ADD_NODE = 266,
+    DELETE_NODE = 267,
+    FIND_NODE = 268,
     CREATE = 269,
-    ADD_TREE_SENTENCE = 270,
-    ADD_SAVE_PATH_SENTENCE = 271,
-    ADD_TITLE_SENTENCE = 272,
+    ADD_TREE = 270,
+    ADD_SAVE_PATH = 271,
+    ADD_LEGEND = 272,
     MAX = 273,
     MIN = 274,
     COUNT = 275,
@@ -186,17 +186,14 @@ union YYSTYPE
     int fileParameter;
     int treeParameters;
     int treeArray;
-    int titleParameters;
-    int titleArray;
-    int titleType;
+    int legendParameters;
+    int legendArray;
+    int legendType;
 
 	// Terminales.
 	token token;
-//	int integer;
-  //  char nameId[1024];
-    //char filePath[1024];
 
-#line 200 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 197 "../src/frontend/syntactic-analysis/bison-parser.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -574,11 +571,11 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   119,   119,   122,   123,   126,   127,   131,   134,   135,
-     138,   141,   142,   146,   147,   150,   151,   152,   153,   157,
-     160,   161,   164,   165,   166,   170,   173,   174,   177,   178,
-     179,   182,   185,   188,   189,   192,   195,   196,   199,   200,
-     201,   202,   203
+       0,   116,   116,   119,   120,   123,   124,   128,   131,   132,
+     135,   138,   139,   143,   144,   147,   148,   149,   150,   154,
+     157,   158,   161,   162,   163,   167,   170,   171,   174,   175,
+     176,   179,   182,   185,   186,   189,   192,   193,   196,   197,
+     198,   199,   200
 };
 #endif
 
@@ -588,16 +585,16 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "INTEGER", "BST", "AVL", "RBT", "TREE",
-  "VARIABLE_NAME", "FILE_PATH", "CONFIGURE", "ADD_SENTENCE",
-  "DELETE_SENTENCE", "FIND_SENTENCE", "CREATE", "ADD_TREE_SENTENCE",
-  "ADD_SAVE_PATH_SENTENCE", "ADD_TITLE_SENTENCE", "MAX", "MIN", "COUNT",
-  "BALANCED", "HEIGHT", "COMMA", "SEMICOLON", "OPEN_PARENTHESIS",
-  "CLOSE_PARENTHESIS", "OPEN_CURLY", "CLOSE_CURLY", "$accept", "program",
-  "constantArray", "constant", "declaration", "declarationParameters",
-  "integerParameters", "integerArray", "block", "treeType",
-  "configureBlock", "treeSentences", "treeSentence", "createBlock",
-  "fileSentences", "fileSentence", "treeParameters", "fileParameter",
-  "treeArray", "titleParameters", "titleArray", "titleType", YY_NULLPTR
+  "VARIABLE_NAME", "FILE_PATH", "CONFIGURE", "ADD_NODE", "DELETE_NODE",
+  "FIND_NODE", "CREATE", "ADD_TREE", "ADD_SAVE_PATH", "ADD_LEGEND", "MAX",
+  "MIN", "COUNT", "BALANCED", "HEIGHT", "COMMA", "SEMICOLON",
+  "OPEN_PARENTHESIS", "CLOSE_PARENTHESIS", "OPEN_CURLY", "CLOSE_CURLY",
+  "$accept", "program", "constantArray", "constant", "declaration",
+  "declarationParameters", "integerParameters", "integerArray", "block",
+  "treeType", "configureBlock", "treeSentences", "treeSentence",
+  "createBlock", "fileSentences", "fileSentence", "treeParameters",
+  "fileParameter", "treeArray", "legendParameters", "legendArray",
+  "legendType", YY_NULLPTR
 };
 #endif
 
@@ -1421,253 +1418,253 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 119 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 116 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                                                                         { (yyval.program) = ProgramGrammarAction((yyvsp[0].constantArray)); }
-#line 1427 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1424 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 3:
-#line 122 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 119 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.constantArray) = ConstantGrammarAction((yyvsp[0].constant)); }
-#line 1433 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1430 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 4:
-#line 123 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 120 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.constantArray) = ConstantArrayGrammarAction((yyvsp[-1].constant), (yyvsp[0].constantArray)); }
-#line 1439 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1436 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 5:
-#line 126 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 123 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.constant) = DeclarationGrammarAction((yyvsp[0].declaration)); }
-#line 1445 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1442 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 6:
-#line 127 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 124 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.constant) = BlockGrammarAction((yyvsp[0].block)); }
-#line 1451 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1448 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 7:
-#line 131 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 128 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.declaration) = DeclarationTreeGrammarAction((yyvsp[-2].token), (yyvsp[-1].declarationParameters)); }
-#line 1457 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1454 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 8:
-#line 134 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 131 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.declarationParameters) = DeclarationTreeParametersGrammarAction((yyvsp[0].integerParameters)); }
-#line 1463 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1460 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 9:
-#line 135 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 132 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.declarationParameters) = 0; }
-#line 1469 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1466 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 10:
-#line 138 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 135 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.integerParameters) = IntegerParametersGrammarAction((yyvsp[-1].integerArray)); }
-#line 1475 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1472 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 11:
-#line 141 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 138 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.integerArray) = IntegerConstantGrammarAction((yyvsp[0].token)); }
-#line 1481 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1478 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 12:
-#line 142 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 139 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.integerArray) = IntegerConstantArrayGrammarAction((yyvsp[-2].token), (yyvsp[0].integerArray)); }
-#line 1487 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1484 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 13:
-#line 146 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 143 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.block) = ConfigureBlockGrammarAction((yyvsp[-2].treeType), (yyvsp[-1].token), (yyvsp[0].configureBlock)); }
-#line 1493 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1490 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 14:
-#line 147 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 144 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.block) = CreateBlockGrammarAction((yyvsp[-1].token), (yyvsp[0].createBlock)); }
-#line 1499 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1496 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 15:
-#line 150 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 147 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.treeType) = TreeTypeBSTGrammarAction(); }
-#line 1505 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1502 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 16:
-#line 151 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 148 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.treeType) = TreeTypeAVLGrammarAction(); }
-#line 1511 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1508 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 17:
-#line 152 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 149 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.treeType) = TreeTypeRBTGrammarAction(); }
-#line 1517 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1514 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 18:
-#line 153 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 150 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.treeType) = 0; }
-#line 1523 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1520 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 19:
-#line 157 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 154 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.configureBlock) = TreeSentencesGrammarAction((yyvsp[-1].treeSentences)); }
-#line 1529 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1526 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 20:
-#line 160 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 157 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.treeSentences) = TreeSentenceGrammarAction((yyvsp[0].treeSentence)); }
-#line 1535 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1532 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 21:
-#line 161 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 158 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.treeSentences) = TreeSentenceArrayGrammarAction((yyvsp[-1].treeSentence), (yyvsp[0].treeSentences)); }
-#line 1541 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1538 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 22:
-#line 164 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeSentence) = AddSentenceGrammarAction((yyvsp[-1].integerParameters)); }
-#line 1547 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 161 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.treeSentence) = AddNodeGrammarAction((yyvsp[-1].integerParameters)); }
+#line 1544 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 23:
-#line 165 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeSentence) = DeleteSentenceGrammarAction((yyvsp[-1].integerParameters)); }
-#line 1553 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 162 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.treeSentence) = DeleteNodeGrammarAction((yyvsp[-1].integerParameters)); }
+#line 1550 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 24:
-#line 166 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeSentence) = FindSentenceGrammarAction((yyvsp[-1].integerParameters)); }
-#line 1559 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 163 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.treeSentence) = FindNodeGrammarAction((yyvsp[-1].integerParameters)); }
+#line 1556 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 25:
-#line 170 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 167 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.createBlock) = FileSentencesGrammarAction((yyvsp[-1].fileSentences)); }
-#line 1565 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1562 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 26:
-#line 173 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 170 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.fileSentences) = FileSentenceGrammarAction((yyvsp[0].fileSentence)); }
-#line 1571 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1568 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 27:
-#line 174 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 171 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.fileSentences) = FileSentenceArrayGrammarAction((yyvsp[-1].fileSentence), (yyvsp[0].fileSentences)); }
-#line 1577 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1574 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 28:
-#line 177 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.fileSentence) = AddTreeSentenceGrammarAction((yyvsp[-1].treeParameters)); }
-#line 1583 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 174 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.fileSentence) = AddTreeGrammarAction((yyvsp[-1].treeParameters)); }
+#line 1580 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 29:
-#line 178 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.fileSentence) = AddSavePathSentenceGrammarAction((yyvsp[-1].fileParameter)); }
-#line 1589 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 175 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.fileSentence) = AddSavePathGrammarAction((yyvsp[-1].fileParameter)); }
+#line 1586 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 30:
-#line 179 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.fileSentence) = AddTitleSentenceGrammarAction((yyvsp[-1].titleParameters)); }
-#line 1595 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 176 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.fileSentence) = AddLegendGrammarAction((yyvsp[-1].legendParameters)); }
+#line 1592 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 31:
-#line 182 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 179 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.treeParameters) = TreeParametersGrammarAction((yyvsp[-1].treeArray)); }
-#line 1601 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1598 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 32:
-#line 185 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 182 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.fileParameter) = FileParameterSentenceGrammarAction((yyvsp[-1].token)); }
-#line 1607 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1604 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 33:
-#line 188 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 185 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.treeArray) = TreeNameGrammarAction((yyvsp[0].token)); }
-#line 1613 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1610 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 34:
-#line 189 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 186 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                         { (yyval.treeArray) = TreeNameArrayGrammarAction((yyvsp[-2].token), (yyvsp[0].treeArray)); }
-#line 1619 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1616 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 35:
-#line 192 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.titleParameters) = TitleParametersGrammarAction((yyvsp[-1].titleArray)); }
-#line 1625 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 189 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.legendParameters) = LegendParametersGrammarAction((yyvsp[-1].legendArray)); }
+#line 1622 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 36:
-#line 195 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.titleArray) = TitleTypeGrammarAction((yyvsp[0].titleType)); }
-#line 1631 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 192 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.legendArray) = LegendTypeGrammarAction((yyvsp[0].legendType)); }
+#line 1628 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 37:
-#line 196 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.titleArray) = TitleTypeArrayGrammarAction((yyvsp[-2].titleType), (yyvsp[0].titleArray)); }
-#line 1637 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 193 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.legendArray) = LegendTypeArrayGrammarAction((yyvsp[-2].legendType), (yyvsp[0].legendArray)); }
+#line 1634 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 38:
-#line 199 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.titleType) = TitleMaxGrammarAction(); }
-#line 1643 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 196 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.legendType) = LegendMaxGrammarAction(); }
+#line 1640 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 39:
-#line 200 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.titleType) = TitleMinGrammarAction(); }
-#line 1649 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 197 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.legendType) = LegendMinGrammarAction(); }
+#line 1646 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 40:
-#line 201 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.titleType) = TitleCountGrammarAction(); }
-#line 1655 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 198 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.legendType) = LegendCountGrammarAction(); }
+#line 1652 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 41:
-#line 202 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.titleType) = TitleBalancedGrammarAction(); }
-#line 1661 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 199 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.legendType) = LegendBalancedGrammarAction(); }
+#line 1658 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 42:
-#line 203 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.titleType) = TitleHeightGrammarAction(); }
-#line 1667 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 200 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                        { (yyval.legendType) = LegendHeightGrammarAction(); }
+#line 1664 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
 
-#line 1671 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1668 "../src/frontend/syntactic-analysis/bison-parser.c"
 
       default: break;
     }
@@ -1899,5 +1896,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 206 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 203 "../src/frontend/syntactic-analysis/bison-grammar.y"
 

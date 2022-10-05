@@ -57,13 +57,13 @@ extern int yydebug;
     VARIABLE_NAME = 263,
     FILE_PATH = 264,
     CONFIGURE = 265,
-    ADD_SENTENCE = 266,
-    DELETE_SENTENCE = 267,
-    FIND_SENTENCE = 268,
+    ADD_NODE = 266,
+    DELETE_NODE = 267,
+    FIND_NODE = 268,
     CREATE = 269,
-    ADD_TREE_SENTENCE = 270,
-    ADD_SAVE_PATH_SENTENCE = 271,
-    ADD_TITLE_SENTENCE = 272,
+    ADD_TREE = 270,
+    ADD_SAVE_PATH = 271,
+    ADD_LEGEND = 272,
     MAX = 273,
     MIN = 274,
     COUNT = 275,
@@ -115,17 +115,14 @@ union YYSTYPE
     int fileParameter;
     int treeParameters;
     int treeArray;
-    int titleParameters;
-    int titleArray;
-    int titleType;
+    int legendParameters;
+    int legendArray;
+    int legendType;
 
 	// Terminales.
 	token token;
-//	int integer;
-  //  char nameId[1024];
-    //char filePath[1024];
 
-#line 129 "../src/frontend/syntactic-analysis/bison-parser.h"
+#line 126 "../src/frontend/syntactic-analysis/bison-parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

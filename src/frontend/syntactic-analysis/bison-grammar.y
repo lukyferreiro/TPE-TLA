@@ -37,15 +37,12 @@
     int fileParameter;
     int treeParameters;
     int treeArray;
-    int titleParameters;
-    int titleArray;
-    int titleType;
+    int legendParameters;
+    int legendArray;
+    int legendType;
 
 	// Terminales.
 	token token;
-//	int integer;
-  //  char nameId[1024];
-    //char filePath[1024];
 }
 
 // IDs y tipos de los tokens terminales generados desde Flex.
@@ -59,14 +56,14 @@
 %token <token> FILE_PATH
 // Tokens para codigo trees
 %token <token> CONFIGURE
-%token <token> ADD_SENTENCE
-%token <token> DELETE_SENTENCE
-%token <token> FIND_SENTENCE
+%token <token> ADD_NODE
+%token <token> DELETE_NODE
+%token <token> FIND_NODE
 // Tokens para codigo files
 %token <token> CREATE
-%token <token> ADD_TREE_SENTENCE 
-%token <token> ADD_SAVE_PATH_SENTENCE 
-%token <token> ADD_TITLE_SENTENCE
+%token <token> ADD_TREE
+%token <token> ADD_SAVE_PATH
+%token <token> ADD_LEGEND
 %token <token> MAX
 %token <token> MIN
 %token <token> COUNT
@@ -106,9 +103,9 @@
 %type <treeParameters> treeParameters
 %type <treeArray> treeArray
 %type <fileParameter> fileParameter
-%type <titleParameters> titleParameters
-%type <titleArray> titleArray
-%type <titleType> titleType
+%type <legendParameters> legendParameters
+%type <legendArray> legendArray
+%type <legendType> legendType
 
 // El símbolo inicial de la gramatica.
 %start program
@@ -161,9 +158,9 @@ treeSentences: treeSentence                                             { $$ = T
     | treeSentence treeSentences                                        { $$ = TreeSentenceArrayGrammarAction($1, $2); }
     ;
 
-treeSentence: ADD_SENTENCE integerParameters SEMICOLON                  { $$ = AddSentenceGrammarAction($2); }
-    | DELETE_SENTENCE integerParameters SEMICOLON                       { $$ = DeleteSentenceGrammarAction($2); }
-    | FIND_SENTENCE integerParameters SEMICOLON                         { $$ = FindSentenceGrammarAction($2); }
+treeSentence: ADD_NODE integerParameters SEMICOLON                      { $$ = AddNodeGrammarAction($2); }
+    | DELETE_NODE integerParameters SEMICOLON                           { $$ = DeleteNodeGrammarAction($2); }
+    | FIND_NODE integerParameters SEMICOLON                             { $$ = FindNodeGrammarAction($2); }
     ;
 
 // Reglas para utilizar un bloque create de file
@@ -174,9 +171,9 @@ fileSentences: fileSentence                                             { $$ = F
     | fileSentence fileSentences                                        { $$ = FileSentenceArrayGrammarAction($1, $2); }
     ;
 
-fileSentence: ADD_TREE_SENTENCE treeParameters SEMICOLON                { $$ = AddTreeSentenceGrammarAction($2); }
-    | ADD_SAVE_PATH_SENTENCE fileParameter SEMICOLON                    { $$ = AddSavePathSentenceGrammarAction($2); }
-    | ADD_TITLE_SENTENCE titleParameters SEMICOLON                      { $$ = AddTitleSentenceGrammarAction($2); }
+fileSentence: ADD_TREE treeParameters SEMICOLON                         { $$ = AddTreeGrammarAction($2); }
+    | ADD_SAVE_PATH fileParameter SEMICOLON                             { $$ = AddSavePathGrammarAction($2); }
+    | ADD_LEGEND legendParameters SEMICOLON                             { $$ = AddLegendGrammarAction($2); }
     ;
 
 treeParameters: OPEN_PARENTHESIS treeArray CLOSE_PARENTHESIS            { $$ = TreeParametersGrammarAction($2); }
@@ -189,18 +186,18 @@ treeArray: VARIABLE_NAME                                                { $$ = T
     | VARIABLE_NAME COMMA treeArray                                     { $$ = TreeNameArrayGrammarAction($1, $3); }
     ;
 
-titleParameters: OPEN_PARENTHESIS titleArray CLOSE_PARENTHESIS          { $$ = TitleParametersGrammarAction($2); }
+legendParameters: OPEN_PARENTHESIS legendArray CLOSE_PARENTHESIS        { $$ = LegendParametersGrammarAction($2); }
     ;
 
-titleArray: titleType                                                   { $$ = TitleTypeGrammarAction($1); }
-    | titleType COMMA titleArray                                        { $$ = TitleTypeArrayGrammarAction($1, $3); }
+legendArray: legendType                                                 { $$ = LegendTypeGrammarAction($1); }
+    | legendType COMMA legendArray                                      { $$ = LegendTypeArrayGrammarAction($1, $3); }
     ;
 
-titleType: MAX                                                          { $$ = TitleMaxGrammarAction(); }
-    | MIN                                                               { $$ = TitleMinGrammarAction(); }
-    | COUNT                                                             { $$ = TitleCountGrammarAction(); }
-    | BALANCED                                                          { $$ = TitleBalancedGrammarAction(); }
-    | HEIGHT                                                            { $$ = TitleHeightGrammarAction(); }
+legendType: MAX                                                         { $$ = LegendMaxGrammarAction(); }
+    | MIN                                                               { $$ = LegendMinGrammarAction(); }
+    | COUNT                                                             { $$ = LegendCountGrammarAction(); }
+    | BALANCED                                                          { $$ = LegendBalancedGrammarAction(); }
+    | HEIGHT                                                            { $$ = LegendHeightGrammarAction(); }
     ;
 
 %%

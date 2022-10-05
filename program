@@ -2,4 +2,8 @@ tree miArbol(1);
 
 create fotoMiArbol {
     addTree(miArbol);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c9db8e467d5bd6114c6fd0e6e0bf5c4fa543c7c8

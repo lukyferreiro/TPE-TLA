@@ -132,18 +132,18 @@ int TreeSentenceArrayGrammarAction(const int treeSentence, const int nextTreeSen
     return 1;
 }
 
-int AddSentenceGrammarAction(const int integerParameters) {
-    LogDebug("\tAddSentenceGrammarAction(%d)", integerParameters);
+int AddNodeGrammarAction(const int integerParameters) {
+    LogDebug("\tAddNodeGrammarAction(%d)", integerParameters);
     return 1;
 }
 
-int DeleteSentenceGrammarAction(const int integerParameters) {
-    LogDebug("\tDeleteSentenceGrammarAction(%d)", integerParameters);
+int DeleteNodeGrammarAction(const int integerParameters) {
+    LogDebug("\tDeleteNodeGrammarAction(%d)", integerParameters);
     return 1;
 }
 
-int FindSentenceGrammarAction(const int integerParameters) {
-    LogDebug("\tFindSentenceGrammarAction(%d)", integerParameters);
+int FindNodeGrammarAction(const int integerParameters) {
+    LogDebug("\tFindNodeGrammarAction(%d)", integerParameters);
     return 1;
 }
 
@@ -162,18 +162,18 @@ int FileSentenceArrayGrammarAction(const int fileSentence, const int nextFileSen
     return 1;
 }
 
-int AddTreeSentenceGrammarAction(const int treeParameters) {
-    LogDebug("\tAddTreeSentenceGrammarAction(%d)", treeParameters);
+int AddTreeGrammarAction(const int treeParameters) {
+    LogDebug("\tAddTreeGrammarAction(%d)", treeParameters);
     return 1;
 }
 
-int AddSavePathSentenceGrammarAction(const int fileParameter) {
-    LogDebug("\tAddSavePathSentenceGrammarAction(%d)", fileParameter);
+int AddSavePathGrammarAction(const int fileParameter) {
+    LogDebug("\tAddSavePathGrammarAction(%d)", fileParameter);
     return 1;
 }
 
-int AddTitleSentenceGrammarAction(const int titleParameters) {
-    LogDebug("\tAddTitleSentenceGrammarAction(%d)", titleParameters);
+int AddLegendGrammarAction(const int legendParameters) {
+    LogDebug("\tAddLegendGrammarAction(%d)", legendParameters);
     return 1;
 }
 
@@ -197,42 +197,42 @@ int TreeNameArrayGrammarAction(const int treeName, const int nextTreeName) {
     return 1;
 }
 
-int TitleParametersGrammarAction(const int titleArray) {
-    LogDebug("\tTitleParametersGrammarAction(%d)", titleArray);
+int LegendParametersGrammarAction(const int legendArray) {
+    LogDebug("\tLegendParametersGrammarAction(%d)", legendArray);
     return 1;
 }
 
-int TitleTypeGrammarAction(const int titleType) {
-    LogDebug("\tTitleTypeGrammarAction(%d)", titleType);
+int LegendTypeGrammarAction(const int legendType) {
+    LogDebug("\tLegendTypeGrammarAction(%d)", legendType);
     return 1;
 }
 
-int TitleTypeArrayGrammarAction(const int titleType, const int nextTitleType) {
-    LogDebug("\tTitleTypeArrayGrammarAction(%d, %d)", titleType, nextTitleType);
+int LegendTypeArrayGrammarAction(const int legendType, const int nextLegendType) {
+    LogDebug("\tLegendTypeArrayGrammarAction(%d, %d)", legendType, nextLegendType);
     return 1;
 }
 
-int TitleMaxGrammarAction() {
-    LogDebug("\tTitleMaxGrammarAction");
+int LegendMaxGrammarAction() {
+    LogDebug("\tLegendMaxGrammarAction");
     return 1;
 }
 
-int TitleMinGrammarAction() {
-    LogDebug("\tTitleMinGrammarAction");
+int LegendMinGrammarAction() {
+    LogDebug("\tLegendMinGrammarAction");
     return 1;
 }
 
-int TitleCountGrammarAction() {
-    LogDebug("\tTitleCountGrammarAction");
+int LegendCountGrammarAction() {
+    LogDebug("\tLegendCountGrammarAction");
     return 1;
 }
 
-int TitleBalancedGrammarAction() {
-    LogDebug("\tTitleBalancedGrammarAction");
+int LegendBalancedGrammarAction() {
+    LogDebug("\tLegendBalancedGrammarAction");
     return 1;
 }
 
-int TitleHeightGrammarAction() {
-    LogDebug("\tTitleHeightGrammarAction");
+int LegendHeightGrammarAction() {
+    LogDebug("\tLegendHeightGrammarAction");
     return 1;
 }

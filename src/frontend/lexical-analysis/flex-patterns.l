@@ -42,7 +42,7 @@ whitespace		[ \f\n\r\t\v]
 
 "addTree"                                   { return AddTreePatternAction(yytext); }
 "addPath"                                   { return AddPathPatternAction(yytext); }
-"addTitle"                                  { return AddTitlePatternAction(yytext); }
+"addLegend"                                 { return AddLegendPatternAction(yytext); }
 
 "bst"                                       { return BstPatternAction(yytext); }
 "avl"                                       { return AvlPatternAction(yytext); }

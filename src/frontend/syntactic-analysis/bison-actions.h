@@ -39,18 +39,18 @@ int TreeSentencesGrammarAction(const int treeSentences);
 int TreeSentenceGrammarAction(const int treeSentence);
 int TreeSentenceArrayGrammarAction(const int treeSentence, const int nextTreeSentence);
 
-int AddSentenceGrammarAction(const int integerParameters);
-int DeleteSentenceGrammarAction(const int integerParameters);
-int FindSentenceGrammarAction(const int integerParameters);
+int AddNodeGrammarAction(const int integerParameters);
+int DeleteNodeGrammarAction(const int integerParameters);
+int FindNodeGrammarAction(const int integerParameters);
 
 int FileSentencesGrammarAction(const int fileSentences);
 
 int FileSentenceGrammarAction(const int fileSentence);
 int FileSentenceArrayGrammarAction(const int fileSentence, const int nextFileSentence);
 
-int AddTreeSentenceGrammarAction(const int treeParameters);
-int AddSavePathSentenceGrammarAction(const int fileParameter);
-int AddTitleSentenceGrammarAction(const int titleParameters);
+int AddTreeGrammarAction(const int treeParameters);
+int AddSavePathGrammarAction(const int fileParameter);
+int AddLegendGrammarAction(const int legendParameters);
 
 int TreeParametersGrammarAction(const int treeArray);
 
@@ -59,15 +59,15 @@ int FileParameterSentenceGrammarAction(const int fileName);
 int TreeNameGrammarAction(const int treeName);
 int TreeNameArrayGrammarAction(const int treeName, const int nextTreeName);
 
-int TitleParametersGrammarAction(const int titleArray);
+int LegendParametersGrammarAction(const int legendArray);
 
-int TitleTypeGrammarAction(const int titleType);
-int TitleTypeArrayGrammarAction(const int titleType, const int nextTitleType);
+int LegendTypeGrammarAction(const int legendType);
+int LegendTypeArrayGrammarAction(const int legendType, const int nexLegendType);
 
-int TitleMaxGrammarAction();
-int TitleMinGrammarAction();
-int TitleCountGrammarAction();
-int TitleBalancedGrammarAction();
-int TitleHeightGrammarAction();
+int LegendMaxGrammarAction();
+int LegendMinGrammarAction();
+int LegendCountGrammarAction();
+int LegendBalancedGrammarAction();
+int LegendHeightGrammarAction();
 
 #endif
