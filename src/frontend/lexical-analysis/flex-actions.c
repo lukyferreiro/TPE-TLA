@@ -69,10 +69,10 @@ token AddTreePatternAction(const char * lexeme){
 	return ADD_TREE;
 }
 
-token AddPathPatternAction(const char * lexeme){
-	LogDebug("AddPathPatternAction: '%s'.", lexeme);
-	yylval.token = ADD_SAVE_PATH;
-	return ADD_SAVE_PATH;
+token AddFilePathPatternAction(const char * lexeme){
+	LogDebug("AddFilePathPatternAction: '%s'.", lexeme);
+	yylval.token = ADD_FILE_PATH;
+	return ADD_FILE_PATH;
 }
 
 token AddLegendPatternAction(const char * lexeme){

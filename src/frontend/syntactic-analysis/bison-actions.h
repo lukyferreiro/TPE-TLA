@@ -49,7 +49,7 @@ int FileSentenceGrammarAction(const int fileSentence);
 int FileSentenceArrayGrammarAction(const int fileSentence, const int nextFileSentence);
 
 int AddTreeGrammarAction(const int treeParameters);
-int AddSavePathGrammarAction(const int fileParameter);
+int AddFilePathGrammarAction(const int fileParameter);
 int AddLegendGrammarAction(const int legendParameters);
 
 int TreeParametersGrammarAction(const int treeArray);

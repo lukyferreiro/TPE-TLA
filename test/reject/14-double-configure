@@ -1,0 +1,7 @@
+tree miArbol;
+
+configure miArbol {
+    configure miArbolFoto {
+
+    }
+}

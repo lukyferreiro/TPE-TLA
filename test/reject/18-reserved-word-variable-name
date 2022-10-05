@@ -1,0 +1,5 @@
+tree miArbol(1,2,3);
+
+create avl {
+    addTree(miArbol);
+}

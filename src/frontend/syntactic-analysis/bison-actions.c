@@ -167,8 +167,8 @@ int AddTreeGrammarAction(const int treeParameters) {
     return 1;
 }
 
-int AddSavePathGrammarAction(const int fileParameter) {
-    LogDebug("\tAddSavePathGrammarAction(%d)", fileParameter);
+int AddFilePathGrammarAction(const int fileParameter) {
+    LogDebug("\tAddFilePathGrammarAction(%d)", fileParameter);
     return 1;
 }
 

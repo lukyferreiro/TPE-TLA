@@ -30,7 +30,7 @@ token AddNodePatternAction(const char * lexeme);
 token DeleteNodePatternAction(const char * lexeme);
 token FindNodePatternAction(const char * lexeme);
 token AddTreePatternAction(const char * lexeme);
-token AddPathPatternAction(const char * lexeme);
+token AddFilePathPatternAction(const char * lexeme);
 token AddLegendPatternAction(const char * lexeme);
 token BstPatternAction(const char * lexeme);
 token AvlPatternAction(const char * lexeme);
@@ -46,7 +46,6 @@ token OpenParenthesisPatternAction(const char * lexeme);
 token CloseParenthesisPatternAction(const char * lexeme);
 token CommaPatternAction(const char * lexeme);
 token SemiColonPatternAction(const char * lexeme);
-
 token IntegerPatternAction(const char * lexeme, const int length);
 token VariableNamePatternAction(const char * lexeme, const int length);
 token FilePathPatternAction(const char * lexeme, const int length);

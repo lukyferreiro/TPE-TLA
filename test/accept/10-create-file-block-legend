@@ -2,5 +2,5 @@ tree miArbol(1);
 
 create fotoMiArbol {
     addTree(miArbol);
-    addFilePath(/home/romgomez);
+    addLegend(max, min, count, height, balanced);
 }

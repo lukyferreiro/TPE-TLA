@@ -1,0 +1,42 @@
+tree miArbol(1,2,3,4);
+
+configure rbt miArbol {
+    addNode(5,6,7,8,9,10);
+    findNode(5);
+}
+
+create fotoMiArbolCompleto {
+    addTree(miArbol);
+    addFilePath(/home/miUsuario);
+    addLegend(max, min, count, height, balanced);
+}
+
+configure miArbol {
+    deleteNode(1);
+}
+
+create fotoMiArbolCompletoSin1 {
+    addTree(miArbol);
+    addFilePath(/home/miUsuario);
+    addLegend(max, min, count, height, balanced);
+}
+
+configure miArbol {
+    deleteNode(2);
+}
+
+create fotoMiArbolCompletoSin1y2 {
+    addTree(miArbol);
+    addFilePath(/home/miUsuario);
+    addLegend(max, min, count, height, balanced);
+}
+
+configure miArbol {
+    deleteNode(3);
+}
+
+create fotoMiArbolCompletoSin1ni2ni3 {
+    addTree(miArbol);
+    addFilePath(/home/miUsuario);
+    addLegend(max, min, count, height, balanced);
+}

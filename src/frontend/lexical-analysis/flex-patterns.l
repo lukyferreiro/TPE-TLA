@@ -19,7 +19,9 @@
 /* Patrones reutilizables. */
 /* https://www.regextester.com/115652 */
 variableName    [A-Za-z][A-Za-z0-9]*
-filePath        ([\/]{1}[a-z0-9.]+)+(\/?){1}$|^([\/]{1})
+
+/* filePath        ([/]{1}[a-z0-9.]+)+(\/?){1}$|^([\/]{1}) */
+filePath        [A-Za-z/]*
 digit			[0-9]
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
@@ -41,7 +43,7 @@ whitespace		[ \f\n\r\t\v]
 "findNode"                                  { return FindNodePatternAction(yytext); }
 
 "addTree"                                   { return AddTreePatternAction(yytext); }
-"addPath"                                   { return AddPathPatternAction(yytext); }
+"addFilePath"                               { return AddFilePathPatternAction(yytext); }
 "addLegend"                                 { return AddLegendPatternAction(yytext); }
 
 "bst"                                       { return BstPatternAction(yytext); }

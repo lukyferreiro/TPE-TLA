@@ -1,0 +1,15 @@
+tree miArbol(1);
+tree miArbol2(10,11);
+
+configure rbt miArbol1 {
+    addNode(2);
+}  
+configure rbt miArbol2 {
+    deleteNode(10);
+    addNode(3,7,5);
+}  
+
+create fotoMiArbol {
+    addTree(miArbol, miArbol2);
+    addLegend(max, min, count, height, balanced);
+}

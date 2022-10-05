@@ -1,0 +1,7 @@
+tree miArbol;
+
+configure avl miArbol {
+    create miArbolFoto {
+
+    }
+}

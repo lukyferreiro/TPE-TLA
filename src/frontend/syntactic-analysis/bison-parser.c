@@ -133,7 +133,7 @@ extern int yydebug;
     FIND_NODE = 268,
     CREATE = 269,
     ADD_TREE = 270,
-    ADD_SAVE_PATH = 271,
+    ADD_FILE_PATH = 271,
     ADD_LEGEND = 272,
     MAX = 273,
     MIN = 274,
@@ -586,7 +586,7 @@ static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "INTEGER", "BST", "AVL", "RBT", "TREE",
   "VARIABLE_NAME", "FILE_PATH", "CONFIGURE", "ADD_NODE", "DELETE_NODE",
-  "FIND_NODE", "CREATE", "ADD_TREE", "ADD_SAVE_PATH", "ADD_LEGEND", "MAX",
+  "FIND_NODE", "CREATE", "ADD_TREE", "ADD_FILE_PATH", "ADD_LEGEND", "MAX",
   "MIN", "COUNT", "BALANCED", "HEIGHT", "COMMA", "SEMICOLON",
   "OPEN_PARENTHESIS", "CLOSE_PARENTHESIS", "OPEN_CURLY", "CLOSE_CURLY",
   "$accept", "program", "constantArray", "constant", "declaration",
@@ -1581,7 +1581,7 @@ yyreduce:
 
   case 29:
 #line 175 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.fileSentence) = AddSavePathGrammarAction((yyvsp[-1].fileParameter)); }
+                                                                        { (yyval.fileSentence) = AddFilePathGrammarAction((yyvsp[-1].fileParameter)); }
 #line 1586 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
@@ -1599,7 +1599,7 @@ yyreduce:
 
   case 32:
 #line 182 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.fileParameter) = FileParameterSentenceGrammarAction((yyvsp[-1].token)); }
+                                                                   { (yyval.fileParameter) = FileParameterSentenceGrammarAction((yyvsp[-1].token)); }
 #line 1604 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 

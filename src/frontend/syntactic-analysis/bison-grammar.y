@@ -62,7 +62,7 @@
 // Tokens para codigo files
 %token <token> CREATE
 %token <token> ADD_TREE
-%token <token> ADD_SAVE_PATH
+%token <token> ADD_FILE_PATH
 %token <token> ADD_LEGEND
 %token <token> MAX
 %token <token> MIN
@@ -129,7 +129,7 @@ declaration: TREE VARIABLE_NAME declarationParameters SEMICOLON         { $$ = D
     ;
 
 declarationParameters: integerParameters                                { $$ = DeclarationTreeParametersGrammarAction($1); }
-    | /*lamba*/                                                         { $$ = 0; }
+    | /* lambda */                                                      { $$ = 0; }
     ;
 
 integerParameters: OPEN_PARENTHESIS integerArray CLOSE_PARENTHESIS      { $$ = IntegerParametersGrammarAction($2); }
@@ -147,7 +147,7 @@ block: CONFIGURE treeType VARIABLE_NAME configureBlock                  { $$ = C
 treeType: BST                                                           { $$ = TreeTypeBSTGrammarAction(); }
     | AVL                                                               { $$ = TreeTypeAVLGrammarAction(); }
     | RBT                                                               { $$ = TreeTypeRBTGrammarAction(); }
-    | /*lambda*/                                                        { $$ = 0; }
+    | /* lambda */                                                      { $$ = 0; }
     ;
 
 // Reglas para utilizar un bloque configure de tree
@@ -172,14 +172,14 @@ fileSentences: fileSentence                                             { $$ = F
     ;
 
 fileSentence: ADD_TREE treeParameters SEMICOLON                         { $$ = AddTreeGrammarAction($2); }
-    | ADD_SAVE_PATH fileParameter SEMICOLON                             { $$ = AddSavePathGrammarAction($2); }
+    | ADD_FILE_PATH fileParameter SEMICOLON                             { $$ = AddFilePathGrammarAction($2); }
     | ADD_LEGEND legendParameters SEMICOLON                             { $$ = AddLegendGrammarAction($2); }
     ;
 
 treeParameters: OPEN_PARENTHESIS treeArray CLOSE_PARENTHESIS            { $$ = TreeParametersGrammarAction($2); }
     ;
 
-fileParameter: OPEN_PARENTHESIS FILE_PATH CLOSE_PARENTHESIS             { $$ = FileParameterSentenceGrammarAction($2); }
+fileParameter: OPEN_PARENTHESIS FILE_PATH CLOSE_PARENTHESIS        { $$ = FileParameterSentenceGrammarAction($2); }
     ;
 
 treeArray: VARIABLE_NAME                                                { $$ = TreeNameGrammarAction($1); }

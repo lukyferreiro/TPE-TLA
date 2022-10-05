@@ -62,7 +62,7 @@ extern int yydebug;
     FIND_NODE = 268,
     CREATE = 269,
     ADD_TREE = 270,
-    ADD_SAVE_PATH = 271,
+    ADD_FILE_PATH = 271,
     ADD_LEGEND = 272,
     MAX = 273,
     MIN = 274,
