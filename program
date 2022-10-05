@@ -1,5 +1,5 @@
-tree hola(1);
+tree miArbol(1);
 
-configure hola {
-    addNode(1);
+create fotoMiArbol {
+    addTree(miArbol);
 }

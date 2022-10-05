@@ -19,7 +19,7 @@ int ConstantArrayGrammarAction(const int constant, const int nextConstantArray);
 int DeclarationGrammarAction(const int declaration);
 int BlockGrammarAction(const int block);
 
-int DeclarationTreeGrammarAction(const char* treeName, const int declarationParameters);
+int DeclarationTreeGrammarAction(const int treeName, const int declarationParameters);
 int DeclarationTreeParametersGrammarAction(const int treeParameters);
 
 int IntegerParametersGrammarAction(const int nodesArray);
@@ -27,8 +27,8 @@ int IntegerParametersGrammarAction(const int nodesArray);
 int IntegerConstantGrammarAction(const int node);
 int IntegerConstantArrayGrammarAction(const int node, const int nextNode);
 
-int ConfigureBlockGrammarAction(const int treeType, const char* treeName, const int configureBlock);
-int CreateBlockGrammarAction(const char* fileName, const int createBlock);
+int ConfigureBlockGrammarAction(const int treeType, const int treeName, const int configureBlock);
+int CreateBlockGrammarAction(const int fileName, const int createBlock);
 
 int TreeTypeBSTGrammarAction();
 int TreeTypeAVLGrammarAction();
@@ -54,10 +54,10 @@ int AddTitleSentenceGrammarAction(const int titleParameters);
 
 int TreeParametersGrammarAction(const int treeArray);
 
-int FileParameterSentenceGrammarAction(const char* fileName);
+int FileParameterSentenceGrammarAction(const int fileName);
 
-int TreeNameGrammarAction(const char* treeName);
-int TreeNameArrayGrammarAction(const char* treeName, const int nextTreeName);
+int TreeNameGrammarAction(const int treeName);
+int TreeNameArrayGrammarAction(const int treeName, const int nextTreeName);
 
 int TitleParametersGrammarAction(const int titleArray);
 

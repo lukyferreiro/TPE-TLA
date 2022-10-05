@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.3.2.  */
+/* A Bison parser, made by GNU Bison 3.5.1.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
    Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -54,37 +54,35 @@ extern int yydebug;
     AVL = 260,
     RBT = 261,
     TREE = 262,
-    TREE_NAME = 263,
-    FILE_NAME = 264,
-    FILE_PATH = 265,
-    CONFIGURE = 266,
-    ADD_SENTENCE = 267,
-    DELETE_SENTENCE = 268,
-    FIND_SENTENCE = 269,
-    CREATE = 270,
-    ADD_TREE_SENTENCE = 271,
-    ADD_SAVE_PATH_SENTENCE = 272,
-    ADD_TITLE_SENTENCE = 273,
-    MAX = 274,
-    MIN = 275,
-    COUNT = 276,
-    BALANCED = 277,
-    HEIGHT = 278,
-    COMMA = 279,
-    SEMICOLON = 280,
-    OPEN_PARENTHESIS = 281,
-    CLOSE_PARENTHESIS = 282,
-    OPEN_CURLY = 283,
-    CLOSE_CURLY = 284
+    VARIABLE_NAME = 263,
+    FILE_PATH = 264,
+    CONFIGURE = 265,
+    ADD_SENTENCE = 266,
+    DELETE_SENTENCE = 267,
+    FIND_SENTENCE = 268,
+    CREATE = 269,
+    ADD_TREE_SENTENCE = 270,
+    ADD_SAVE_PATH_SENTENCE = 271,
+    ADD_TITLE_SENTENCE = 272,
+    MAX = 273,
+    MIN = 274,
+    COUNT = 275,
+    BALANCED = 276,
+    HEIGHT = 277,
+    COMMA = 278,
+    SEMICOLON = 279,
+    OPEN_PARENTHESIS = 280,
+    CLOSE_PARENTHESIS = 281,
+    OPEN_CURLY = 282,
+    CLOSE_CURLY = 283
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-
 union YYSTYPE
 {
-#line 8 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1921  */
+#line 8 "../src/frontend/syntactic-analysis/bison-grammar.y"
 
 	// No-terminales (backend).
 	/*
@@ -123,13 +121,13 @@ union YYSTYPE
 
 	// Terminales.
 	token token;
-	int integer;
-    char nameId[1024];
-    char filePath[1024];
+//	int integer;
+  //  char nameId[1024];
+    //char filePath[1024];
 
-#line 131 "../src/frontend/syntactic-analysis/bison-parser.h" /* yacc.c:1921  */
+#line 129 "../src/frontend/syntactic-analysis/bison-parser.h"
+
 };
-
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

@@ -48,8 +48,7 @@ token CommaPatternAction(const char * lexeme);
 token SemiColonPatternAction(const char * lexeme);
 
 token IntegerPatternAction(const char * lexeme, const int length);
-token TreeNamePatternAction(const char * lexeme, const int length);
-token FileNamePatternAction(const char * lexeme, const int length);
+token VariableNamePatternAction(const char * lexeme, const int length);
 token FilePathPatternAction(const char * lexeme, const int length);
 
 // Regla que no hace nada, permite ignorar parte de la entrada.

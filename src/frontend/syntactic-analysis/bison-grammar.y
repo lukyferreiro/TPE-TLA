@@ -43,21 +43,20 @@
 
 	// Terminales.
 	token token;
-	int integer;
-    char nameId[1024];
-    char filePath[1024];
+//	int integer;
+  //  char nameId[1024];
+    //char filePath[1024];
 }
 
 // IDs y tipos de los tokens terminales generados desde Flex.
-%token <integer> INTEGER
+%token <token> INTEGER
 %token <token> BST
 %token <token> AVL
 %token <token> RBT
 // Tokens de arboles y archivos
 %token <token> TREE
-%token <nameId> TREE_NAME
-%token <nameId> FILE_NAME
-%token <filePath> FILE_PATH
+%token <token> VARIABLE_NAME
+%token <token> FILE_PATH
 // Tokens para codigo trees
 %token <token> CONFIGURE
 %token <token> ADD_SENTENCE
@@ -129,7 +128,7 @@ constant: declaration                                                   { $$ = D
     ;
 
 // Reglas para declarar una variable de tipo tree
-declaration: TREE TREE_NAME declarationParameters SEMICOLON             { $$ = DeclarationTreeGrammarAction($2, $3); }
+declaration: TREE VARIABLE_NAME declarationParameters SEMICOLON         { $$ = DeclarationTreeGrammarAction($2, $3); }
     ;
 
 declarationParameters: integerParameters                                { $$ = DeclarationTreeParametersGrammarAction($1); }
@@ -144,8 +143,8 @@ integerArray: INTEGER                                                   { $$ = I
     ;
 
 // Bloque de codigo, que puede referirse a un file o un tree
-block: CONFIGURE treeType TREE_NAME configureBlock                      { $$ = ConfigureBlockGrammarAction($2, $3, $4); }
-    | CREATE FILE_NAME createBlock                                      { $$ = CreateBlockGrammarAction($2, $3); }
+block: CONFIGURE treeType VARIABLE_NAME configureBlock                  { $$ = ConfigureBlockGrammarAction($2, $3, $4); }
+    | CREATE VARIABLE_NAME createBlock                                  { $$ = CreateBlockGrammarAction($2, $3); }
     ;
 
 treeType: BST                                                           { $$ = TreeTypeBSTGrammarAction(); }
@@ -186,8 +185,8 @@ treeParameters: OPEN_PARENTHESIS treeArray CLOSE_PARENTHESIS            { $$ = T
 fileParameter: OPEN_PARENTHESIS FILE_PATH CLOSE_PARENTHESIS             { $$ = FileParameterSentenceGrammarAction($2); }
     ;
 
-treeArray: TREE_NAME                                                    { $$ = TreeNameGrammarAction($1); }
-    | TREE_NAME COMMA treeArray                                         { $$ = TreeNameArrayGrammarAction($1, $3); }
+treeArray: VARIABLE_NAME                                                { $$ = TreeNameGrammarAction($1); }
+    | VARIABLE_NAME COMMA treeArray                                     { $$ = TreeNameArrayGrammarAction($1, $3); }
     ;
 
 titleParameters: OPEN_PARENTHESIS titleArray CLOSE_PARENTHESIS          { $$ = TitleParametersGrammarAction($2); }

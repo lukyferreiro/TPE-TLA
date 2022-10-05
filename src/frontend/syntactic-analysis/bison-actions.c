@@ -67,8 +67,8 @@ int BlockGrammarAction(const int block) {
     return 1;
 }
 
-int DeclarationTreeGrammarAction(const char* treeName, const int declarationParameters) {
-    LogDebug("\tDeclarationTreeGrammarAction(%s, %d)", treeName, declarationParameters);
+int DeclarationTreeGrammarAction(const int treeName, const int declarationParameters) {
+    LogDebug("\tDeclarationTreeGrammarAction(d, %d)", treeName, declarationParameters);
     return 1;
 }
 
@@ -92,13 +92,13 @@ int IntegerConstantArrayGrammarAction(const int node, const int nextNode) {
     return 1;
 }
 
-int ConfigureBlockGrammarAction(const int treeType, const char* treeName, const int configureBlock) {
-    LogDebug("\tConfigureBlockGrammarAction(%d, %s, %d)", treeType, treeName, configureBlock);
+int ConfigureBlockGrammarAction(const int treeType, const int treeName, const int configureBlock) {
+    LogDebug("\tConfigureBlockGrammarAction(%d, %d, %d)", treeType, treeName, configureBlock);
     return 1;
 }
 
-int CreateBlockGrammarAction(const char* fileName, const int createBlock) {
-    LogDebug("\tCreateBlockGrammarAction(%s, %d)", fileName, createBlock);
+int CreateBlockGrammarAction(const int fileName, const int createBlock) {
+    LogDebug("\tCreateBlockGrammarAction(%d, %d)", fileName, createBlock);
     return 1;
 }
 
@@ -182,18 +182,18 @@ int TreeParametersGrammarAction(const int treeArray) {
     return 1;
 }
 
-int FileParameterSentenceGrammarAction(const char* fileName) {
-    LogDebug("\tFileParameterSentenceGrammarAction(%s)", fileName);
+int FileParameterSentenceGrammarAction(const int fileName) {
+    LogDebug("\tFileParameterSentenceGrammarAction(%d)", fileName);
     return 1;
 }
 
-int TreeNameGrammarAction(const char* treeName) {
-    LogDebug("\tTreeNameGrammarAction(%s)", treeName);
+int TreeNameGrammarAction(const int treeName) {
+    LogDebug("\tTreeNameGrammarAction(%d)", treeName);
     return 1;
 }
 
-int TreeNameArrayGrammarAction(const char* treeName, const int nextTreeName) {
-    LogDebug("\tTreeNameArrayGrammarAction(%s, %d)", treeName, nextTreeName);
+int TreeNameArrayGrammarAction(const int treeName, const int nextTreeName) {
+    LogDebug("\tTreeNameArrayGrammarAction(%d, %d)", treeName, nextTreeName);
     return 1;
 }
 

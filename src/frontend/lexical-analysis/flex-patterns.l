@@ -18,8 +18,7 @@
 
 /* Patrones reutilizables. */
 /* https://www.regextester.com/115652 */
-treeName        [A-Za-z][A-Za-z0-9]*
-fileName        [A-Za-z][A-Za-z0-9]*
+variableName    [A-Za-z][A-Za-z0-9]*
 filePath        ([\/]{1}[a-z0-9.]+)+(\/?){1}$|^([\/]{1})
 digit			[0-9]
 endline			[\n]
@@ -65,8 +64,7 @@ whitespace		[ \f\n\r\t\v]
 
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }
 
-{treeName}                                  { return TreeNamePatternAction(yytext, yyleng); }
-{fileName}                                  { return FileNamePatternAction(yytext, yyleng); }
+{variableName}                              { return VariableNamePatternAction(yytext, yyleng); }
 {filePath}                                  { return FilePathPatternAction(yytext, yyleng); }
 
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }

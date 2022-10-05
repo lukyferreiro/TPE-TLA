@@ -167,25 +167,19 @@ token SemiColonPatternAction(const char * lexeme){
 
 token IntegerPatternAction(const char * lexeme, const int length) {
 	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
-	yylval.integer = atoi(lexeme);
+	yylval.token = INTEGER;
 	return INTEGER;
 }
 
-token TreeNamePatternAction(const char * lexeme, const int length){
-	LogDebug("TreeNamePatternAction: '%s' (length = %d).", lexeme, length);
-	strncpy(yylval.nameId, lexeme, sizeof(yylval.nameId) - 1);
-	return TREE_NAME;
-}
-
-token FileNamePatternAction(const char * lexeme, const int length){
-	LogDebug("FileNamePatternAction: '%s' (length = %d).", lexeme, length);
-	strncpy(yylval.nameId, lexeme, sizeof(yylval.nameId) - 1);
-	return FILE_NAME;
+token VariableNamePatternAction(const char * lexeme, const int length){
+	LogDebug("VariableNamePatternAction: '%s' (length = %d).", lexeme, length);
+	yylval.token = VARIABLE_NAME;
+	return VARIABLE_NAME;
 }
 
 token FilePathPatternAction(const char * lexeme, const int length){
 	LogDebug("FilePathPatternAction: '%s' (length = %d).", lexeme, length);
-	strncpy(yylval.filePath, lexeme, sizeof(yylval.filePath) - 1);
+	yylval.token = FILE_PATH;
 	return FILE_PATH;
 }
 
