@@ -192,8 +192,8 @@ void IgnoredPatternAction(const char * lexeme, const int length) {
 
 token UnknownPatternAction(const char * lexeme, const int length) {
 	LogDebug("UnknownPatternAction: '%s' (length = %d).", lexeme, length);
-	//TODO esto originalmente tenia otro valor
-	yylval.token = 2;
+	//TODO esto originalmente tenia el valor YYUNDEF
+	yylval.token = UNKNOWN;
 	// Al emitir este token, el compilador aborta la ejecución.
-	return 2;
+	return UNKNOWN;
 }

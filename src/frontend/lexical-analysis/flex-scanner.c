@@ -605,8 +605,12 @@ char *yytext;
 
 /* Patrones reutilizables. */
 /* https://www.regextester.com/115652 */
+/* TODO 
+/* El patrón para filePath es muy restrictivo, deberían usar un contexto */
+/* de Flex similar al que utilizarían para manipular strings o comentarios, */
+/* y así evitar colisiones o solapamientos con otras secciones del programa. */
 /* filePath        ([/]{1}[a-z0-9.]+)+(\/?){1}$|^([\/]{1}) */
-#line 610 "../src/frontend/lexical-analysis/flex-scanner.c"
+#line 614 "../src/frontend/lexical-analysis/flex-scanner.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -824,10 +828,10 @@ YY_DECL
 		}
 
 	{
-#line 29 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 32 "../src/frontend/lexical-analysis/flex-patterns.l"
 
 
-#line 831 "../src/frontend/lexical-analysis/flex-scanner.c"
+#line 835 "../src/frontend/lexical-analysis/flex-scanner.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -896,178 +900,178 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 31 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 34 "../src/frontend/lexical-analysis/flex-patterns.l"
 { BEGIN(COMMENT); BeginCommentPatternAction(); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 32 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 35 "../src/frontend/lexical-analysis/flex-patterns.l"
 { ; }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 33 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 36 "../src/frontend/lexical-analysis/flex-patterns.l"
 { ; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 34 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 37 "../src/frontend/lexical-analysis/flex-patterns.l"
 { EndCommentPatternAction(); BEGIN(INITIAL); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 37 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 40 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return TreePatternAction(yytext); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 38 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 41 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return ConfigurePatternAction(yytext); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 39 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 42 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return CreatePatternAction(yytext); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 41 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 44 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return AddNodePatternAction(yytext); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 42 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 45 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return DeleteNodePatternAction(yytext); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 43 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 46 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return FindNodePatternAction(yytext); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 45 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 48 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return AddTreePatternAction(yytext); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 46 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 49 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return AddFilePathPatternAction(yytext); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 47 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 50 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return AddLegendPatternAction(yytext); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 49 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 52 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return BstPatternAction(yytext); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 50 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 53 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return AvlPatternAction(yytext); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 51 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 54 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return RbtPatternAction(yytext); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 53 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 56 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return MaxPatternAction(yytext); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 54 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 57 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return MinPatternAction(yytext); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 55 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 58 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return CountPatternAction(yytext); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 56 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 59 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return HeightPatternAction(yytext); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 57 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 60 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return BalancedPatternAction(yytext); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 59 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 62 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return OpenBlockPatternAction(yytext); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 60 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 63 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return CloseBlockPatternAction(yytext); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 61 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 64 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return OpenParenthesisPatternAction(yytext); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 62 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 65 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return CloseParenthesisPatternAction(yytext); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 64 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 67 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return CommaPatternAction(yytext); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 65 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 68 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return SemiColonPatternAction(yytext); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 67 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 70 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return IntegerPatternAction(yytext, yyleng); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 69 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 72 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return VariableNamePatternAction(yytext, yyleng); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 70 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 73 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return FilePathPatternAction(yytext, yyleng); }
 	YY_BREAK
 case 31:
 /* rule 31 can match eol */
 YY_RULE_SETUP
-#line 72 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 75 "../src/frontend/lexical-analysis/flex-patterns.l"
 { IgnoredPatternAction(yytext, yyleng); }
 	YY_BREAK
 case 32:
 /* rule 32 can match eol */
 YY_RULE_SETUP
-#line 73 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 76 "../src/frontend/lexical-analysis/flex-patterns.l"
 { IgnoredPatternAction(yytext, yyleng); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 75 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 78 "../src/frontend/lexical-analysis/flex-patterns.l"
 { return UnknownPatternAction(yytext, yyleng); }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 77 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 80 "../src/frontend/lexical-analysis/flex-patterns.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 1071 "../src/frontend/lexical-analysis/flex-scanner.c"
+#line 1075 "../src/frontend/lexical-analysis/flex-scanner.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT):
 	yyterminate();
@@ -2085,6 +2089,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 77 "../src/frontend/lexical-analysis/flex-patterns.l"
+#line 80 "../src/frontend/lexical-analysis/flex-patterns.l"
 
 

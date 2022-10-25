@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.1.  */
+/* A Bison parser, made by GNU Bison 3.3.2.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
    Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -48,7 +48,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.5.1"
+#define YYBISON_VERSION "3.3.2"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -66,23 +66,13 @@
 
 
 /* First part of user prologue.  */
-#line 1 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 1 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:337  */
 
 
 #include "bison-actions.h"
 
 
-#line 76 "../src/frontend/syntactic-analysis/bison-parser.c"
-
-# ifndef YY_CAST
-#  ifdef __cplusplus
-#   define YY_CAST(Type, Val) static_cast<Type> (Val)
-#   define YY_REINTERPRET_CAST(Type, Val) reinterpret_cast<Type> (Val)
-#  else
-#   define YY_CAST(Type, Val) ((Type) (Val))
-#   define YY_REINTERPRET_CAST(Type, Val) ((Type) (Val))
-#  endif
-# endif
+#line 76 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:337  */
 # ifndef YY_NULLPTR
 #  if defined __cplusplus
 #   if 201103L <= __cplusplus
@@ -103,8 +93,8 @@
 # define YYERROR_VERBOSE 0
 #endif
 
-/* Use api.header.include to #include this header
-   instead of duplicating it here.  */
+/* In a future release of Bison, this section will be replaced
+   by #include "bison-parser.h".  */
 #ifndef YY_YY_SRC_FRONTEND_SYNTACTIC_ANALYSIS_BISON_PARSER_H_INCLUDED
 # define YY_YY_SRC_FRONTEND_SYNTACTIC_ANALYSIS_BISON_PARSER_H_INCLUDED
 /* Debug traces.  */
@@ -145,15 +135,17 @@ extern int yydebug;
     OPEN_PARENTHESIS = 280,
     CLOSE_PARENTHESIS = 281,
     OPEN_CURLY = 282,
-    CLOSE_CURLY = 283
+    CLOSE_CURLY = 283,
+    UNKNOWN = 284
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+
 union YYSTYPE
 {
-#line 8 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 8 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:352  */
 
 	// No-terminales (backend).
 	/*
@@ -193,9 +185,9 @@ union YYSTYPE
 	// Terminales.
 	token token;
 
-#line 197 "../src/frontend/syntactic-analysis/bison-parser.c"
-
+#line 189 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:352  */
 };
+
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -214,75 +206,28 @@ int yyparse (void);
 # undef short
 #endif
 
-/* On compilers that do not define __PTRDIFF_MAX__ etc., make sure
-   <limits.h> and (if available) <stdint.h> are included
-   so that the code can choose integer types of a good width.  */
-
-#ifndef __PTRDIFF_MAX__
-# include <limits.h> /* INFRINGES ON USER NAME SPACE */
-# if defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
-#  include <stdint.h> /* INFRINGES ON USER NAME SPACE */
-#  define YY_STDINT_H
-# endif
+#ifdef YYTYPE_UINT8
+typedef YYTYPE_UINT8 yytype_uint8;
+#else
+typedef unsigned char yytype_uint8;
 #endif
 
-/* Narrow types that promote to a signed type and that can represent a
-   signed or unsigned integer of at least N bits.  In tables they can
-   save space and decrease cache pressure.  Promoting to a signed type
-   helps avoid bugs in integer arithmetic.  */
-
-#ifdef __INT_LEAST8_MAX__
-typedef __INT_LEAST8_TYPE__ yytype_int8;
-#elif defined YY_STDINT_H
-typedef int_least8_t yytype_int8;
+#ifdef YYTYPE_INT8
+typedef YYTYPE_INT8 yytype_int8;
 #else
 typedef signed char yytype_int8;
 #endif
 
-#ifdef __INT_LEAST16_MAX__
-typedef __INT_LEAST16_TYPE__ yytype_int16;
-#elif defined YY_STDINT_H
-typedef int_least16_t yytype_int16;
+#ifdef YYTYPE_UINT16
+typedef YYTYPE_UINT16 yytype_uint16;
+#else
+typedef unsigned short yytype_uint16;
+#endif
+
+#ifdef YYTYPE_INT16
+typedef YYTYPE_INT16 yytype_int16;
 #else
 typedef short yytype_int16;
-#endif
-
-#if defined __UINT_LEAST8_MAX__ && __UINT_LEAST8_MAX__ <= __INT_MAX__
-typedef __UINT_LEAST8_TYPE__ yytype_uint8;
-#elif (!defined __UINT_LEAST8_MAX__ && defined YY_STDINT_H \
-       && UINT_LEAST8_MAX <= INT_MAX)
-typedef uint_least8_t yytype_uint8;
-#elif !defined __UINT_LEAST8_MAX__ && UCHAR_MAX <= INT_MAX
-typedef unsigned char yytype_uint8;
-#else
-typedef short yytype_uint8;
-#endif
-
-#if defined __UINT_LEAST16_MAX__ && __UINT_LEAST16_MAX__ <= __INT_MAX__
-typedef __UINT_LEAST16_TYPE__ yytype_uint16;
-#elif (!defined __UINT_LEAST16_MAX__ && defined YY_STDINT_H \
-       && UINT_LEAST16_MAX <= INT_MAX)
-typedef uint_least16_t yytype_uint16;
-#elif !defined __UINT_LEAST16_MAX__ && USHRT_MAX <= INT_MAX
-typedef unsigned short yytype_uint16;
-#else
-typedef int yytype_uint16;
-#endif
-
-#ifndef YYPTRDIFF_T
-# if defined __PTRDIFF_TYPE__ && defined __PTRDIFF_MAX__
-#  define YYPTRDIFF_T __PTRDIFF_TYPE__
-#  define YYPTRDIFF_MAXIMUM __PTRDIFF_MAX__
-# elif defined PTRDIFF_MAX
-#  ifndef ptrdiff_t
-#   include <stddef.h> /* INFRINGES ON USER NAME SPACE */
-#  endif
-#  define YYPTRDIFF_T ptrdiff_t
-#  define YYPTRDIFF_MAXIMUM PTRDIFF_MAX
-# else
-#  define YYPTRDIFF_T long
-#  define YYPTRDIFF_MAXIMUM LONG_MAX
-# endif
 #endif
 
 #ifndef YYSIZE_T
@@ -290,7 +235,7 @@ typedef int yytype_uint16;
 #  define YYSIZE_T __SIZE_TYPE__
 # elif defined size_t
 #  define YYSIZE_T size_t
-# elif defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
+# elif ! defined YYSIZE_T
 #  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
 #  define YYSIZE_T size_t
 # else
@@ -298,19 +243,7 @@ typedef int yytype_uint16;
 # endif
 #endif
 
-#define YYSIZE_MAXIMUM                                  \
-  YY_CAST (YYPTRDIFF_T,                                 \
-           (YYPTRDIFF_MAXIMUM < YY_CAST (YYSIZE_T, -1)  \
-            ? YYPTRDIFF_MAXIMUM                         \
-            : YY_CAST (YYSIZE_T, -1)))
-
-#define YYSIZEOF(X) YY_CAST (YYPTRDIFF_T, sizeof (X))
-
-/* Stored state numbers (used for stacks). */
-typedef yytype_int8 yy_state_t;
-
-/* State numbers in computations.  */
-typedef int yy_state_fast_t;
+#define YYSIZE_MAXIMUM ((YYSIZE_T) -1)
 
 #ifndef YY_
 # if defined YYENABLE_NLS && YYENABLE_NLS
@@ -324,20 +257,22 @@ typedef int yy_state_fast_t;
 # endif
 #endif
 
-#ifndef YY_ATTRIBUTE_PURE
-# if defined __GNUC__ && 2 < __GNUC__ + (96 <= __GNUC_MINOR__)
-#  define YY_ATTRIBUTE_PURE __attribute__ ((__pure__))
+#ifndef YY_ATTRIBUTE
+# if (defined __GNUC__                                               \
+      && (2 < __GNUC__ || (__GNUC__ == 2 && 96 <= __GNUC_MINOR__)))  \
+     || defined __SUNPRO_C && 0x5110 <= __SUNPRO_C
+#  define YY_ATTRIBUTE(Spec) __attribute__(Spec)
 # else
-#  define YY_ATTRIBUTE_PURE
+#  define YY_ATTRIBUTE(Spec) /* empty */
 # endif
 #endif
 
+#ifndef YY_ATTRIBUTE_PURE
+# define YY_ATTRIBUTE_PURE   YY_ATTRIBUTE ((__pure__))
+#endif
+
 #ifndef YY_ATTRIBUTE_UNUSED
-# if defined __GNUC__ && 2 < __GNUC__ + (7 <= __GNUC_MINOR__)
-#  define YY_ATTRIBUTE_UNUSED __attribute__ ((__unused__))
-# else
-#  define YY_ATTRIBUTE_UNUSED
-# endif
+# define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
 #endif
 
 /* Suppress unused-variable warnings by "using" E.  */
@@ -349,11 +284,11 @@ typedef int yy_state_fast_t;
 
 #if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
-# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                            \
-    _Pragma ("GCC diagnostic push")                                     \
-    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")              \
+# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
+    _Pragma ("GCC diagnostic push") \
+    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")\
     _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
-# define YY_IGNORE_MAYBE_UNINITIALIZED_END      \
+# define YY_IGNORE_MAYBE_UNINITIALIZED_END \
     _Pragma ("GCC diagnostic pop")
 #else
 # define YY_INITIAL_VALUE(Value) Value
@@ -366,20 +301,6 @@ typedef int yy_state_fast_t;
 # define YY_INITIAL_VALUE(Value) /* Nothing. */
 #endif
 
-#if defined __cplusplus && defined __GNUC__ && ! defined __ICC && 6 <= __GNUC__
-# define YY_IGNORE_USELESS_CAST_BEGIN                          \
-    _Pragma ("GCC diagnostic push")                            \
-    _Pragma ("GCC diagnostic ignored \"-Wuseless-cast\"")
-# define YY_IGNORE_USELESS_CAST_END            \
-    _Pragma ("GCC diagnostic pop")
-#endif
-#ifndef YY_IGNORE_USELESS_CAST_BEGIN
-# define YY_IGNORE_USELESS_CAST_BEGIN
-# define YY_IGNORE_USELESS_CAST_END
-#endif
-
-
-#define YY_ASSERT(E) ((void) (0 && (E)))
 
 #if ! defined yyoverflow || YYERROR_VERBOSE
 
@@ -456,17 +377,17 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
-  yy_state_t yyss_alloc;
+  yytype_int16 yyss_alloc;
   YYSTYPE yyvs_alloc;
 };
 
 /* The size of the maximum gap between one aligned stack and the next.  */
-# define YYSTACK_GAP_MAXIMUM (YYSIZEOF (union yyalloc) - 1)
+# define YYSTACK_GAP_MAXIMUM (sizeof (union yyalloc) - 1)
 
 /* The size of an array large to enough to hold all stacks, each with
    N elements.  */
 # define YYSTACK_BYTES(N) \
-     ((N) * (YYSIZEOF (yy_state_t) + YYSIZEOF (YYSTYPE)) \
+     ((N) * (sizeof (yytype_int16) + sizeof (YYSTYPE)) \
       + YYSTACK_GAP_MAXIMUM)
 
 # define YYCOPY_NEEDED 1
@@ -479,11 +400,11 @@ union yyalloc
 # define YYSTACK_RELOCATE(Stack_alloc, Stack)                           \
     do                                                                  \
       {                                                                 \
-        YYPTRDIFF_T yynewbytes;                                         \
+        YYSIZE_T yynewbytes;                                            \
         YYCOPY (&yyptr->Stack_alloc, Stack, yysize);                    \
         Stack = &yyptr->Stack_alloc;                                    \
-        yynewbytes = yystacksize * YYSIZEOF (*Stack) + YYSTACK_GAP_MAXIMUM; \
-        yyptr += yynewbytes / YYSIZEOF (*yyptr);                        \
+        yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
+        yyptr += yynewbytes / sizeof (*yyptr);                          \
       }                                                                 \
     while (0)
 
@@ -495,12 +416,12 @@ union yyalloc
 # ifndef YYCOPY
 #  if defined __GNUC__ && 1 < __GNUC__
 #   define YYCOPY(Dst, Src, Count) \
-      __builtin_memcpy (Dst, Src, YY_CAST (YYSIZE_T, (Count)) * sizeof (*(Src)))
+      __builtin_memcpy (Dst, Src, (Count) * sizeof (*(Src)))
 #  else
 #   define YYCOPY(Dst, Src, Count)              \
       do                                        \
         {                                       \
-          YYPTRDIFF_T yyi;                      \
+          YYSIZE_T yyi;                         \
           for (yyi = 0; yyi < (Count); yyi++)   \
             (Dst)[yyi] = (Src)[yyi];            \
         }                                       \
@@ -515,7 +436,7 @@ union yyalloc
 #define YYLAST   70
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  29
+#define YYNTOKENS  30
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  22
 /* YYNRULES -- Number of rules.  */
@@ -524,17 +445,16 @@ union yyalloc
 #define YYNSTATES  77
 
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   283
-
+#define YYMAXUTOK   284
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex, with out-of-bounds checking.  */
 #define YYTRANSLATE(YYX)                                                \
-  (0 <= (YYX) && (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+  ((unsigned) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex.  */
-static const yytype_int8 yytranslate[] =
+static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -564,18 +484,18 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28
+      25,    26,    27,    28,    29
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   116,   116,   119,   120,   123,   124,   128,   131,   132,
-     135,   138,   139,   143,   144,   147,   148,   149,   150,   154,
-     157,   158,   161,   162,   163,   167,   170,   171,   174,   175,
-     176,   179,   182,   185,   186,   189,   192,   193,   196,   197,
-     198,   199,   200
+       0,   117,   117,   120,   121,   124,   125,   129,   132,   133,
+     136,   139,   140,   144,   145,   148,   149,   150,   151,   155,
+     158,   159,   162,   163,   164,   168,   171,   172,   175,   176,
+     177,   180,   183,   186,   187,   190,   193,   194,   197,   198,
+     199,   200,   201
 };
 #endif
 
@@ -589,34 +509,34 @@ static const char *const yytname[] =
   "FIND_NODE", "CREATE", "ADD_TREE", "ADD_FILE_PATH", "ADD_LEGEND", "MAX",
   "MIN", "COUNT", "BALANCED", "HEIGHT", "COMMA", "SEMICOLON",
   "OPEN_PARENTHESIS", "CLOSE_PARENTHESIS", "OPEN_CURLY", "CLOSE_CURLY",
-  "$accept", "program", "constantArray", "constant", "declaration",
-  "declarationParameters", "integerParameters", "integerArray", "block",
-  "treeType", "configureBlock", "treeSentences", "treeSentence",
-  "createBlock", "fileSentences", "fileSentence", "treeParameters",
-  "fileParameter", "treeArray", "legendParameters", "legendArray",
-  "legendType", YY_NULLPTR
+  "UNKNOWN", "$accept", "program", "constantArray", "constant",
+  "declaration", "declarationParameters", "integerParameters",
+  "integerArray", "block", "treeType", "configureBlock", "treeSentences",
+  "treeSentence", "createBlock", "fileSentences", "fileSentence",
+  "treeParameters", "fileParameter", "treeArray", "legendParameters",
+  "legendArray", "legendType", YY_NULLPTR
 };
 #endif
 
 # ifdef YYPRINT
 /* YYTOKNUM[NUM] -- (External) token number corresponding to the
    (internal) symbol number NUM (which must be that of a token).  */
-static const yytype_int16 yytoknum[] =
+static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,   276,   277,   278,   279,   280,   281,   282,   283
+     275,   276,   277,   278,   279,   280,   281,   282,   283,   284
 };
 # endif
 
-#define YYPACT_NINF (-33)
+#define YYPACT_NINF -33
 
-#define yypact_value_is_default(Yyn) \
-  ((Yyn) == YYPACT_NINF)
+#define yypact_value_is_default(Yystate) \
+  (!!((Yystate) == (-33)))
 
-#define YYTABLE_NINF (-1)
+#define YYTABLE_NINF -1
 
-#define yytable_value_is_error(Yyn) \
+#define yytable_value_is_error(Yytable_value) \
   0
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
@@ -636,7 +556,7 @@ static const yytype_int8 yypact[] =
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
      Performed when YYTABLE does not specify something else to do.  Zero
      means the default is an error.  */
-static const yytype_int8 yydefact[] =
+static const yytype_uint8 yydefact[] =
 {
        0,     0,    18,     0,     0,     2,     3,     5,     6,     9,
       15,    16,    17,     0,     0,     1,     4,     0,     0,     8,
@@ -667,7 +587,7 @@ static const yytype_int8 yydefgoto[] =
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule whose
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const yytype_int8 yytable[] =
+static const yytype_uint8 yytable[] =
 {
        1,    15,     9,     2,    10,    11,    12,     3,    59,    60,
       61,    62,    63,    28,    29,    30,    35,    36,    37,    49,
@@ -693,30 +613,30 @@ static const yytype_int8 yycheck[] =
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
-static const yytype_int8 yystos[] =
+static const yytype_uint8 yystos[] =
 {
-       0,     7,    10,    14,    30,    31,    32,    33,    37,     8,
-       4,     5,     6,    38,     8,     0,    31,    25,    34,    35,
-       8,    27,    42,     3,    36,    24,    27,    39,    15,    16,
-      17,    43,    44,    23,    26,    11,    12,    13,    40,    41,
-      25,    45,    25,    46,    25,    48,    28,    43,    36,    35,
-      35,    35,    28,    40,     8,    47,    24,     9,    24,    18,
-      19,    20,    21,    22,    49,    50,    24,    24,    24,    24,
-      23,    26,    26,    26,    23,    47,    49
+       0,     7,    10,    14,    31,    32,    33,    34,    38,     8,
+       4,     5,     6,    39,     8,     0,    32,    25,    35,    36,
+       8,    27,    43,     3,    37,    24,    27,    40,    15,    16,
+      17,    44,    45,    23,    26,    11,    12,    13,    41,    42,
+      25,    46,    25,    47,    25,    49,    28,    44,    37,    36,
+      36,    36,    28,    41,     8,    48,    24,     9,    24,    18,
+      19,    20,    21,    22,    50,    51,    24,    24,    24,    24,
+      23,    26,    26,    26,    23,    48,    50
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-static const yytype_int8 yyr1[] =
+static const yytype_uint8 yyr1[] =
 {
-       0,    29,    30,    31,    31,    32,    32,    33,    34,    34,
-      35,    36,    36,    37,    37,    38,    38,    38,    38,    39,
-      40,    40,    41,    41,    41,    42,    43,    43,    44,    44,
-      44,    45,    46,    47,    47,    48,    49,    49,    50,    50,
-      50,    50,    50
+       0,    30,    31,    32,    32,    33,    33,    34,    35,    35,
+      36,    37,    37,    38,    38,    39,    39,    39,    39,    40,
+      41,    41,    42,    42,    42,    43,    44,    44,    45,    45,
+      45,    46,    47,    48,    48,    49,    50,    50,    51,    51,
+      51,    51,    51
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
-static const yytype_int8 yyr2[] =
+static const yytype_uint8 yyr2[] =
 {
        0,     2,     1,     1,     2,     1,     1,     4,     1,     0,
        3,     1,     3,     4,     3,     1,     1,     1,     0,     3,
@@ -808,9 +728,7 @@ yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
   if (yytype < YYNTOKENS)
     YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
 # endif
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   YYUSE (yytype);
-  YY_IGNORE_MAYBE_UNINITIALIZED_END
 }
 
 
@@ -834,7 +752,7 @@ yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
 `------------------------------------------------------------------*/
 
 static void
-yy_stack_print (yy_state_t *yybottom, yy_state_t *yytop)
+yy_stack_print (yytype_int16 *yybottom, yytype_int16 *yytop)
 {
   YYFPRINTF (stderr, "Stack now");
   for (; yybottom <= yytop; yybottom++)
@@ -857,19 +775,19 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp, int yyrule)
+yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
 {
-  int yylno = yyrline[yyrule];
+  unsigned long yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
   int yyi;
-  YYFPRINTF (stderr, "Reducing stack by rule %d (line %d):\n",
+  YYFPRINTF (stderr, "Reducing stack by rule %d (line %lu):\n",
              yyrule - 1, yylno);
   /* The symbols being reduced.  */
   for (yyi = 0; yyi < yynrhs; yyi++)
     {
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr,
-                       yystos[+yyssp[yyi + 1 - yynrhs]],
+                       yystos[yyssp[yyi + 1 - yynrhs]],
                        &yyvsp[(yyi + 1) - (yynrhs)]
                                               );
       YYFPRINTF (stderr, "\n");
@@ -914,13 +832,13 @@ int yydebug;
 
 # ifndef yystrlen
 #  if defined __GLIBC__ && defined _STRING_H
-#   define yystrlen(S) (YY_CAST (YYPTRDIFF_T, strlen (S)))
+#   define yystrlen strlen
 #  else
 /* Return the length of YYSTR.  */
-static YYPTRDIFF_T
+static YYSIZE_T
 yystrlen (const char *yystr)
 {
-  YYPTRDIFF_T yylen;
+  YYSIZE_T yylen;
   for (yylen = 0; yystr[yylen]; yylen++)
     continue;
   return yylen;
@@ -956,12 +874,12 @@ yystpcpy (char *yydest, const char *yysrc)
    backslash-backslash).  YYSTR is taken from yytname.  If YYRES is
    null, do not copy; instead, return the length of what the result
    would have been.  */
-static YYPTRDIFF_T
+static YYSIZE_T
 yytnamerr (char *yyres, const char *yystr)
 {
   if (*yystr == '"')
     {
-      YYPTRDIFF_T yyn = 0;
+      YYSIZE_T yyn = 0;
       char const *yyp = yystr;
 
       for (;;)
@@ -992,10 +910,10 @@ yytnamerr (char *yyres, const char *yystr)
     do_not_strip_quotes: ;
     }
 
-  if (yyres)
-    return yystpcpy (yyres, yystr) - yyres;
-  else
+  if (! yyres)
     return yystrlen (yystr);
+
+  return (YYSIZE_T) (yystpcpy (yyres, yystr) - yyres);
 }
 # endif
 
@@ -1008,19 +926,19 @@ yytnamerr (char *yyres, const char *yystr)
    *YYMSG_ALLOC to the required number of bytes.  Return 2 if the
    required number of bytes is too large to store.  */
 static int
-yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
-                yy_state_t *yyssp, int yytoken)
+yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
+                yytype_int16 *yyssp, int yytoken)
 {
+  YYSIZE_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
+  YYSIZE_T yysize = yysize0;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
   const char *yyformat = YY_NULLPTR;
-  /* Arguments of yyformat: reported tokens (one for the "unexpected",
-     one per "expected"). */
+  /* Arguments of yyformat. */
   char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-  /* Actual size of YYARG. */
+  /* Number of reported tokens (one for the "unexpected", one per
+     "expected"). */
   int yycount = 0;
-  /* Cumulated lengths of YYARG.  */
-  YYPTRDIFF_T yysize = 0;
 
   /* There are many possibilities here to consider:
      - If this state is a consistent state with a default action, then
@@ -1047,9 +965,7 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
   */
   if (yytoken != YYEMPTY)
     {
-      int yyn = yypact[+*yyssp];
-      YYPTRDIFF_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
-      yysize = yysize0;
+      int yyn = yypact[*yyssp];
       yyarg[yycount++] = yytname[yytoken];
       if (!yypact_value_is_default (yyn))
         {
@@ -1074,8 +990,7 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
                   }
                 yyarg[yycount++] = yytname[yyx];
                 {
-                  YYPTRDIFF_T yysize1
-                    = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
+                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
                   if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
                     yysize = yysize1;
                   else
@@ -1102,9 +1017,7 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
     }
 
   {
-    /* Don't count the "%s"s in the final size, but reserve room for
-       the terminator.  */
-    YYPTRDIFF_T yysize1 = yysize + (yystrlen (yyformat) - 2 * yycount) + 1;
+    YYSIZE_T yysize1 = yysize + yystrlen (yyformat);
     if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
       yysize = yysize1;
     else
@@ -1134,8 +1047,8 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
         }
       else
         {
-          ++yyp;
-          ++yyformat;
+          yyp++;
+          yyformat++;
         }
   }
   return 0;
@@ -1178,7 +1091,7 @@ int yynerrs;
 int
 yyparse (void)
 {
-    yy_state_fast_t yystate;
+    int yystate;
     /* Number of tokens to shift before error messages enabled.  */
     int yyerrstatus;
 
@@ -1190,16 +1103,16 @@ yyparse (void)
        to reallocate them elsewhere.  */
 
     /* The state stack.  */
-    yy_state_t yyssa[YYINITDEPTH];
-    yy_state_t *yyss;
-    yy_state_t *yyssp;
+    yytype_int16 yyssa[YYINITDEPTH];
+    yytype_int16 *yyss;
+    yytype_int16 *yyssp;
 
     /* The semantic value stack.  */
     YYSTYPE yyvsa[YYINITDEPTH];
     YYSTYPE *yyvs;
     YYSTYPE *yyvsp;
 
-    YYPTRDIFF_T yystacksize;
+    YYSIZE_T yystacksize;
 
   int yyn;
   int yyresult;
@@ -1213,7 +1126,7 @@ yyparse (void)
   /* Buffer for error messages, and its allocated size.  */
   char yymsgbuf[128];
   char *yymsg = yymsgbuf;
-  YYPTRDIFF_T yymsg_alloc = sizeof yymsgbuf;
+  YYSIZE_T yymsg_alloc = sizeof yymsgbuf;
 #endif
 
 #define YYPOPSTACK(N)   (yyvsp -= (N), yyssp -= (N))
@@ -1245,14 +1158,10 @@ yynewstate:
 
 
 /*--------------------------------------------------------------------.
-| yysetstate -- set current state (the top of the stack) to yystate.  |
+| yynewstate -- set current state (the top of the stack) to yystate.  |
 `--------------------------------------------------------------------*/
 yysetstate:
-  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
-  YY_ASSERT (0 <= yystate && yystate < YYNSTATES);
-  YY_IGNORE_USELESS_CAST_BEGIN
-  *yyssp = YY_CAST (yy_state_t, yystate);
-  YY_IGNORE_USELESS_CAST_END
+  *yyssp = (yytype_int16) yystate;
 
   if (yyss + yystacksize - 1 <= yyssp)
 #if !defined yyoverflow && !defined YYSTACK_RELOCATE
@@ -1260,23 +1169,23 @@ yysetstate:
 #else
     {
       /* Get the current used size of the three stacks, in elements.  */
-      YYPTRDIFF_T yysize = yyssp - yyss + 1;
+      YYSIZE_T yysize = (YYSIZE_T) (yyssp - yyss + 1);
 
 # if defined yyoverflow
       {
         /* Give user a chance to reallocate the stack.  Use copies of
            these so that the &'s don't force the real ones into
            memory.  */
-        yy_state_t *yyss1 = yyss;
         YYSTYPE *yyvs1 = yyvs;
+        yytype_int16 *yyss1 = yyss;
 
         /* Each stack pointer address is followed by the size of the
            data in use in that stack, in bytes.  This used to be a
            conditional around just the two extra args, but that might
            be undefined if yyoverflow is a macro.  */
         yyoverflow (YY_("memory exhausted"),
-                    &yyss1, yysize * YYSIZEOF (*yyssp),
-                    &yyvs1, yysize * YYSIZEOF (*yyvsp),
+                    &yyss1, yysize * sizeof (*yyssp),
+                    &yyvs1, yysize * sizeof (*yyvsp),
                     &yystacksize);
         yyss = yyss1;
         yyvs = yyvs1;
@@ -1290,10 +1199,9 @@ yysetstate:
         yystacksize = YYMAXDEPTH;
 
       {
-        yy_state_t *yyss1 = yyss;
+        yytype_int16 *yyss1 = yyss;
         union yyalloc *yyptr =
-          YY_CAST (union yyalloc *,
-                   YYSTACK_ALLOC (YY_CAST (YYSIZE_T, YYSTACK_BYTES (yystacksize))));
+          (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
         if (! yyptr)
           goto yyexhaustedlab;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
@@ -1307,15 +1215,15 @@ yysetstate:
       yyssp = yyss + yysize - 1;
       yyvsp = yyvs + yysize - 1;
 
-      YY_IGNORE_USELESS_CAST_BEGIN
-      YYDPRINTF ((stderr, "Stack size increased to %ld\n",
-                  YY_CAST (long, yystacksize)));
-      YY_IGNORE_USELESS_CAST_END
+      YYDPRINTF ((stderr, "Stack size increased to %lu\n",
+                  (unsigned long) yystacksize));
 
       if (yyss + yystacksize - 1 <= yyssp)
         YYABORT;
     }
 #endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
+
+  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
   if (yystate == YYFINAL)
     YYACCEPT;
@@ -1376,13 +1284,15 @@ yybackup:
 
   /* Shift the lookahead token.  */
   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
+
+  /* Discard the shifted token.  */
+  yychar = YYEMPTY;
+
   yystate = yyn;
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   *++yyvsp = yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 
-  /* Discard the shifted token.  */
-  yychar = YYEMPTY;
   goto yynewstate;
 
 
@@ -1417,255 +1327,254 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2:
-#line 116 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                                                                        { (yyval.program) = ProgramGrammarAction((yyvsp[0].constantArray)); }
-#line 1424 "../src/frontend/syntactic-analysis/bison-parser.c"
+        case 2:
+#line 117 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.program) = ProgramGrammarAction((yyvsp[0].constantArray)); }
+#line 1334 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 3:
-#line 119 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.constantArray) = ConstantGrammarAction((yyvsp[0].constant)); }
-#line 1430 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 120 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.constantArray) = ConstantGrammarAction((yyvsp[0].constant)); }
+#line 1340 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 4:
-#line 120 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.constantArray) = ConstantArrayGrammarAction((yyvsp[-1].constant), (yyvsp[0].constantArray)); }
-#line 1436 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 121 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.constantArray) = ConstantArrayGrammarAction((yyvsp[-1].constant), (yyvsp[0].constantArray)); }
+#line 1346 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 5:
-#line 123 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.constant) = DeclarationGrammarAction((yyvsp[0].declaration)); }
-#line 1442 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 124 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.constant) = DeclarationGrammarAction((yyvsp[0].declaration)); }
+#line 1352 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 6:
-#line 124 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.constant) = BlockGrammarAction((yyvsp[0].block)); }
-#line 1448 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 125 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.constant) = BlockGrammarAction((yyvsp[0].block)); }
+#line 1358 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 7:
-#line 128 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.declaration) = DeclarationTreeGrammarAction((yyvsp[-2].token), (yyvsp[-1].declarationParameters)); }
-#line 1454 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 129 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.declaration) = DeclarationTreeGrammarAction((yyvsp[-2].token), (yyvsp[-1].declarationParameters)); }
+#line 1364 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 8:
-#line 131 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.declarationParameters) = DeclarationTreeParametersGrammarAction((yyvsp[0].integerParameters)); }
-#line 1460 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 132 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.declarationParameters) = DeclarationTreeParametersGrammarAction((yyvsp[0].integerParameters)); }
+#line 1370 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 9:
-#line 132 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.declarationParameters) = 0; }
-#line 1466 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 133 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.declarationParameters) = 0; }
+#line 1376 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 10:
-#line 135 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.integerParameters) = IntegerParametersGrammarAction((yyvsp[-1].integerArray)); }
-#line 1472 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 136 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.integerParameters) = IntegerParametersGrammarAction((yyvsp[-1].integerArray)); }
+#line 1382 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 11:
-#line 138 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.integerArray) = IntegerConstantGrammarAction((yyvsp[0].token)); }
-#line 1478 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 139 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.integerArray) = IntegerConstantGrammarAction((yyvsp[0].token)); }
+#line 1388 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 12:
-#line 139 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.integerArray) = IntegerConstantArrayGrammarAction((yyvsp[-2].token), (yyvsp[0].integerArray)); }
-#line 1484 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 140 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.integerArray) = IntegerConstantArrayGrammarAction((yyvsp[-2].token), (yyvsp[0].integerArray)); }
+#line 1394 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 13:
-#line 143 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.block) = ConfigureBlockGrammarAction((yyvsp[-2].treeType), (yyvsp[-1].token), (yyvsp[0].configureBlock)); }
-#line 1490 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 144 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.block) = ConfigureBlockGrammarAction((yyvsp[-2].treeType), (yyvsp[-1].token), (yyvsp[0].configureBlock)); }
+#line 1400 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 14:
-#line 144 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.block) = CreateBlockGrammarAction((yyvsp[-1].token), (yyvsp[0].createBlock)); }
-#line 1496 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 145 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.block) = CreateBlockGrammarAction((yyvsp[-1].token), (yyvsp[0].createBlock)); }
+#line 1406 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 15:
-#line 147 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeType) = TreeTypeBSTGrammarAction(); }
-#line 1502 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 148 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.treeType) = TreeTypeBSTGrammarAction(); }
+#line 1412 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 16:
-#line 148 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeType) = TreeTypeAVLGrammarAction(); }
-#line 1508 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 149 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.treeType) = TreeTypeAVLGrammarAction(); }
+#line 1418 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 17:
-#line 149 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeType) = TreeTypeRBTGrammarAction(); }
-#line 1514 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 150 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.treeType) = TreeTypeRBTGrammarAction(); }
+#line 1424 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 18:
-#line 150 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeType) = 0; }
-#line 1520 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 151 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.treeType) = 0; }
+#line 1430 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 19:
-#line 154 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.configureBlock) = TreeSentencesGrammarAction((yyvsp[-1].treeSentences)); }
-#line 1526 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 155 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.configureBlock) = TreeSentencesGrammarAction((yyvsp[-1].treeSentences)); }
+#line 1436 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 20:
-#line 157 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeSentences) = TreeSentenceGrammarAction((yyvsp[0].treeSentence)); }
-#line 1532 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 158 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.treeSentences) = TreeSentenceGrammarAction((yyvsp[0].treeSentence)); }
+#line 1442 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 21:
-#line 158 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeSentences) = TreeSentenceArrayGrammarAction((yyvsp[-1].treeSentence), (yyvsp[0].treeSentences)); }
-#line 1538 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 159 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.treeSentences) = TreeSentenceArrayGrammarAction((yyvsp[-1].treeSentence), (yyvsp[0].treeSentences)); }
+#line 1448 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 22:
-#line 161 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeSentence) = AddNodeGrammarAction((yyvsp[-1].integerParameters)); }
-#line 1544 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 162 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.treeSentence) = AddNodeGrammarAction((yyvsp[-1].integerParameters)); }
+#line 1454 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 23:
-#line 162 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeSentence) = DeleteNodeGrammarAction((yyvsp[-1].integerParameters)); }
-#line 1550 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 163 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.treeSentence) = DeleteNodeGrammarAction((yyvsp[-1].integerParameters)); }
+#line 1460 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 24:
-#line 163 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeSentence) = FindNodeGrammarAction((yyvsp[-1].integerParameters)); }
-#line 1556 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 164 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.treeSentence) = FindNodeGrammarAction((yyvsp[-1].integerParameters)); }
+#line 1466 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 25:
-#line 167 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.createBlock) = FileSentencesGrammarAction((yyvsp[-1].fileSentences)); }
-#line 1562 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 168 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.createBlock) = FileSentencesGrammarAction((yyvsp[-1].fileSentences)); }
+#line 1472 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 26:
-#line 170 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.fileSentences) = FileSentenceGrammarAction((yyvsp[0].fileSentence)); }
-#line 1568 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 171 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.fileSentences) = FileSentenceGrammarAction((yyvsp[0].fileSentence)); }
+#line 1478 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 27:
-#line 171 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.fileSentences) = FileSentenceArrayGrammarAction((yyvsp[-1].fileSentence), (yyvsp[0].fileSentences)); }
-#line 1574 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 172 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.fileSentences) = FileSentenceArrayGrammarAction((yyvsp[-1].fileSentence), (yyvsp[0].fileSentences)); }
+#line 1484 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 28:
-#line 174 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.fileSentence) = AddTreeGrammarAction((yyvsp[-1].treeParameters)); }
-#line 1580 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 175 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.fileSentence) = AddTreeGrammarAction((yyvsp[-1].treeParameters)); }
+#line 1490 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 29:
-#line 175 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.fileSentence) = AddFilePathGrammarAction((yyvsp[-1].fileParameter)); }
-#line 1586 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 176 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.fileSentence) = AddFilePathGrammarAction((yyvsp[-1].fileParameter)); }
+#line 1496 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 30:
-#line 176 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.fileSentence) = AddLegendGrammarAction((yyvsp[-1].legendParameters)); }
-#line 1592 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 177 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.fileSentence) = AddLegendGrammarAction((yyvsp[-1].legendParameters)); }
+#line 1502 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 31:
-#line 179 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeParameters) = TreeParametersGrammarAction((yyvsp[-1].treeArray)); }
-#line 1598 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 180 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.treeParameters) = TreeParametersGrammarAction((yyvsp[-1].treeArray)); }
+#line 1508 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 32:
-#line 182 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                   { (yyval.fileParameter) = FileParameterSentenceGrammarAction((yyvsp[-1].token)); }
-#line 1604 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 183 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.fileParameter) = FileParameterSentenceGrammarAction((yyvsp[-1].token)); }
+#line 1514 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 33:
-#line 185 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeArray) = TreeNameGrammarAction((yyvsp[0].token)); }
-#line 1610 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 186 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.treeArray) = TreeNameGrammarAction((yyvsp[0].token)); }
+#line 1520 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 34:
-#line 186 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.treeArray) = TreeNameArrayGrammarAction((yyvsp[-2].token), (yyvsp[0].treeArray)); }
-#line 1616 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 187 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.treeArray) = TreeNameArrayGrammarAction((yyvsp[-2].token), (yyvsp[0].treeArray)); }
+#line 1526 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 35:
-#line 189 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.legendParameters) = LegendParametersGrammarAction((yyvsp[-1].legendArray)); }
-#line 1622 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 190 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.legendParameters) = LegendParametersGrammarAction((yyvsp[-1].legendArray)); }
+#line 1532 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 36:
-#line 192 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.legendArray) = LegendTypeGrammarAction((yyvsp[0].legendType)); }
-#line 1628 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 193 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.legendArray) = LegendTypeGrammarAction((yyvsp[0].legendType)); }
+#line 1538 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 37:
-#line 193 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.legendArray) = LegendTypeArrayGrammarAction((yyvsp[-2].legendType), (yyvsp[0].legendArray)); }
-#line 1634 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 194 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.legendArray) = LegendTypeArrayGrammarAction((yyvsp[-2].legendType), (yyvsp[0].legendArray)); }
+#line 1544 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 38:
-#line 196 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.legendType) = LegendMaxGrammarAction(); }
-#line 1640 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 197 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.legendType) = LegendMaxGrammarAction(); }
+#line 1550 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 39:
-#line 197 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.legendType) = LegendMinGrammarAction(); }
-#line 1646 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 198 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.legendType) = LegendMinGrammarAction(); }
+#line 1556 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 40:
-#line 198 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.legendType) = LegendCountGrammarAction(); }
-#line 1652 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 199 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.legendType) = LegendCountGrammarAction(); }
+#line 1562 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 41:
-#line 199 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.legendType) = LegendBalancedGrammarAction(); }
-#line 1658 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 200 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.legendType) = LegendBalancedGrammarAction(); }
+#line 1568 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
   case 42:
-#line 200 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                        { (yyval.legendType) = LegendHeightGrammarAction(); }
-#line 1664 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 201 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1652  */
+    { (yyval.legendType) = LegendHeightGrammarAction(); }
+#line 1574 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
     break;
 
 
-#line 1668 "../src/frontend/syntactic-analysis/bison-parser.c"
-
+#line 1578 "../src/frontend/syntactic-analysis/bison-parser.c" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1728,7 +1637,7 @@ yyerrlab:
           {
             if (yymsg != yymsgbuf)
               YYSTACK_FREE (yymsg);
-            yymsg = YY_CAST (char *, YYSTACK_ALLOC (YY_CAST (YYSIZE_T, yymsg_alloc)));
+            yymsg = (char *) YYSTACK_ALLOC (yymsg_alloc);
             if (!yymsg)
               {
                 yymsg = yymsgbuf;
@@ -1883,7 +1792,7 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-                  yystos[+*yyssp], yyvsp);
+                  yystos[*yyssp], yyvsp);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
@@ -1896,5 +1805,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 203 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 204 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1918  */
 

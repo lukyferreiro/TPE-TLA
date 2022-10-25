@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.1.  */
+/* A Bison parser, made by GNU Bison 3.3.2.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
    Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -74,15 +74,17 @@ extern int yydebug;
     OPEN_PARENTHESIS = 280,
     CLOSE_PARENTHESIS = 281,
     OPEN_CURLY = 282,
-    CLOSE_CURLY = 283
+    CLOSE_CURLY = 283,
+    UNKNOWN = 284
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+
 union YYSTYPE
 {
-#line 8 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 8 "../src/frontend/syntactic-analysis/bison-grammar.y" /* yacc.c:1921  */
 
 	// No-terminales (backend).
 	/*
@@ -122,9 +124,9 @@ union YYSTYPE
 	// Terminales.
 	token token;
 
-#line 126 "../src/frontend/syntactic-analysis/bison-parser.h"
-
+#line 128 "../src/frontend/syntactic-analysis/bison-parser.h" /* yacc.c:1921  */
 };
+
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

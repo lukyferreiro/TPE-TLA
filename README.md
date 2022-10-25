@@ -35,11 +35,7 @@ Luego se deberá abrir la solución generada `bin\Compiler.sln` con el IDE _Micr
 
 ## Ejecución
 
-Para compilar un programa, primero cree un archivo vacío denominado `program` (o el nombre que desee), con el siguiente contenido:
-
-```
-123123 + 123 - 2 * (454 + 890 / 89)
-```
+Para compilar un programa, primero cree un archivo vacío denominado `program` (o el nombre que desee), y con un contenido acorde a nuestro lenguaje.
 
 Luego, ejecute el compilador desde el directorio raíz del proyecto, o desde cualquier otro lugar indicando el path hacia el script `start.sh` y pasando por parámetro el path hacia el programa a compilar:
 
@@ -52,8 +48,6 @@ En Windows:
 ```bash
 user@machine:path/ $ script\start.bat program
 ```
-
-Debería obtener el resultado correcto de evaluar el programa anterior: `122318`.
 
 ## Testing
 

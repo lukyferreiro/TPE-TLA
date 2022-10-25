@@ -76,6 +76,7 @@
 %token <token> CLOSE_PARENTHESIS
 %token <token> OPEN_CURLY
 %token <token> CLOSE_CURLY
+%token <token> UNKNOWN
 
 
 //-----------------------------------------------------------
@@ -129,7 +130,7 @@ declaration: TREE VARIABLE_NAME declarationParameters SEMICOLON         { $$ = D
     ;
 
 declarationParameters: integerParameters                                { $$ = DeclarationTreeParametersGrammarAction($1); }
-    | /* lambda */                                                      { $$ = 0; }
+    | %empty                                                    { $$ = 0; }
     ;
 
 integerParameters: OPEN_PARENTHESIS integerArray CLOSE_PARENTHESIS      { $$ = IntegerParametersGrammarAction($2); }
@@ -147,7 +148,7 @@ block: CONFIGURE treeType VARIABLE_NAME configureBlock                  { $$ = C
 treeType: BST                                                           { $$ = TreeTypeBSTGrammarAction(); }
     | AVL                                                               { $$ = TreeTypeAVLGrammarAction(); }
     | RBT                                                               { $$ = TreeTypeRBTGrammarAction(); }
-    | /* lambda */                                                      { $$ = 0; }
+    | %empty                                                      { $$ = 0; }
     ;
 
 // Reglas para utilizar un bloque configure de tree

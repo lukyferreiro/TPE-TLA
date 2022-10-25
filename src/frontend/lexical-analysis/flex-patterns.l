@@ -19,7 +19,10 @@
 /* Patrones reutilizables. */
 /* https://www.regextester.com/115652 */
 variableName    [A-Za-z][A-Za-z0-9]*
-
+/* TODO 
+/* El patrón para filePath es muy restrictivo, deberían usar un contexto */
+/* de Flex similar al que utilizarían para manipular strings o comentarios, */
+/* y así evitar colisiones o solapamientos con otras secciones del programa. */
 /* filePath        ([/]{1}[a-z0-9.]+)+(\/?){1}$|^([\/]{1}) */
 filePath        [A-Za-z/]*
 digit			[0-9]
