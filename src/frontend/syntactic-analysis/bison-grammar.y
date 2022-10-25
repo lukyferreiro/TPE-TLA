@@ -78,7 +78,6 @@
 %token <token> CLOSE_CURLY
 %token <token> UNKNOWN
 
-
 //-----------------------------------------------------------
 // Tipos de dato para los no-terminales generados desde Bison.
 //-----------------------------------------------------------

@@ -59,7 +59,12 @@ cache/
 log/
 obj/
 node_modules/
+build/
 /.vscode
+
+# Files:
+*.csproj.user
+*~
 
 # Project files:
 bison-parser.c
