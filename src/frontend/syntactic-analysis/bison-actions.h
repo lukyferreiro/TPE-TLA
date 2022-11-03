@@ -11,63 +11,64 @@
  * abstracta (i.e., el AST).
  */
 
-int ProgramGrammarAction(const int value);
+Program* ProgramGrammarAction(const ConstantArray* constantArray);
 
-int ConstantGrammarAction(const int constant);
-int ConstantArrayGrammarAction(const int constant, const int nextConstantArray);
+ConstantArray* ConstantGrammarAction(const Constant* constant);
+ConstantArray* ConstantArrayGrammarAction(const Constant* constant, const ConstantArray* nextConstantArray);
 
-int DeclarationGrammarAction(const int declaration);
-int BlockGrammarAction(const int block);
+Constant* DeclarationGrammarAction(const Declaration* declaration);
+Constant* BlockGrammarAction(const Block* block);
 
-int DeclarationTreeGrammarAction(const int treeName, const int declarationParameters);
-int DeclarationTreeParametersGrammarAction(const int treeParameters);
+Declaration* DeclarationTreeGrammarAction(const TreeName* treeName, const DeclarationParameters* declarationParameters);
 
-int IntegerParametersGrammarAction(const int nodesArray);
+DeclarationParameters* DeclarationTreeParametersGrammarAction(const IntegerParameters* treeIntegersParameters);
 
-int IntegerConstantGrammarAction(const int node);
-int IntegerConstantArrayGrammarAction(const int node, const int nextNode);
+IntegerParameters* IntegerParametersGrammarAction(const IntegerArray* nodesIntegerArray);
 
-int ConfigureBlockGrammarAction(const int treeType, const int treeName, const int configureBlock);
-int CreateBlockGrammarAction(const int fileName, const int createBlock);
+IntegerArray* IntegerConstantGrammarAction(const Integer* node);
+IntegerArray* IntegerConstantArrayGrammarAction(const Integer* node, const IntegerArray* nextNodesIntegerArray);
 
-int TreeTypeBSTGrammarAction();
-int TreeTypeAVLGrammarAction();
-int TreeTypeRBTGrammarAction();
+Block* ConfigureBlockGrammarAction(const TreeType* treeType, const TreeName* treeName, const ConfigureBlock* configureBlock);
+Block* CreateBlockGrammarAction(const FileName* fileName, const CreateBlock* createBlock);
 
-int TreeSentencesGrammarAction(const int treeSentences);
+TreeType* TreeTypeBSTGrammarAction();
+TreeType* TreeTypeAVLGrammarAction();
+TreeType* TreeTypeRBTGrammarAction();
 
-int TreeSentenceGrammarAction(const int treeSentence);
-int TreeSentenceArrayGrammarAction(const int treeSentence, const int nextTreeSentence);
+ConfigureBlock* TreeSentencesGrammarAction(const TreeSentences* treeSentences);
 
-int AddNodeGrammarAction(const int integerParameters);
-int DeleteNodeGrammarAction(const int integerParameters);
-int FindNodeGrammarAction(const int integerParameters);
+TreeSentences* TreeSentenceGrammarAction(const TreeSentence* treeSentence);
+TreeSentences* TreeSentenceArrayGrammarAction(const TreeSentence* treeSentence, const TreeSentences* nextTreeSentences);
 
-int FileSentencesGrammarAction(const int fileSentences);
+TreeSentence* AddNodeGrammarAction(const IntegerParameters* integerParameters);
+TreeSentence* DeleteNodeGrammarAction(const IntegerParameters* integerParameters);
+TreeSentence* FindNodeGrammarAction(const IntegerParameters* integerParameters);
 
-int FileSentenceGrammarAction(const int fileSentence);
-int FileSentenceArrayGrammarAction(const int fileSentence, const int nextFileSentence);
+CreateBlock* FileSentencesGrammarAction(const FileSentences* fileSentences);
 
-int AddTreeGrammarAction(const int treeParameters);
-int AddFilePathGrammarAction(const int fileParameter);
-int AddLegendGrammarAction(const int legendParameters);
+FileSentences* FileSentenceGrammarAction(const FileSentence* fileSentence);
+FileSentences* FileSentenceArrayGrammarAction(const FileSentence* fileSentence, const FileSentences* nextFileSentences);
 
-int TreeParametersGrammarAction(const int treeArray);
+FileSentence* AddTreeGrammarAction(const TreeParameters* treeParameters);
+FileSentence* AddFilePathGrammarAction(const TreeParameters* fileParameter);
+FileSentence* AddLegendGrammarAction(const TreeParameters* legendParameters);
 
-int FileParameterSentenceGrammarAction(const int fileName);
+TreeParameters* TreeParametersGrammarAction(const TreeArray* treeArray);
 
-int TreeNameGrammarAction(const int treeName);
-int TreeNameArrayGrammarAction(const int treeName, const int nextTreeName);
+FileParameter *FileParameterSentenceGrammarAction(const FilePath* filePath);
 
-int LegendParametersGrammarAction(const int legendArray);
+TreeArray* TreeNameGrammarAction(const TreeName* treeName);
+TreeArray* TreeNameArrayGrammarAction(const TreeName* treeName, const TreeArray* nextTreeNames);
 
-int LegendTypeGrammarAction(const int legendType);
-int LegendTypeArrayGrammarAction(const int legendType, const int nexLegendType);
+LegendParameters* LegendParametersGrammarAction(const LegendArray* legendArray);
 
-int LegendMaxGrammarAction();
-int LegendMinGrammarAction();
-int LegendCountGrammarAction();
-int LegendBalancedGrammarAction();
-int LegendHeightGrammarAction();
+LegendArray* LegendTypeGrammarAction(const LegendType* legendType);
+LegendArray* LegendTypeArrayGrammarAction(const LegendType* legendType, const LegendArray* nextLegendTypes);
+
+LegendType* LegendMaxGrammarAction();
+LegendType* LegendMinGrammarAction();
+LegendType* LegendCountGrammarAction();
+LegendType* LegendBalancedGrammarAction();
+LegendType* LegendHeightGrammarAction();
 
 #endif

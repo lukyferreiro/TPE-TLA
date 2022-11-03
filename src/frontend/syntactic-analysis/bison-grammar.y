@@ -7,16 +7,31 @@
 // Tipos de dato utilizados en las variables semánticas ($$, $1, $2, etc.).
 %union {
 	// No-terminales (backend).
-	/*
-	Program program;
-	Expression expression;
-	Factor factor;
-	Constant constant;
-	...
-	*/
+    Program program;
+    ConstantArray constantArray;
+    Constant constant;
+    Block block;
+    IntegerParameters integerParameters;
+    IntegerArray integerArray;
+    Declaration declaration;
+    DeclarationParameters declarationParameters;
+    TreeType treeType;
+    ConfigureBlock configureBlock;
+    TreeSentences treeSentences;
+    TreeSentence treeSentence;
+    CreateBlock createBlock;
+    FileSentences fileSentences;
+    FileSentence fileSentence;
+    FileParameter fileParameter;
+    TreeParameters treeParameters;
+    TreeArray treeArray;
+    LegendParameters legendParameters;
+    LegendArray legendArray;
+    LegendType legendType;
 
 	// No-terminales (frontend).
-	int program;
+	/*
+    int program;
 	int constantArray;
 	int constant;
     int block;
@@ -40,6 +55,7 @@
     int legendParameters;
     int legendArray;
     int legendType;
+    */
 
 	// Terminales.
 	token token;
@@ -129,7 +145,7 @@ declaration: TREE VARIABLE_NAME declarationParameters SEMICOLON         { $$ = D
     ;
 
 declarationParameters: integerParameters                                { $$ = DeclarationTreeParametersGrammarAction($1); }
-    | %empty                                                    { $$ = 0; }
+    | %empty                                                            { $$ = 0; }
     ;
 
 integerParameters: OPEN_PARENTHESIS integerArray CLOSE_PARENTHESIS      { $$ = IntegerParametersGrammarAction($2); }
@@ -147,7 +163,7 @@ block: CONFIGURE treeType VARIABLE_NAME configureBlock                  { $$ = C
 treeType: BST                                                           { $$ = TreeTypeBSTGrammarAction(); }
     | AVL                                                               { $$ = TreeTypeAVLGrammarAction(); }
     | RBT                                                               { $$ = TreeTypeRBTGrammarAction(); }
-    | %empty                                                      { $$ = 0; }
+    | %empty                                                            { $$ = 0; }
     ;
 
 // Reglas para utilizar un bloque configure de tree
@@ -179,7 +195,7 @@ fileSentence: ADD_TREE treeParameters SEMICOLON                         { $$ = A
 treeParameters: OPEN_PARENTHESIS treeArray CLOSE_PARENTHESIS            { $$ = TreeParametersGrammarAction($2); }
     ;
 
-fileParameter: OPEN_PARENTHESIS FILE_PATH CLOSE_PARENTHESIS        { $$ = FileParameterSentenceGrammarAction($2); }
+fileParameter: OPEN_PARENTHESIS FILE_PATH CLOSE_PARENTHESIS             { $$ = FileParameterSentenceGrammarAction($2); }
     ;
 
 treeArray: VARIABLE_NAME                                                { $$ = TreeNameGrammarAction($1); }
