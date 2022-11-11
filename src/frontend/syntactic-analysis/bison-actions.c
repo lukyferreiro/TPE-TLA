@@ -3,6 +3,10 @@
 #include "../../backend/support/logger.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
+#define TRUE 1
+#define FALSE 0
 
 /**
  * Implementación de "bison-grammar.h".
@@ -28,210 +32,204 @@ void yyerror(const char* string) {
  * indica que efectivamente el programa de entrada se pudo generar con esta
  * gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
  */
-Program* ProgramGrammarAction(const ConstantArray* constantArray) {
-    LogDebug("\tProgramGrammarAction(%d)", constantArray);
-    /*
-     * "state" es una variable global que almacena el estado del compilador,
-     * cuyo campo "succeed" indica si la compilación fue o no exitosa, la cual
-     * es utilizada en la función "main".
-     */
-    /* state.succeed = true; */
-    /*
-     * Por otro lado, "result" contiene el resultado de aplicar el análisis
-     * sintáctico mediante Bison, y almacenar el nood raíz del AST construido
-     * en esta variable. Para el ejemplo de la calculadora, no hay AST porque
-     * la expresión se computa on-the-fly, y es la razón por la cual esta
-     * variable es un simple entero, en lugar de un nodo.
-     */
-    /* state.result = value;
-    return value; */
+Program* ProgramGrammarAction(ConstantArray* constantArray) {
+    LogDebug("\tProgramGrammarAction");
+    Program* program = malloc(sizeof(Program));
+    program->constantArray = constantArray;
+    state.succeed = TRUE;
+    state.program = program;
+    return program;
+}
+
+ConstantArray* ConstantGrammarAction(Constant* constant) {
+    LogDebug("\tConstantGrammarAction");
+    //Constant* constant = malloc(sizeof(Constant));
+    //.. TODO
     return 1;
 }
 
-ConstantArray* ConstantGrammarAction(const Constant* constant) {
-    LogDebug("\tConstantGrammarAction(%d)", constant);
-    return 1;
+ConstantArray* ConstantArrayGrammarAction(Constant* constant, ConstantArray* nextConstantArray) {
+    LogDebug("\tConstantArrayGrammarAction");
+    //... TODO
+    return 2;
 }
 
-ConstantArray* ConstantArrayGrammarAction(const Constant* constant, const ConstantArray* nextConstantArray) {
-    LogDebug("\tConstantArrayGrammarAction(%d, %d)", constant, nextConstantArray);
-    return 1;
-}
-
-Constant* DeclarationGrammarAction(const Declaration* declaration) {
+Constant* DeclarationGrammarAction(Declaration* declaration) {
     LogDebug("\tDeclarationGrammarAction(%d)", declaration);
-    return 1;
+    //Declaration* declaration = malloc(sizeof(Declaration));
+    //... TODO
+    return 3;
 }
 
-Constant* BlockGrammarAction(const Block* block) {
+Constant* BlockGrammarAction(Block* block) {
     LogDebug("\tBlockGrammarAction(%d)", block);
-    return 1;
+    return 4;
 }
 
-Declaration* DeclarationTreeGrammarAction(const TreeName* treeName, const DeclarationParameters* declarationParameters) {
+Declaration* DeclarationTreeGrammarAction(TreeName* treeName, DeclarationParameters* declarationParameters) {
     LogDebug("\tDeclarationTreeGrammarAction(d, %d)", treeName, declarationParameters);
-    return 1;
+    return 5;
 }
 
-DeclarationParameters* DeclarationTreeParametersGrammarAction(const IntegerParameters* treeIntegersParameters) {
+DeclarationParameters* DeclarationTreeParametersGrammarAction(IntegerParameters* treeIntegersParameters) {
     LogDebug("\tDeclarationTreeParametersGrammarAction(%d)", treeIntegersParameters);
-    return 1;
+    return 6;
 }
 
-IntegerParameters* IntegerParametersGrammarAction(const IntegerArray* nodesIntegerArray) {
+IntegerParameters* IntegerParametersGrammarAction(IntegerArray* nodesIntegerArray) {
     LogDebug("\tIntegerParametersGrammarAction(%d)", nodesIntegerArray);
-    return 1;
+    return 7;
 }
 
-IntegerArray* IntegerConstantGrammarAction(const Integer* node) {
+IntegerArray* IntegerConstantGrammarAction(Integer* node) {
     LogDebug("\tIntegerConstantGrammarAction(%d)", node);
-    return 1;
+    return 8;
 }
 
-IntegerArray* IntegerConstantArrayGrammarAction(const Integer* node, const IntegerArray* nextNodesIntegerArray) {
+IntegerArray* IntegerConstantArrayGrammarAction(Integer* node, IntegerArray* nextNodesIntegerArray) {
     LogDebug("\tIntegerConstantArrayGrammarAction(%d, %d)", node, nextNodesIntegerArray);
-    return 1;
+    return 9;
 }
 
-Block* ConfigureBlockGrammarAction(const TreeType* treeType, const TreeName* treeName, const ConfigureBlock* configureBlock) {
+Block* ConfigureBlockGrammarAction(TreeType* treeType, TreeName* treeName, ConfigureBlock* configureBlock) {
     LogDebug("\tConfigureBlockGrammarAction(%d, %d, %d)", treeType, treeName, configureBlock);
-    return 1;
+    return 10;
 }
 
-Block* CreateBlockGrammarAction(const FileName* fileName, const CreateBlock* createBlock) {
+Block* CreateBlockGrammarAction(FileName* fileName, CreateBlock* createBlock) {
     LogDebug("\tCreateBlockGrammarAction(%d, %d)", fileName, createBlock);
-    return 1;
+    return 11;
 }
 
 TreeType* TreeTypeBSTGrammarAction() {
     LogDebug("\tTreeTypeBSTGrammarAction");
-    return 1;
+    return 12;
 }
 
 TreeType* TreeTypeAVLGrammarAction() {
     LogDebug("\tTreeTypeAVLGrammarAction");
-    return 1;
+    return 13;
 }
 
 TreeType* TreeTypeRBTGrammarAction() {
     LogDebug("\tTreeTypeRBTGrammarAction");
-    return 1;
+    return 14;
 }
 
-ConfigureBlock* TreeSentencesGrammarAction(const TreeSentences* treeSentences) {
+ConfigureBlock* TreeSentencesGrammarAction(TreeSentences* treeSentences) {
     LogDebug("\tTreeSentencesGrammarAction(%d)", treeSentences);
-    return 1;
+    return 15;
 }
 
-TreeSentences* TreeSentenceGrammarAction(const TreeSentence* treeSentence) {
+TreeSentences* TreeSentenceGrammarAction(TreeSentence* treeSentence) {
     LogDebug("\tTreeSentenceGrammarAction(%d)", treeSentence);
-    return 1;
+    return 16;
 }
 
-TreeSentences* TreeSentenceArrayGrammarAction(const TreeSentence* treeSentence, const TreeSentences* nextTreeSentences) {
+TreeSentences* TreeSentenceArrayGrammarAction(TreeSentence* treeSentence, TreeSentences* nextTreeSentences) {
     LogDebug("\tTreeSentenceArrayGrammarAction(%d, %d)", treeSentence, nextTreeSentences);
-    return 1;
+    return 17;
 }
 
-TreeSentence* AddNodeGrammarAction(const IntegerParameters* integerParameters) {
+TreeSentence* AddNodeGrammarAction(IntegerParameters* integerParameters) {
     LogDebug("\tAddNodeGrammarAction(%d)", integerParameters);
-    return 1;
+    return 18;
 }
 
-TreeSentence* DeleteNodeGrammarAction(const IntegerParameters* integerParameters) {
+TreeSentence* DeleteNodeGrammarAction(IntegerParameters* integerParameters) {
     LogDebug("\tDeleteNodeGrammarAction(%d)", integerParameters);
-    return 1;
+    return 19;
 }
 
-TreeSentence* FindNodeGrammarAction(const IntegerParameters* integerParameters) {
+TreeSentence* FindNodeGrammarAction(IntegerParameters* integerParameters) {
     LogDebug("\tFindNodeGrammarAction(%d)", integerParameters);
-    return 1;
+    return 20;
 }
-CreateBlock* FileSentencesGrammarAction(const FileSentences* fileSentences) {
+CreateBlock* FileSentencesGrammarAction(FileSentences* fileSentences) {
     LogDebug("\tFileSentencesGrammarAction(%d)", fileSentences);
-    return 1;
+    return 21;
 }
 
-FileSentences* FileSentenceGrammarAction(const FileSentence* fileSentence) {
+FileSentences* FileSentenceGrammarAction(FileSentence* fileSentence) {
     LogDebug("\tFileSentenceGrammarAction(%d)", fileSentence);
-    return 1;
+    return 22;
 }
 
-FileSentences* FileSentenceArrayGrammarAction(const FileSentence* fileSentence, const FileSentences* nextFileSentences) {
+FileSentences* FileSentenceArrayGrammarAction(FileSentence* fileSentence, FileSentences* nextFileSentences) {
     LogDebug("\tFileSentenceArrayGrammarAction(%d, %d)", fileSentence, nextFileSentences);
-    return 1;
+    return 23;
 }
 
-FileSentence* AddTreeGrammarAction(const TreeParameters* treeParameters) {
+FileSentence* AddTreeGrammarAction(TreeParameters* treeParameters) {
     LogDebug("\tAddTreeGrammarAction(%d)", treeParameters);
-    return 1;
+    return 24;
 }
 
-FileSentence* AddFilePathGrammarAction(const TreeParameters* fileParameter) {
+FileSentence* AddFilePathGrammarAction(TreeParameters* fileParameter) {
     LogDebug("\tAddFilePathGrammarAction(%d)", fileParameter);
-    return 1;
+    return 25;
 }
 
-FileSentence* AddLegendGrammarAction(const TreeParameters* legendParameters) {
+FileSentence* AddLegendGrammarAction(TreeParameters* legendParameters) {
     LogDebug("\tAddLegendGrammarAction(%d)", legendParameters);
-    return 1;
+    return 26;
 }
 
-TreeParameters* TreeParametersGrammarAction(const TreeArray* treeArray) {
+TreeParameters* TreeParametersGrammarAction(TreeArray* treeArray) {
     LogDebug("\tTreeParametersGrammarAction(%d)", treeArray);
-    return 1;
+    return 27;
 }
 
-FileParameter *FileParameterSentenceGrammarAction(const FilePath* filePath) {
+FileParameter* FileParameterSentenceGrammarAction(FilePath* filePath) {
     LogDebug("\tFileParameterSentenceGrammarAction(%d)", filePath);
-    return 1;
+    return 28;
 }
 
-TreeArray* TreeNameGrammarAction(const TreeName* treeName) {
+TreeArray* TreeNameGrammarAction(TreeName* treeName) {
     LogDebug("\tTreeNameGrammarAction(%d)", treeName);
-    return 1;
+    return 29;
 }
-TreeArray* TreeNameArrayGrammarAction(const TreeName* treeName, const TreeArray* nextTreeNames) {
+TreeArray* TreeNameArrayGrammarAction(TreeName* treeName, TreeArray* nextTreeNames) {
     LogDebug("\tTreeNameArrayGrammarAction(%d, %d)", treeName, nextTreeNames);
-    return 1;
+    return 30;
 }
 
-LegendParameters* LegendParametersGrammarAction(const LegendArray* legendArray) {
+LegendParameters* LegendParametersGrammarAction(LegendArray* legendArray) {
     LogDebug("\tLegendParametersGrammarAction(%d)", legendArray);
-    return 1;
+    return 31;
 }
 
-LegendArray* LegendTypeGrammarAction(const LegendType* legendType) {
+LegendArray* LegendTypeGrammarAction(LegendType* legendType) {
     LogDebug("\tLegendTypeGrammarAction(%d)", legendType);
-    return 1;
+    return 32;
 }
 
-LegendArray* LegendTypeArrayGrammarAction(const LegendType* legendType, const LegendArray* nextLegendTypes) {
+LegendArray* LegendTypeArrayGrammarAction(LegendType* legendType, LegendArray* nextLegendTypes) {
     LogDebug("\tLegendTypeArrayGrammarAction(%d, %d)", legendType, nextLegendTypes);
-    return 1;
+    return 33;
 }
 
 LegendType* LegendMaxGrammarAction() {
     LogDebug("\tLegendMaxGrammarAction");
-    return 1;
+    return 34;
 }
 
 LegendType* LegendMinGrammarAction() {
     LogDebug("\tLegendMinGrammarAction");
-    return 1;
+    return 35;
 }
 
 LegendType* LegendCountGrammarAction() {
     LogDebug("\tLegendCountGrammarAction");
-    return 1;
+    return 36;
 }
 
 LegendType* LegendBalancedGrammarAction() {
     LogDebug("\tLegendBalancedGrammarAction");
-    return 1;
+    return 37;
 }
 
 LegendType* LegendHeightGrammarAction() {
     LogDebug("\tLegendHeightGrammarAction");
-    return 1;
+    return 38;
 }

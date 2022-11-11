@@ -29,47 +29,21 @@
     LegendArray legendArray;
     LegendType legendType;
 
-	// No-terminales (frontend).
-	/*
-    int program;
-	int constantArray;
-	int constant;
-    int block;
-    int integerParameters;
-    int integerArray;
-
-    int declaration;
-    int declarationParameters;
-    int treeType;
-
-    int configureBlock;
-    int treeSentences;
-    int treeSentence;
-
-    int createBlock;
-    int fileSentences;
-    int fileSentence;
-    int fileParameter;
-    int treeParameters;
-    int treeArray;
-    int legendParameters;
-    int legendArray;
-    int legendType;
-    */
-
 	// Terminales.
 	token token;
+    int integer;
+    char* string;
 }
 
 // IDs y tipos de los tokens terminales generados desde Flex.
-%token <token> INTEGER
+%token <integer> INTEGER
 %token <token> BST
 %token <token> AVL
 %token <token> RBT
 // Tokens de arboles y archivos
 %token <token> TREE
-%token <token> VARIABLE_NAME
-%token <token> FILE_PATH
+%token <string> VARIABLE_NAME
+%token <string> FILE_PATH
 // Tokens para codigo trees
 %token <token> CONFIGURE
 %token <token> ADD_NODE

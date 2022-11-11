@@ -1,15 +1,19 @@
 #include "backend/code-generation/generator.h"
 #include "backend/support/logger.h"
 #include "backend/support/shared.h"
+#include "frontend/syntactic-analysis/bison-actions.h"
 #include "frontend/syntactic-analysis/bison-parser.h"
 #include <stdio.h>
 
 // Estado de la aplicación.
 CompilerState state;
+FILE* out;
+int yyparse();
 
 // Punto de entrada principal del compilador.
 const int main(const int argumentCount, const char** arguments) {
     // Inicializar estado de la aplicación.
+    // state" es una variable global que almacena el estado del compilador,
     state.program = NULL;
     state.result = 0;
     state.succeed = false;

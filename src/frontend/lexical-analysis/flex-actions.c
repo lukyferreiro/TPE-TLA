@@ -167,19 +167,19 @@ token SemiColonPatternAction(const char* lexeme) {
 
 token IntegerPatternAction(const char* lexeme, const int length) {
     LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
-    yylval.token = INTEGER;
+    yylval.integer = atoi(lexeme);
     return INTEGER;
 }
 
 token VariableNamePatternAction(const char* lexeme, const int length) {
     LogDebug("VariableNamePatternAction: '%s' (length = %d).", lexeme, length);
-    yylval.token = VARIABLE_NAME;
+    yylval.string = lexeme;
     return VARIABLE_NAME;
 }
 
 token FilePathPatternAction(const char* lexeme, const int length) {
     LogDebug("FilePathPatternAction: '%s' (length = %d).", lexeme, length);
-    yylval.token = FILE_PATH;
+    yylval.string = lexeme;
     return FILE_PATH;
 }
 

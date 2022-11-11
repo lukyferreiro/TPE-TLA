@@ -52,7 +52,6 @@ elseif (CMAKE_C_COMPILER_ID STREQUAL "Clang")
 else ()
 	message(NOTICE "El compilador de C es desconocido.")
 	message(NOTICE "No se generará el scanner con Flex.")
-	message(NOTICE "Incluya un 'elseif' adicional para manejar su compilador.")
 
 endif ()
 
@@ -61,12 +60,12 @@ endif ()
 add_executable(Compiler
 	src/main.c
 	src/backend/code-generation/generator.c
-	src/backend/domain-specific/calculator.c
 	src/backend/support/logger.c
 	src/frontend/lexical-analysis/flex-actions.c
 	src/frontend/lexical-analysis/flex-scanner.c
 	src/frontend/syntactic-analysis/bison-actions.c
 	src/frontend/syntactic-analysis/bison-parser.c
+	# TODO ver que agregar
 	# Agregar otros archivos *.c (si no se incluyen, no se compilan).
 	# ...
 )
