@@ -14,7 +14,8 @@
 %option yylineno
 
 /* Contextos de Flex. */
-%x COMMENT
+%x COMMENT 
+%x CONTEXT_FILE_PATH
 
 /* Patrones reutilizables. */
 /* https://www.regextester.com/115652 */
@@ -24,6 +25,7 @@ variableName    [A-Za-z][A-Za-z0-9]*
 /* de Flex similar al que utilizarían para manipular strings o comentarios, */
 /* y así evitar colisiones o solapamientos con otras secciones del programa. */
 /* filePath        ([/]{1}[a-z0-9.]+)+(\/?){1}$|^([\/]{1}) */
+filePath        ([/]{1}[A-Za-z0-9_-]+)+
 digit			[0-9]
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
@@ -34,6 +36,10 @@ whitespace		[ \f\n\r\t\v]
 <COMMENT>.									{ ; }
 <COMMENT>{endline}							{ ; }
 <COMMENT>"*/"								{ EndCommentPatternAction(); BEGIN(INITIAL); }
+
+"\""								        { BEGIN(CONTEXT_FILE_PATH); BeginContextFilePathPatternAction(); }
+<CONTEXT_FILE_PATH>{filePath}	            { return FilePathPatternAction(yytext, yyleng); }
+<CONTEXT_FILE_PATH>"\""						{ EndContextFilePathPatternAction(); BEGIN(INITIAL); }
 
 
 "tree"                                      { yylval.token = TREE; return TREE; }
@@ -69,7 +75,6 @@ whitespace		[ \f\n\r\t\v]
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }
 
 {variableName}                              { return VariableNamePatternAction(yytext, yyleng); }
-([/]{1}[a-z0-9.]+)+(\/?){1}$|^([\/]{1})     { return FilePathPatternAction(yytext, yyleng); }
 
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
 {endline}                                   { IgnoredPatternAction(yytext, yyleng); }

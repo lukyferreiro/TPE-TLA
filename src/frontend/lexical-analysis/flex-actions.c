@@ -27,6 +27,19 @@ void EndCommentPatternAction() {
     LogDebug("EndCommentPatternAction.");
 }
 
+void BeginContextFilePathPatternAction(){
+    LogDebug("BeginContextFilePathPatternAction.");
+    yylval.token = INVERTED_COMMA;
+    return INVERTED_COMMA;
+}
+
+void EndContextFilePathPatternAction(){
+    LogDebug("EndContextFilePathPatternAction.");
+    yylval.token = INVERTED_COMMA;
+    return INVERTED_COMMA;
+}
+
+
 token IntegerPatternAction(const char* lexeme, const int length) {
     LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
     char* integer = (char*)calloc(length + 1, sizeof(char));

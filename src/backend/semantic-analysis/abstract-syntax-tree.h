@@ -47,7 +47,7 @@ typedef struct {
 
 struct IntegerArray {
     Integer integer;
-    IntegerArray* IntegerArray;
+    IntegerArray* nextIntegerArray;
 };
 
 struct IntegerParameters{
@@ -65,7 +65,7 @@ typedef enum {
 
 struct LegendArray {
     LegendType legendType;
-    LegendArray* LegendArray;
+    LegendArray* nextLegendArray;
 };
 
 struct LegendParameters {
@@ -78,7 +78,7 @@ struct FileParameter{
 
 struct TreeArray {
     TreeName TreeName;
-    TreeArray* TreeArray;
+    TreeArray* nextTreeArray;
 };
 
 struct TreeParameters {
@@ -100,7 +100,7 @@ struct FileSentence {
 
 struct FileSentences {
     FileSentence* fileSentence;
-    FileSentences* fileSentences;
+    FileSentences* nextFileSentences;
 };
 
 struct CreateBlock {
@@ -115,12 +115,12 @@ typedef enum {
 
 struct TreeSentence {
     TreeSentenceType type;
-    IntegerParameters* integerParameters;
+    IntegerParameters* nextUIntegerParameters;
 }; 
 
 struct TreeSentences {
     TreeSentence* treeSentence;
-    TreeSentences* treeSentences;
+    TreeSentences* nextTreeSentences;
 };
 
 struct ConfigureBlock {
@@ -154,12 +154,12 @@ typedef enum {
 
 struct DeclarationParameters {
     DeclarationParametersType type;
-    IntegerParameters* integerParameters;
+    IntegerParameters* nextIntegerParameters;
 }; 
 
 struct Declaration {
     TreeName* treeName;
-    DeclarationParameters* declarationParameters;
+    DeclarationParameters* nextDeclarationParameters;
 }; 
 
 typedef enum {
@@ -175,7 +175,7 @@ struct Constant {
 
 struct ConstantArray {
     Constant* constant;
-    ConstantArray* constantArray;
+    ConstantArray* nextConstantArray;
 };
 
 struct Program {

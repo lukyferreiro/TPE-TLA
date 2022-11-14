@@ -23,6 +23,9 @@
 void BeginCommentPatternAction();
 void EndCommentPatternAction();
 
+void BeginContextFilePathPatternAction();
+void EndContextFilePathPatternAction();
+
 token IntegerPatternAction(const char* lexeme, const int length);
 token VariableNamePatternAction(const char* lexeme, const int length);
 token FilePathPatternAction(const char* lexeme, const int length);

@@ -62,6 +62,7 @@
 // Tokens solamente lexicos 
 %token <token> COMMA
 %token <token> SEMICOLON 
+%token <token> INVERTED_COMMA
 %token <token> OPEN_PARENTHESIS
 %token <token> CLOSE_PARENTHESIS
 %token <token> OPEN_CURLY
@@ -167,7 +168,7 @@ fileSentence: ADD_TREE treeParameters SEMICOLON                         { $$ = A
 treeParameters: OPEN_PARENTHESIS treeArray CLOSE_PARENTHESIS            { $$ = TreeParametersGrammarAction($2); }
     ;
 
-fileParameter: OPEN_PARENTHESIS FILE_PATH CLOSE_PARENTHESIS             { $$ = FileParameterSentenceGrammarAction($2); }
+fileParameter: OPEN_PARENTHESIS INVERTED_COMMA FILE_PATH INVERTED_COMMA CLOSE_PARENTHESIS             { $$ = FileParameterSentenceGrammarAction($3); }
     ;
 
 treeArray: VARIABLE_NAME                                                { $$ = TreeNameGrammarAction($1); }
