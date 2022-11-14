@@ -1,4 +1,4 @@
-tree miArbol;
+tree miArbol(1);
 
 configure bst miArbol {
     addNode(1);

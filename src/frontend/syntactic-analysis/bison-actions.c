@@ -34,7 +34,7 @@ void yyerror(const char* string) {
  */
 Program* ProgramGrammarAction(ConstantArray* constantArray) {
     LogDebug("\tProgramGrammarAction");
-    Program* program = malloc(sizeof(Program));
+    Program* program = (Program*) calloc(1, sizeof(Program));
     program->constantArray = constantArray;
     state.succeed = TRUE;
     state.program = program;

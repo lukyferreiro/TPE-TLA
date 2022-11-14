@@ -27,159 +27,30 @@ void EndCommentPatternAction() {
     LogDebug("EndCommentPatternAction.");
 }
 
-token TreePatternAction(const char* lexeme) {
-    LogDebug("TreePatternAction: '%s'.", lexeme);
-    yylval.token = TREE;
-    return TREE;
-}
-
-token ConfigurePatternAction(const char* lexeme) {
-    LogDebug("ConfigurePatternAction: '%s'.", lexeme);
-    yylval.token = CONFIGURE;
-    return CONFIGURE;
-}
-
-token CreatePatternAction(const char* lexeme) {
-    LogDebug("CreatePatternAction: '%s'.", lexeme);
-    yylval.token = CREATE;
-    return CREATE;
-}
-
-token AddNodePatternAction(const char* lexeme) {
-    LogDebug("AddNodePatternAction: '%s'.", lexeme);
-    yylval.token = ADD_NODE;
-    return ADD_NODE;
-}
-
-token DeleteNodePatternAction(const char* lexeme) {
-    LogDebug("DeleteNodePatternAction: '%s'.", lexeme);
-    yylval.token = DELETE_NODE;
-    return DELETE_NODE;
-}
-
-token FindNodePatternAction(const char* lexeme) {
-    LogDebug("FindNodePatternAction: '%s'.", lexeme);
-    yylval.token = FIND_NODE;
-    return FIND_NODE;
-}
-
-token AddTreePatternAction(const char* lexeme) {
-    LogDebug("AddTreePatternAction: '%s'.", lexeme);
-    yylval.token = ADD_TREE;
-    return ADD_TREE;
-}
-
-token AddFilePathPatternAction(const char* lexeme) {
-    LogDebug("AddFilePathPatternAction: '%s'.", lexeme);
-    yylval.token = ADD_FILE_PATH;
-    return ADD_FILE_PATH;
-}
-
-token AddLegendPatternAction(const char* lexeme) {
-    LogDebug("AddLegendPatternAction: '%s'.", lexeme);
-    yylval.token = ADD_LEGEND;
-    return ADD_LEGEND;
-}
-
-token BstPatternAction(const char* lexeme) {
-    LogDebug("BstPatternAction: '%s'.", lexeme);
-    yylval.token = BST;
-    return BST;
-}
-
-token AvlPatternAction(const char* lexeme) {
-    LogDebug("AvlPatternAction: '%s'.", lexeme);
-    yylval.token = AVL;
-    return AVL;
-}
-
-token RbtPatternAction(const char* lexeme) {
-    LogDebug("RbtPatternAction: '%s'.", lexeme);
-    yylval.token = RBT;
-    return RBT;
-}
-
-token MaxPatternAction(const char* lexeme) {
-    LogDebug("MaxPatternAction: '%s'.", lexeme);
-    yylval.token = MAX;
-    return MAX;
-}
-
-token MinPatternAction(const char* lexeme) {
-    LogDebug("MinPatternAction: '%s'.", lexeme);
-    yylval.token = MIN;
-    return MIN;
-}
-
-token CountPatternAction(const char* lexeme) {
-    LogDebug("CountPatternAction: '%s'.", lexeme);
-    yylval.token = COUNT;
-    return COUNT;
-}
-
-token HeightPatternAction(const char* lexeme) {
-    LogDebug("HeightPatternAction: '%s'.", lexeme);
-    yylval.token = HEIGHT;
-    return HEIGHT;
-}
-
-token BalancedPatternAction(const char* lexeme) {
-    LogDebug("BalancedPatternAction: '%s'.", lexeme);
-    yylval.token = BALANCED;
-    return BALANCED;
-}
-
-token OpenBlockPatternAction(const char* lexeme) {
-    LogDebug("OpenBlockPatternAction: '%s'.", lexeme);
-    yylval.token = OPEN_CURLY;
-    return OPEN_CURLY;
-}
-
-token CloseBlockPatternAction(const char* lexeme) {
-    LogDebug("CloseBlockPatternAction: '%s'.", lexeme);
-    yylval.token = CLOSE_CURLY;
-    return CLOSE_CURLY;
-}
-
-token OpenParenthesisPatternAction(const char* lexeme) {
-    LogDebug("OpenParenthesisPatternAction: '%s'.", lexeme);
-    yylval.token = OPEN_PARENTHESIS;
-    return OPEN_PARENTHESIS;
-}
-
-token CloseParenthesisPatternAction(const char* lexeme) {
-    LogDebug("CloseParenthesisPatternAction: '%s'.", lexeme);
-    yylval.token = CLOSE_PARENTHESIS;
-    return CLOSE_PARENTHESIS;
-}
-
-token CommaPatternAction(const char* lexeme) {
-    LogDebug("SemiColonPatternAction: '%s'", lexeme);
-    yylval.token = COMMA;
-    return COMMA;
-}
-
-token SemiColonPatternAction(const char* lexeme) {
-    LogDebug("SemiColonPatternAction: '%s'", lexeme);
-    yylval.token = SEMICOLON;
-    return SEMICOLON;
-}
-
 token IntegerPatternAction(const char* lexeme, const int length) {
     LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
-    yylval.integer = atoi(lexeme);
+    char* integer = (char*)calloc(length + 1, sizeof(char));
+    strncpy(integer, lexeme, length);
+    yylval.integer = atoi(integer);
+    free(integer);     //TODO chequear si hay que hacer este free
     return INTEGER;
 }
 
 token VariableNamePatternAction(const char* lexeme, const int length) {
     LogDebug("VariableNamePatternAction: '%s' (length = %d).", lexeme, length);
-    yylval.string = lexeme;
+    char* variableName = (char*)calloc(length + 1, sizeof(char));
+    strncpy(variableName, lexeme, length);
+    yylval.string = variableName;
+    free(variableName);     //TODO chequear si hay que hacer este free
     return VARIABLE_NAME;
 }
 
 token FilePathPatternAction(const char* lexeme, const int length) {
     LogDebug("FilePathPatternAction: '%s' (length = %d).", lexeme, length);
-    yylval.string = lexeme;
+    char* filePath = (char*)calloc(length + 1, sizeof(char));
+    strncpy(filePath, lexeme, length);
+    yylval.string = filePath;
+    free(filePath);     //TODO chequear si hay que hacer este free
     return FILE_PATH;
 }
 
@@ -191,7 +62,7 @@ void IgnoredPatternAction(const char* lexeme, const int length) {
 token UnknownPatternAction(const char* lexeme, const int length) {
     LogDebug("UnknownPatternAction: '%s' (length = %d).", lexeme, length);
     // TODO esto originalmente tenia el valor YYUNDEF
-    yylval.token = UNKNOWN;
     // Al emitir este token, el compilador aborta la ejecución.
+    yylval.token = UNKNOWN;
     return UNKNOWN;
 }

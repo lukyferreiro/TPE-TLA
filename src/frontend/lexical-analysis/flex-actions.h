@@ -23,35 +23,10 @@
 void BeginCommentPatternAction();
 void EndCommentPatternAction();
 
-token TreePatternAction(const char* lexeme);
-token ConfigurePatternAction(const char* lexeme);
-token CreatePatternAction(const char* lexeme);
-token AddNodePatternAction(const char* lexeme);
-token DeleteNodePatternAction(const char* lexeme);
-token FindNodePatternAction(const char* lexeme);
-token AddTreePatternAction(const char* lexeme);
-token AddFilePathPatternAction(const char* lexeme);
-token AddLegendPatternAction(const char* lexeme);
-token BstPatternAction(const char* lexeme);
-token AvlPatternAction(const char* lexeme);
-token RbtPatternAction(const char* lexeme);
-token MaxPatternAction(const char* lexeme);
-token MinPatternAction(const char* lexeme);
-token CountPatternAction(const char* lexeme);
-token HeightPatternAction(const char* lexeme);
-token BalancedPatternAction(const char* lexeme);
-token OpenBlockPatternAction(const char* lexeme);
-token CloseBlockPatternAction(const char* lexeme);
-token OpenParenthesisPatternAction(const char* lexeme);
-token CloseParenthesisPatternAction(const char* lexeme);
-token CommaPatternAction(const char* lexeme);
-token SemiColonPatternAction(const char* lexeme);
 token IntegerPatternAction(const char* lexeme, const int length);
 token VariableNamePatternAction(const char* lexeme, const int length);
 token FilePathPatternAction(const char* lexeme, const int length);
-// Regla que no hace nada, permite ignorar parte de la entrada.
 void IgnoredPatternAction(const char* lexeme, const int length);
-// Patrón desconocido, permite abortar debido a un error de sintaxis.
 token UnknownPatternAction(const char* lexeme, const int length);
 
 #endif

@@ -7,27 +7,27 @@
 // Tipos de dato utilizados en las variables semánticas ($$, $1, $2, etc.).
 %union {
 	// No-terminales (backend).
-    Program program;
-    ConstantArray constantArray;
-    Constant constant;
-    Block block;
-    IntegerParameters integerParameters;
-    IntegerArray integerArray;
-    Declaration declaration;
-    DeclarationParameters declarationParameters;
-    TreeType treeType;
-    ConfigureBlock configureBlock;
-    TreeSentences treeSentences;
-    TreeSentence treeSentence;
-    CreateBlock createBlock;
-    FileSentences fileSentences;
-    FileSentence fileSentence;
-    FileParameter fileParameter;
-    TreeParameters treeParameters;
-    TreeArray treeArray;
-    LegendParameters legendParameters;
-    LegendArray legendArray;
-    LegendType legendType;
+    Program* program;
+    ConstantArray* constantArray;
+    Constant* constant;
+    Block* block;
+    IntegerParameters* integerParameters;
+    IntegerArray* integerArray;
+    Declaration* declaration;
+    DeclarationParameters* declarationParameters;
+    TreeType* treeType;
+    ConfigureBlock* configureBlock;
+    TreeSentences* treeSentences;
+    TreeSentence* treeSentence;
+    CreateBlock* createBlock;
+    FileSentences* fileSentences;
+    FileSentence* fileSentence;
+    FileParameter* fileParameter;
+    TreeParameters* treeParameters;
+    TreeArray* treeArray;
+    LegendParameters* legendParameters;
+    LegendArray* legendArray;
+    LegendType* legendType;
 
 	// Terminales.
 	token token;
@@ -71,7 +71,6 @@
 //-----------------------------------------------------------
 // Tipos de dato para los no-terminales generados desde Bison.
 //-----------------------------------------------------------
-
 // Generales del programa
 %type <program> program
 %type <constantArray> constantArray
@@ -119,7 +118,6 @@ declaration: TREE VARIABLE_NAME declarationParameters SEMICOLON         { $$ = D
     ;
 
 declarationParameters: integerParameters                                { $$ = DeclarationTreeParametersGrammarAction($1); }
-    | %empty                                                            { $$ = 0; }
     ;
 
 integerParameters: OPEN_PARENTHESIS integerArray CLOSE_PARENTHESIS      { $$ = IntegerParametersGrammarAction($2); }

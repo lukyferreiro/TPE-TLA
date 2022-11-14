@@ -1,4 +1,4 @@
-tree miArbol;
+tree miArbol(1);
 
 configure avl miArbol {
     addNode(1);

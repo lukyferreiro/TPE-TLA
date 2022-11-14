@@ -4,6 +4,7 @@ tree miArbol2(10,11);
 configure rbt miArbol1 {
     addNode(2);
 }  
+
 configure rbt miArbol2 {
     deleteNode(10);
     addNode(3,7,5);

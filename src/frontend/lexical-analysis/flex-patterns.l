@@ -24,7 +24,6 @@ variableName    [A-Za-z][A-Za-z0-9]*
 /* de Flex similar al que utilizarían para manipular strings o comentarios, */
 /* y así evitar colisiones o solapamientos con otras secciones del programa. */
 /* filePath        ([/]{1}[a-z0-9.]+)+(\/?){1}$|^([\/]{1}) */
-/* filePath        [A-Za-z/]* */
 digit			[0-9]
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
@@ -37,35 +36,35 @@ whitespace		[ \f\n\r\t\v]
 <COMMENT>"*/"								{ EndCommentPatternAction(); BEGIN(INITIAL); }
 
 
-"tree"                                      { return TreePatternAction(yytext); }
-"configure"                                 { return ConfigurePatternAction(yytext); }
-"create"                                    { return CreatePatternAction(yytext); }
+"tree"                                      { yylval.token = TREE; return TREE; }
+"configure"                                 { yylval.token = CONFIGURE; return CONFIGURE; }
+"create"                                    { yylval.token = CREATE; return CREATE; }
 
-"addNode"                                   { return AddNodePatternAction(yytext); }
-"deleteNode"                                { return DeleteNodePatternAction(yytext); }
-"findNode"                                  { return FindNodePatternAction(yytext); }
+"addNode"                                   { yylval.token = ADD_NODE; return ADD_NODE; }
+"deleteNode"                                { yylval.token = DELETE_NODE; return DELETE_NODE; }
+"findNode"                                  { yylval.token = FIND_NODE; return FIND_NODE; }
 
-"addTree"                                   { return AddTreePatternAction(yytext); }
-"addFilePath"                               { return AddFilePathPatternAction(yytext); }
-"addLegend"                                 { return AddLegendPatternAction(yytext); }
+"addTree"                                   { yylval.token = ADD_TREE; return ADD_TREE; }
+"addFilePath"                               { yylval.token = ADD_FILE_PATH; return ADD_FILE_PATH; }
+"addLegend"                                 { yylval.token = ADD_LEGEND; return ADD_LEGEND; }
 
-"bst"                                       { return BstPatternAction(yytext); }
-"avl"                                       { return AvlPatternAction(yytext); }
-"rbt"                                       { return RbtPatternAction(yytext); }
+"bst"                                       { yylval.token = BST; return BST; }
+"avl"                                       { yylval.token = AVL; return AVL; }
+"rbt"                                       { yylval.token = RBT; return RBT; }
 
-"max"                                       { return MaxPatternAction(yytext); }
-"min"                                       { return MinPatternAction(yytext); }
-"count"                                     { return CountPatternAction(yytext); }
-"height"                                    { return HeightPatternAction(yytext); }
-"balanced"                                  { return BalancedPatternAction(yytext); }
+"max"                                       { yylval.token = MAX; return MAX; }
+"min"                                       { yylval.token = MIN; return MIN; }
+"count"                                     { yylval.token = COUNT; return COUNT; }
+"height"                                    { yylval.token = HEIGHT; return HEIGHT; }
+"balanced"                                  { yylval.token = BALANCED; return BALANCED; }
 
-"{"                                         { return OpenBlockPatternAction(yytext); }
-"}"                                         { return CloseBlockPatternAction(yytext); }
-"("                                         { return OpenParenthesisPatternAction(yytext); }
-")"                                         { return CloseParenthesisPatternAction(yytext); }
+"{"                                         { return OPEN_CURLY; }
+"}"                                         { return CLOSE_CURLY; }
+"("                                         { return OPEN_PARENTHESIS; }
+")"                                         { return CLOSE_PARENTHESIS; }
 
-","                                         { return CommaPatternAction(yytext); }
-";"                                         { return SemiColonPatternAction(yytext); }
+","                                         { return COMMA; }
+";"                                         { return SEMICOLON; }
 
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }
 
