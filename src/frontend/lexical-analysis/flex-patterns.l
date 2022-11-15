@@ -25,7 +25,7 @@ variableName    [A-Za-z][A-Za-z0-9]*
 /* de Flex similar al que utilizarían para manipular strings o comentarios, */
 /* y así evitar colisiones o solapamientos con otras secciones del programa. */
 /* filePath        ([/]{1}[a-z0-9.]+)+(\/?){1}$|^([\/]{1}) */
-filePath        ([/]{1}[A-Za-z0-9_-]+)+
+filePath        (([/]{1}[A-Za-z0-9_-]+)+([/]?){1})|(^([\/]{1}))
 digit			[0-9]
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
@@ -76,7 +76,7 @@ whitespace		[ \f\n\r\t\v]
 
 {variableName}                              { return VariableNamePatternAction(yytext, yyleng); }
 
-{whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
+{whitespace}+								{ IgnoredPatternAction(yytext, yyleng); }
 {endline}                                   { IgnoredPatternAction(yytext, yyleng); }
 
 .											{ return UnknownPatternAction(yytext, yyleng); }
