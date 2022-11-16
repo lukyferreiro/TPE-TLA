@@ -20,11 +20,6 @@
 /* Patrones reutilizables. */
 /* https://www.regextester.com/115652 */
 variableName    [A-Za-z][A-Za-z0-9]*
-/* TODO 
-/* El patrón para filePath es muy restrictivo, deberían usar un contexto */
-/* de Flex similar al que utilizarían para manipular strings o comentarios, */
-/* y así evitar colisiones o solapamientos con otras secciones del programa. */
-/* filePath        ([/]{1}[a-z0-9.]+)+(\/?){1}$|^([\/]{1}) */
 filePath        (([/]{1}[A-Za-z0-9_-]+)+([/]?){1})|(^([\/]{1}))
 digit			[0-9]
 endline			[\n]
@@ -37,9 +32,9 @@ whitespace		[ \f\n\r\t\v]
 <COMMENT>{endline}							{ ; }
 <COMMENT>"*/"								{ EndCommentPatternAction(); BEGIN(INITIAL); }
 
-"\""								        { BEGIN(CONTEXT_FILE_PATH); BeginContextFilePathPatternAction(); }
+"\""								        { BEGIN(CONTEXT_FILE_PATH); return BeginContextFilePathPatternAction(); }
 <CONTEXT_FILE_PATH>{filePath}	            { return FilePathPatternAction(yytext, yyleng); }
-<CONTEXT_FILE_PATH>"\""						{ EndContextFilePathPatternAction(); BEGIN(INITIAL); }
+<CONTEXT_FILE_PATH>"\""						{ BEGIN(INITIAL); return EndContextFilePathPatternAction(); }
 
 
 "tree"                                      { yylval.token = TREE; return TREE; }

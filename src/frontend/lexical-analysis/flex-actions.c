@@ -27,13 +27,13 @@ void EndCommentPatternAction() {
     LogDebug("EndCommentPatternAction.");
 }
 
-void BeginContextFilePathPatternAction(){
+token BeginContextFilePathPatternAction(){
     LogDebug("BeginContextFilePathPatternAction.");
     yylval.token = INVERTED_COMMA;
     return INVERTED_COMMA;
 }
 
-void EndContextFilePathPatternAction(){
+token EndContextFilePathPatternAction(){
     LogDebug("EndContextFilePathPatternAction.");
     yylval.token = INVERTED_COMMA;
     return INVERTED_COMMA;
@@ -54,7 +54,6 @@ token VariableNamePatternAction(const char* lexeme, const int length) {
     char* variableName = (char*)calloc(length + 1, sizeof(char));
     strncpy(variableName, lexeme, length);
     yylval.string = variableName;
-    free(variableName);     //TODO chequear si hay que hacer este free
     return VARIABLE_NAME;
 }
 
@@ -63,7 +62,7 @@ token FilePathPatternAction(const char* lexeme, const int length) {
     char* filePath = (char*)calloc(length + 1, sizeof(char));
     strncpy(filePath, lexeme, length);
     yylval.string = filePath;
-    free(filePath);     //TODO chequear si hay que hacer este free
+
     return FILE_PATH;
 }
 

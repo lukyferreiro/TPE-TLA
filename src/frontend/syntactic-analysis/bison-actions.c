@@ -43,7 +43,7 @@ Program* ProgramGrammarAction(ConstantArray* constantArray) {
 
 ConstantArray* ConstantGrammarAction(Constant* constant) {
     LogDebug("\tConstantGrammarAction");
-    //Constant* constant = malloc(sizeof(Constant));
+    
     //.. TODO
     return 1;
 }
