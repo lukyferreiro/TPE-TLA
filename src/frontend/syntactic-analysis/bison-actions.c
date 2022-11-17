@@ -8,9 +8,38 @@
 #define TRUE 1
 #define FALSE 0
 
-/**
- * Implementación de "bison-grammar.h".
- */
+static Integer* createInteger(int integer);
+static TreeName* createTreeName(char* treeName);
+static FileName* createFileName(char* fileName);
+static FilePath* createFilePath(char* filePath);
+
+static Integer* createInteger(int integer) {
+    LogDebug("\tInteger");
+    Integer* i = (Integer*) calloc(1, sizeof(Integer));
+    i->value = integer;
+    return i;
+}
+
+static TreeName* createTreeName(char* treeName) {
+    LogDebug("\tTreeName");
+    TreeName* t = (TreeName*) calloc(1, sizeof(TreeName));
+    t->name = treeName;
+    return t;
+}
+
+static FileName* createFileName(char* fileName) {
+    LogDebug("\tTreeName");
+    FileName* t = (FileName*) calloc(1, sizeof(FileName));
+    t->name = fileName;
+    return t;
+}
+
+static FilePath* createFilePath(char* filePath) {
+    LogDebug("\tTreeName");
+    FilePath* t = (FilePath*) calloc(1, sizeof(FilePath));
+    t->file_path = filePath;
+    return t;
+}
 
 /**
  * Esta función se ejecuta cada vez que se emite un error de sintaxis.
@@ -27,10 +56,9 @@ void yyerror(const char* string) {
 }
 
 /**
- * Esta acción se corresponde con el no-terminal que representa el símbolo
- * inicial de la gramática, y por ende, es el último en ser ejecutado, lo que
- * indica que efectivamente el programa de entrada se pudo generar con esta
- * gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
+ * Esta acción se corresponde con el no-terminal que representa el símbolo inicial de la gramática,
+ * y por ende, es el último en ser ejecutado, lo que indica que efectivamente el programa de entrada
+ * se pudo generar con esta gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
  */
 Program* ProgramGrammarAction(ConstantArray* constantArray) {
     LogDebug("\tProgramGrammarAction");
@@ -77,10 +105,10 @@ Constant* BlockGrammarAction(Block* block) {
     return c;
 }
 
-Declaration* DeclarationTreeGrammarAction(TreeName* treeName, DeclarationParameters* declarationParameters) {
+Declaration* DeclarationTreeGrammarAction(char* treeName, DeclarationParameters* declarationParameters) {
     LogDebug("\tDeclarationTreeGrammarAction(d, %d)", treeName, declarationParameters);
     Declaration* d = (Declaration*) calloc(1, sizeof(Declaration));
-    d->treeName = treeName;
+    d->treeName = createTreeName(treeName);
     d->declarationParameters = declarationParameters;
     return d;
 }
@@ -99,43 +127,43 @@ IntegerParameters* IntegerParametersGrammarAction(IntegerArray* nodesIntegerArra
     return i;
 }
 
-IntegerArray* IntegerConstantGrammarAction(Integer* node) {
+IntegerArray* IntegerConstantGrammarAction(int node) {
     LogDebug("\tIntegerConstantGrammarAction(%d)", node);
     IntegerArray* i = (IntegerArray*) calloc(1, sizeof(IntegerArray));
     i->type = ONE_INTEGER;
-    i->integer = node;
+    i->integer = createInteger(node);
     i->nextIntegerArray = NULL;
     return i;
 }
 
-IntegerArray* IntegerConstantArrayGrammarAction(Integer* node, IntegerArray* nextNodesIntegerArray) {
+IntegerArray* IntegerConstantArrayGrammarAction(int node, IntegerArray* nextNodesIntegerArray) {
     LogDebug("\tIntegerConstantArrayGrammarAction(%d, %d)", node, nextNodesIntegerArray);
     IntegerArray* i = (IntegerArray*) calloc(1, sizeof(IntegerArray));
     i->type = VARIOUS_INTEGER;
-    i->integer = node;
+    i->integer = createInteger(node);
     i->nextIntegerArray = nextNodesIntegerArray;
     return i;
 }
 
-Block* ConfigureBlockGrammarAction(TreeType* treeType, TreeName* treeName, ConfigureBlock* configureBlock) {
+Block* ConfigureBlockGrammarAction(TreeType* treeType, char* treeName, ConfigureBlock* configureBlock) {
     LogDebug("\tConfigureBlockGrammarAction(%d, %d, %d)", treeType, treeName, configureBlock);
     Block* b = (Block*) calloc(1, sizeof(Block));
     b->type = CONFIGURE_BLOCK;
     b->treeType = treeType;
-    b->treeName = treeName;
+    b->treeName = createTreeName(treeName);
     b->fileName = NULL;
     b->configureBlock = configureBlock;
     b->createBlock = NULL;
     return b;
 }
 
-Block* CreateBlockGrammarAction(FileName* fileName, CreateBlock* createBlock) {
+Block* CreateBlockGrammarAction(char* fileName, CreateBlock* createBlock) {
     LogDebug("\tCreateBlockGrammarAction(%d, %d)", fileName, createBlock);
     Block* b = (Block*) calloc(1, sizeof(Block));
     b->type = CREATE_BLOCK;
     b->treeType = NULL;
     b->treeName = NULL;
-    b->fileName = fileName;
+    b->fileName = createFileName(fileName);
     b->configureBlock = NULL;
     b->createBlock = createBlock;
     return b;
@@ -267,27 +295,27 @@ TreeParameters* TreeParametersGrammarAction(TreeArray* treeArray) {
     return t;
 }
 
-FileParameter* FileParameterSentenceGrammarAction(FilePath* filePath) {
+FileParameter* FileParameterSentenceGrammarAction(char* filePath) {
     LogDebug("\tFileParameterSentenceGrammarAction(%d)", filePath);
     FileParameter* f = (FileParameter*) calloc(1, sizeof(FileParameter));
-    f->filePath = filePath;
+    f->filePath = createFilePath(filePath);
     return f;
 }
 
-TreeArray* TreeNameGrammarAction(TreeName* treeName) {
+TreeArray* TreeNameGrammarAction(char* treeName) {
     LogDebug("\tTreeNameGrammarAction(%d)", treeName);
     TreeArray* t = (TreeArray*) calloc(1, sizeof(TreeArray));
     t->type = ONE_TREE;
-    t->treeName = treeName;
+    t->treeName = createTreeName(treeName);
     t->nextTreeArray = NULL;
     return t;
 }
 
-TreeArray* TreeNameArrayGrammarAction(TreeName* treeName, TreeArray* nextTreeNames) {
+TreeArray* TreeNameArrayGrammarAction(char* treeName, TreeArray* nextTreeNames) {
     LogDebug("\tTreeNameArrayGrammarAction(%d, %d)", treeName, nextTreeNames);
     TreeArray* t = (TreeArray*) calloc(1, sizeof(TreeArray));
     t->type = VARIOUS_TREES;
-    t->treeName = treeName;
+    t->treeName = createTreeName(treeName);
     t->nextTreeArray = nextTreeNames;
     return t;
 }

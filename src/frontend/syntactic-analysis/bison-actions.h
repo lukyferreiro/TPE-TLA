@@ -22,17 +22,17 @@ ConstantArray* ntArrayGrammarAction(Constant* nt, ConstantArray* nextntArray);
 Constant* DeclarationGrammarAction(Declaration* declaration);
 Constant* BlockGrammarAction(Block* block);
 
-Declaration* DeclarationTreeGrammarAction(TreeName* treeName, DeclarationParameters* declarationParameters);
+Declaration* DeclarationTreeGrammarAction(char* treeName, DeclarationParameters* declarationParameters);
 
 DeclarationParameters* DeclarationTreeParametersGrammarAction(IntegerParameters* treeIntegersParameters);
 
 IntegerParameters* IntegerParametersGrammarAction(IntegerArray* nodesIntegerArray);
 
-IntegerArray* IntegerntGrammarAction(Integer* node);
-IntegerArray* IntegerntArrayGrammarAction(Integer* node, IntegerArray* nextNodesIntegerArray);
+IntegerArray* IntegerntGrammarAction(int node);
+IntegerArray* IntegerntArrayGrammarAction(int node, IntegerArray* nextNodesIntegerArray);
 
-Block* ConfigureBlockGrammarAction(TreeType* treeType, TreeName* treeName, ConfigureBlock* configureBlock);
-Block* CreateBlockGrammarAction(FileName* fileName, CreateBlock* createBlock);
+Block* ConfigureBlockGrammarAction(TreeType* treeType, char* treeName, ConfigureBlock* configureBlock);
+Block* CreateBlockGrammarAction(char* fileName, CreateBlock* createBlock);
 
 TreeType TreeTypeBSTGrammarAction();
 TreeType TreeTypeAVLGrammarAction();
@@ -58,10 +58,10 @@ FileSentence* AddLegendGrammarAction(TreeParameters* legendParameters);
 
 TreeParameters* TreeParametersGrammarAction(TreeArray* treeArray);
 
-FileParameter* FileParameterSentenceGrammarAction(FilePath* filePath);
+FileParameter* FileParameterSentenceGrammarAction(char* filePath);
 
-TreeArray* TreeNameGrammarAction(TreeName* treeName);
-TreeArray* TreeNameArrayGrammarAction(TreeName* treeName, TreeArray* nextTreeNames);
+TreeArray* TreeNameGrammarAction(char* treeName);
+TreeArray* TreeNameArrayGrammarAction(char* treeName, TreeArray* nextTreeNames);
 
 LegendParameters* LegendParametersGrammarAction(LegendArray* legendArray);
 

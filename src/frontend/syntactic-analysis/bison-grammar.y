@@ -133,6 +133,7 @@ block: CONFIGURE treeType VARIABLE_NAME configureBlock                  { $$ = C
     | CREATE VARIABLE_NAME createBlock                                  { $$ = CreateBlockGrammarAction($2, $3); }
     ;
 
+
 treeType: BST                                                           { $$ = TreeTypeBSTGrammarAction(); }
     | AVL                                                               { $$ = TreeTypeAVLGrammarAction(); }
     | RBT                                                               { $$ = TreeTypeRBTGrammarAction(); }
