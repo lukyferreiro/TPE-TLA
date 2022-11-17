@@ -34,9 +34,9 @@ IntegerArray* IntegerntArrayGrammarAction(Integer* node, IntegerArray* nextNodes
 Block* ConfigureBlockGrammarAction(TreeType* treeType, TreeName* treeName, ConfigureBlock* configureBlock);
 Block* CreateBlockGrammarAction(FileName* fileName, CreateBlock* createBlock);
 
-TreeType* TreeTypeBSTGrammarAction();
-TreeType* TreeTypeAVLGrammarAction();
-TreeType* TreeTypeRBTGrammarAction();
+TreeType TreeTypeBSTGrammarAction();
+TreeType TreeTypeAVLGrammarAction();
+TreeType TreeTypeRBTGrammarAction();
 
 ConfigureBlock* TreeSentencesGrammarAction(TreeSentences* treeSentences);
 
@@ -68,10 +68,10 @@ LegendParameters* LegendParametersGrammarAction(LegendArray* legendArray);
 LegendArray* LegendTypeGrammarAction(LegendType* legendType);
 LegendArray* LegendTypeArrayGrammarAction(LegendType* legendType, LegendArray* nextLegendTypes);
 
-LegendType* LegendMaxGrammarAction();
-LegendType* LegendMinGrammarAction();
-LegendType* LegendCountGrammarAction();
-LegendType* LegendBalancedGrammarAction();
-LegendType* LegendHeightGrammarAction();
+LegendType LegendMaxGrammarAction();
+LegendType LegendMinGrammarAction();
+LegendType LegendCountGrammarAction();
+LegendType LegendBalancedGrammarAction();
+LegendType LegendHeightGrammarAction();
 
 #endif

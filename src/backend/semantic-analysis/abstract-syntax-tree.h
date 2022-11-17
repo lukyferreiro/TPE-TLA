@@ -7,6 +7,7 @@ typedef struct Constant Constant;
 typedef struct Declaration Declaration;
 typedef struct DeclarationParameters DeclarationParameters;
 typedef struct Block Block;
+typedef struct TreeTypeStruct TreeTypeStruct;
 typedef struct ConfigureBlock ConfigureBlock;
 typedef struct TreeSentences TreeSentences;
 typedef struct TreeSentence TreeSentence;
@@ -18,6 +19,7 @@ typedef struct TreeArray TreeArray;
 typedef struct FileParameter FileParameter;
 typedef struct LegendParameters LegendParameters;
 typedef struct LegendArray LegendArray;
+typedef struct LegendTypeStruct LegendTypeStruct;
 typedef struct IntegerParameters IntegerParameters;
 typedef struct IntegerArray IntegerArray;
 
@@ -26,7 +28,7 @@ typedef struct IntegerArray IntegerArray;
 //--------------------------------------------------
 
 typedef struct {
-    int* value;
+    int value;
 } Integer; 
 
 typedef struct {
@@ -45,8 +47,14 @@ typedef struct {
 //-------------------NO TERMINALES------------------
 //--------------------------------------------------
 
+typedef enum {
+    ONE_INTEGER,
+    VARIOUS_INTEGER
+} IntegerArrayType;
+
 struct IntegerArray {
-    Integer integer;
+    IntegerArrayType type;
+    Integer* integer;
     IntegerArray* nextIntegerArray;
 };
 
@@ -62,8 +70,13 @@ typedef enum {
     HEIGHT_LEGEND
 } LegendType;
 
+typedef enum {
+    ONE_LEGEND,
+    VARIOUS_LEGENDS
+} LegendArrayType;
 
 struct LegendArray {
+    LegendArrayType type;
     LegendType legendType;
     LegendArray* nextLegendArray;
 };
@@ -73,11 +86,17 @@ struct LegendParameters {
 }; 
 
 struct FileParameter{
-    FilePath filePath;
+    FilePath* filePath;
 }; 
 
+typedef enum {
+    ONE_TREE,
+    VARIOUS_TREES
+} TreeArrayType;
+
 struct TreeArray {
-    TreeName TreeName;
+    TreeArrayType type;
+    TreeName* treeName;
     TreeArray* nextTreeArray;
 };
 
@@ -98,7 +117,13 @@ struct FileSentence {
     LegendParameters* legendParameters;
 }; 
 
+typedef enum {
+    ONE_FILE_SENTENCE,
+    VARIOUS_FILE_SENTENCES
+} FileSentencesType;
+
 struct FileSentences {
+    FileSentencesType type;
     FileSentence* fileSentence;
     FileSentences* nextFileSentences;
 };
@@ -115,10 +140,16 @@ typedef enum {
 
 struct TreeSentence {
     TreeSentenceType type;
-    IntegerParameters* nextUIntegerParameters;
+    IntegerParameters* integerParameters;
 }; 
 
+typedef enum {
+    ONE_TREE_SENTENCE,
+    VARIOUS_TREE_SENTENCES
+} TreeSentencesType;
+
 struct TreeSentences {
+    TreeSentencesType type;
     TreeSentence* treeSentence;
     TreeSentences* nextTreeSentences;
 };
@@ -141,25 +172,19 @@ typedef enum {
 struct Block {
     BlockType type;
     TreeType treeType;
-    TreeName treeName;
-    FileName fileName;
+    TreeName* treeName;
+    FileName* fileName;
     ConfigureBlock* configureBlock;
     CreateBlock* createBlock;
 }; 
 
-typedef enum {
-    INTEGER_PARAMETERS,
-    EMPTY
-} DeclarationParametersType;
-
 struct DeclarationParameters {
-    DeclarationParametersType type;
-    IntegerParameters* nextIntegerParameters;
+    IntegerParameters* integerParameters;
 }; 
 
 struct Declaration {
     TreeName* treeName;
-    DeclarationParameters* nextDeclarationParameters;
+    DeclarationParameters* declarationParameters;
 }; 
 
 typedef enum {
@@ -173,7 +198,13 @@ struct Constant {
     Block* block;
 }; 
 
+typedef enum {
+    ONE_CONSTANT,
+    VARIOUS_CONSTANTS
+} ConstantArrayType;
+
 struct ConstantArray {
+    ConstantArrayType type;
     Constant* constant;
     ConstantArray* nextConstantArray;
 };

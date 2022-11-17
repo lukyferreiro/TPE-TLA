@@ -136,7 +136,7 @@ block: CONFIGURE treeType VARIABLE_NAME configureBlock                  { $$ = C
 treeType: BST                                                           { $$ = TreeTypeBSTGrammarAction(); }
     | AVL                                                               { $$ = TreeTypeAVLGrammarAction(); }
     | RBT                                                               { $$ = TreeTypeRBTGrammarAction(); }
-    | %empty                                                            { $$ = 0; }
+    | %empty                                                            { $$ = TreeTypeBSTGrammarAction(); }
     ;
 
 // Reglas para utilizar un bloque configure de tree
