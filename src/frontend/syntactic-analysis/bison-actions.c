@@ -108,7 +108,8 @@ Constant* BlockGrammarAction(Block* block) {
 Declaration* DeclarationTreeGrammarAction(char* treeName, DeclarationParameters* declarationParameters) {
     LogDebug("\tDeclarationTreeGrammarAction(d, %d)", treeName, declarationParameters);
     Declaration* d = (Declaration*) calloc(1, sizeof(Declaration));
-    d->treeName = createTreeName(treeName);
+    //TODO aca deberia crearlo en la tabla de simbolos
+    d->treeName = createTreeName(treeName); 
     d->declarationParameters = declarationParameters;
     return d;
 }
@@ -131,6 +132,7 @@ IntegerArray* IntegerConstantGrammarAction(int node) {
     LogDebug("\tIntegerConstantGrammarAction(%d)", node);
     IntegerArray* i = (IntegerArray*) calloc(1, sizeof(IntegerArray));
     i->type = ONE_INTEGER;
+    //TODO aca tengo que hacer algo mas???
     i->integer = createInteger(node);
     i->nextIntegerArray = NULL;
     return i;
@@ -140,6 +142,7 @@ IntegerArray* IntegerConstantArrayGrammarAction(int node, IntegerArray* nextNode
     LogDebug("\tIntegerConstantArrayGrammarAction(%d, %d)", node, nextNodesIntegerArray);
     IntegerArray* i = (IntegerArray*) calloc(1, sizeof(IntegerArray));
     i->type = VARIOUS_INTEGER;
+    //TODO aca tengo que hacer algo mas???
     i->integer = createInteger(node);
     i->nextIntegerArray = nextNodesIntegerArray;
     return i;
@@ -150,6 +153,7 @@ Block* ConfigureBlockGrammarAction(TreeType* treeType, char* treeName, Configure
     Block* b = (Block*) calloc(1, sizeof(Block));
     b->type = CONFIGURE_BLOCK;
     b->treeType = treeType;
+    //TODO aca en realidad tengo que ver si ya existe en la tabla de simbolos
     b->treeName = createTreeName(treeName);
     b->fileName = NULL;
     b->configureBlock = configureBlock;
@@ -163,6 +167,7 @@ Block* CreateBlockGrammarAction(char* fileName, CreateBlock* createBlock) {
     b->type = CREATE_BLOCK;
     b->treeType = NULL;
     b->treeName = NULL;
+    //TODO deberia agregarlo a la tabla de simbolos si no existe
     b->fileName = createFileName(fileName);
     b->configureBlock = NULL;
     b->createBlock = createBlock;
@@ -298,6 +303,7 @@ TreeParameters* TreeParametersGrammarAction(TreeArray* treeArray) {
 FileParameter* FileParameterSentenceGrammarAction(char* filePath) {
     LogDebug("\tFileParameterSentenceGrammarAction(%d)", filePath);
     FileParameter* f = (FileParameter*) calloc(1, sizeof(FileParameter));
+    //TODO deberia hacer algo con el filePath ??
     f->filePath = createFilePath(filePath);
     return f;
 }
@@ -306,6 +312,7 @@ TreeArray* TreeNameGrammarAction(char* treeName) {
     LogDebug("\tTreeNameGrammarAction(%d)", treeName);
     TreeArray* t = (TreeArray*) calloc(1, sizeof(TreeArray));
     t->type = ONE_TREE;
+    //TODO deberia ver si existen en la tabla de simbolos
     t->treeName = createTreeName(treeName);
     t->nextTreeArray = NULL;
     return t;
@@ -315,6 +322,7 @@ TreeArray* TreeNameArrayGrammarAction(char* treeName, TreeArray* nextTreeNames) 
     LogDebug("\tTreeNameArrayGrammarAction(%d, %d)", treeName, nextTreeNames);
     TreeArray* t = (TreeArray*) calloc(1, sizeof(TreeArray));
     t->type = VARIOUS_TREES;
+    //TODO deberia ver si existen en la tabla de simbolos
     t->treeName = createTreeName(treeName);
     t->nextTreeArray = nextTreeNames;
     return t;
