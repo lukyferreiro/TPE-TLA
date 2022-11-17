@@ -1,7 +1,7 @@
 #ifndef __SYMBOL_TABLE_H_
 #define __SYMBOL_TABLE_H_
 
-#include "../semantic-analysis/abstract-syntax-tree.h"
+#include "abstract-syntax-tree.h"
 #include "../support/khash.h"
 #include "../support/shared.h"
 

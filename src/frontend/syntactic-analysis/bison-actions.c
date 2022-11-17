@@ -1,5 +1,5 @@
 #include "bison-actions.h"
-#include "logger.h"
+#include "../../backend/support/logger.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,14 +13,12 @@ static FileName* createFileName(char* fileName);
 static FilePath* createFilePath(char* filePath);
 
 static Integer* createInteger(int integer) {
-    LogDebug("\tInteger");
     Integer* i = (Integer*)calloc(1, sizeof(Integer));
     i->value = integer;
     return i;
 }
 
 static TreeName* createTreeName(char* treeName) {
-    LogDebug("\tTreeName");
     if (create_variable_st(treeName, VARIABLE_TREE) == NULL) {
         LogError("El arbol %s ya estaba declarado\n", treeName);
         exit(1);
@@ -31,7 +29,6 @@ static TreeName* createTreeName(char* treeName) {
 }
 
 static FileName* createFileName(char* fileName) {
-    LogDebug("\tTreeName");
     if (create_variable_st(fileName, VARIABLE_FILE) == NULL) {
         LogError("Ya se encuentra declarado un archivo con el nombre %s\n", fileName);
         exit(1);
@@ -42,7 +39,6 @@ static FileName* createFileName(char* fileName) {
 }
 
 static FilePath* createFilePath(char* filePath) {
-    LogDebug("\tTreeName");
     FilePath* t = (FilePath*)calloc(1, sizeof(FilePath));
     t->file_path = filePath;
     return t;
@@ -113,7 +109,7 @@ Constant* BlockGrammarAction(Block* block) {
 }
 
 Declaration* DeclarationTreeGrammarAction(char* treeName, DeclarationParameters* declarationParameters) {
-    LogDebug("\tDeclarationTreeGrammarAction(d)", treeName);
+    LogDebug("\tDeclarationTreeGrammarAction(%d)", treeName);
     Declaration* d = (Declaration*)calloc(1, sizeof(Declaration));
     d->treeName = createTreeName(treeName);
     d->declarationParameters = declarationParameters;

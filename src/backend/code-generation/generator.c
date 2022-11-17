@@ -1,6 +1,5 @@
 #include "generator.h"
-#include "../semantic-analysis/symbol-table.h"
-#include "../support/logger.h"
+#include "../../backend/support/logger.h"
 
 void Generator(Program* program, FILE* out) {
     GeneratorConstantArray(program->constantArray, out);
@@ -59,7 +58,7 @@ void GeneratorIntegerArray(IntegerArray* integerArray, FILE* out) {
 }
 
 void GeneratorInteger(Integer* integer, FILE* out) {
-    fprint(out, "%d;", integer->value);
+    fprintf(out, "%d;", integer->value);
 }
 
 void GeneratorBlock(Block* block, FILE* out) {

@@ -70,3 +70,5 @@ build/
 bison-parser.c
 bison-parser.h
 flex-scanner.c
+
+*.dot

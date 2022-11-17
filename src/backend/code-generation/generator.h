@@ -1,7 +1,7 @@
 #ifndef _GENERATOR_H_
 #define _GENERATOR_H_
 
-#include "../../frontend/syntactic-analysis/bison-parser.h"
+#include "../../backend/semantic-analysis/abstract-syntax-tree.h"
 #include "../support/shared.h"
 
 void Generator(Program* program, FILE* out);
