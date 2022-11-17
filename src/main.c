@@ -1,9 +1,13 @@
 #include "backend/code-generation/generator.h"
+#include "backend/semantic-analysis/abstract-syntax-tree.h"
+#include "backend/semantic-analysis/symbol-table.h"
 #include "backend/support/logger.h"
 #include "backend/support/shared.h"
 #include "frontend/syntactic-analysis/bison-actions.h"
 #include "frontend/syntactic-analysis/bison-parser.h"
 #include <stdio.h>
+
+#define MAX_COMMAND 1024
 
 // Estado de la aplicación.
 CompilerState state;
@@ -13,7 +17,7 @@ int yyparse();
 // Punto de entrada principal del compilador.
 const int main(const int argumentCount, const char** arguments) {
     // Inicializar estado de la aplicación.
-    // state" es una variable global que almacena el estado del compilador,
+    // state" es una variable global que almacena el estado del compilador
     state.program = NULL;
     state.result = 0;
     state.succeed = false;
@@ -25,16 +29,36 @@ const int main(const int argumentCount, const char** arguments) {
 
     // Compilar el programa de entrada.
     LogInfo("Compilando...\n");
+    initialize_st();
     const int result = yyparse();
     switch (result) {
         case 0:
-            // La variable "succeed" es la que setea Bison al identificar el símbolo
-            // inicial de la gramática satisfactoriamente.
             if (state.succeed) {
+                char to_write_commands[MAX_COMMAND];
+                // Creamos el archivo .dot
+                out = fopen("./a.dot", "w+");
+                if (out == NULL) {
+                    perror("Se produjo un error en la aplicacion.");
+                    free_st();
+                    exit(EXIT_FAILURE);
+                }
+
+                fprintf(out, "strict graph {\n");
+                Generator(state.program, out);
+                fprintf(out, "}");
+                fclose(out);
+
+                sprintf(to_write_commands, "dot -Tsvg a.dot -o foto.svg");
+                if (system(to_write_commands) == -1) {
+                    LogError("Se produjo un error en la aplicacion.");
+                    free_st();
+                    return -1;
+                }
+
                 LogInfo("La compilacion fue exitosa.");
-                Generator(state.result);
             } else {
                 LogError("Se produjo un error en la aplicacion.");
+                free_st();
                 return -1;
             }
             break;
@@ -48,5 +72,6 @@ const int main(const int argumentCount, const char** arguments) {
             LogError("Error desconocido mientras se ejecutaba el analizador Bison (codigo %d).", result);
     }
     LogInfo("Fin.");
+    free_st();
     return result;
 }

@@ -65,6 +65,7 @@ add_executable(Compiler
 	src/frontend/lexical-analysis/flex-scanner.c
 	src/frontend/syntactic-analysis/bison-actions.c
 	src/frontend/syntactic-analysis/bison-parser.c
+	src/backend/semantic-analysis/symbol-table.c
 	# TODO ver que agregar
 	# Agregar otros archivos *.c (si no se incluyen, no se compilan).
 	# ...

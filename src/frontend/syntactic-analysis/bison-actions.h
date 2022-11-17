@@ -2,6 +2,7 @@
 #define BISON_ACTIONS_HEADER
 
 #include "../../backend/semantic-analysis/abstract-syntax-tree.h"
+#include "../../backend/semantic-analysis/symbol-table.h"
 #include "../../backend/support/shared.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,12 +32,12 @@ IntegerParameters* IntegerParametersGrammarAction(IntegerArray* nodesIntegerArra
 IntegerArray* IntegerntGrammarAction(int node);
 IntegerArray* IntegerntArrayGrammarAction(int node, IntegerArray* nextNodesIntegerArray);
 
-Block* ConfigureBlockGrammarAction(TreeType* treeType, char* treeName, ConfigureBlock* configureBlock);
+Block* ConfigureBlockGrammarAction(TreeTypeStruct* treeType, char* treeName, ConfigureBlock* configureBlock);
 Block* CreateBlockGrammarAction(char* fileName, CreateBlock* createBlock);
 
-TreeType TreeTypeBSTGrammarAction();
-TreeType TreeTypeAVLGrammarAction();
-TreeType TreeTypeRBTGrammarAction();
+TreeTypeStruct* TreeTypeBSTGrammarAction();
+TreeTypeStruct* TreeTypeAVLGrammarAction();
+TreeTypeStruct* TreeTypeRBTGrammarAction();
 
 ConfigureBlock* TreeSentencesGrammarAction(TreeSentences* treeSentences);
 
@@ -65,13 +66,13 @@ TreeArray* TreeNameArrayGrammarAction(char* treeName, TreeArray* nextTreeNames);
 
 LegendParameters* LegendParametersGrammarAction(LegendArray* legendArray);
 
-LegendArray* LegendTypeGrammarAction(LegendType* legendType);
-LegendArray* LegendTypeArrayGrammarAction(LegendType* legendType, LegendArray* nextLegendTypes);
+LegendArray* LegendTypeGrammarAction(LegendTypeStruct* legendType);
+LegendArray* LegendTypeArrayGrammarAction(LegendTypeStruct* legendType, LegendArray* nextLegendTypes);
 
-LegendType LegendMaxGrammarAction();
-LegendType LegendMinGrammarAction();
-LegendType LegendCountGrammarAction();
-LegendType LegendBalancedGrammarAction();
-LegendType LegendHeightGrammarAction();
+LegendTypeStruct* LegendMaxGrammarAction();
+LegendTypeStruct* LegendMinGrammarAction();
+LegendTypeStruct* LegendCountGrammarAction();
+LegendTypeStruct* LegendBalancedGrammarAction();
+LegendTypeStruct* LegendHeightGrammarAction();
 
 #endif

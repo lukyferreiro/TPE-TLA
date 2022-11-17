@@ -1,9 +1,8 @@
 #include "bison-actions.h"
-#include "../../backend/domain-specific/calculator.h"
-#include "../../backend/support/logger.h"
+#include "logger.h"
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -15,28 +14,36 @@ static FilePath* createFilePath(char* filePath);
 
 static Integer* createInteger(int integer) {
     LogDebug("\tInteger");
-    Integer* i = (Integer*) calloc(1, sizeof(Integer));
+    Integer* i = (Integer*)calloc(1, sizeof(Integer));
     i->value = integer;
     return i;
 }
 
 static TreeName* createTreeName(char* treeName) {
     LogDebug("\tTreeName");
-    TreeName* t = (TreeName*) calloc(1, sizeof(TreeName));
+    if (create_variable_st(treeName, VARIABLE_TREE) == NULL) {
+        LogError("El arbol %s ya estaba declarado\n", treeName);
+        exit(1);
+    }
+    TreeName* t = (TreeName*)calloc(1, sizeof(TreeName));
     t->name = treeName;
     return t;
 }
 
 static FileName* createFileName(char* fileName) {
     LogDebug("\tTreeName");
-    FileName* t = (FileName*) calloc(1, sizeof(FileName));
+    if (create_variable_st(fileName, VARIABLE_FILE) == NULL) {
+        LogError("Ya se encuentra declarado un archivo con el nombre %s\n", fileName);
+        exit(1);
+    }
+    FileName* t = (FileName*)calloc(1, sizeof(FileName));
     t->name = fileName;
     return t;
 }
 
 static FilePath* createFilePath(char* filePath) {
     LogDebug("\tTreeName");
-    FilePath* t = (FilePath*) calloc(1, sizeof(FilePath));
+    FilePath* t = (FilePath*)calloc(1, sizeof(FilePath));
     t->file_path = filePath;
     return t;
 }
@@ -62,7 +69,7 @@ void yyerror(const char* string) {
  */
 Program* ProgramGrammarAction(ConstantArray* constantArray) {
     LogDebug("\tProgramGrammarAction");
-    Program* program = (Program*) calloc(1, sizeof(Program));
+    Program* program = (Program*)calloc(1, sizeof(Program));
     program->constantArray = constantArray;
     state.succeed = TRUE;
     state.program = program;
@@ -71,7 +78,7 @@ Program* ProgramGrammarAction(ConstantArray* constantArray) {
 
 ConstantArray* ConstantGrammarAction(Constant* constant) {
     LogDebug("\tConstantGrammarAction");
-    ConstantArray* c = (ConstantArray*) calloc(1, sizeof(ConstantArray));
+    ConstantArray* c = (ConstantArray*)calloc(1, sizeof(ConstantArray));
     c->type = ONE_CONSTANT;
     c->constant = constant;
     c->nextConstantArray = NULL;
@@ -80,7 +87,7 @@ ConstantArray* ConstantGrammarAction(Constant* constant) {
 
 ConstantArray* ConstantArrayGrammarAction(Constant* constant, ConstantArray* nextConstantArray) {
     LogDebug("\tConstantArrayGrammarAction");
-    ConstantArray* c = (ConstantArray*) calloc(1, sizeof(ConstantArray));
+    ConstantArray* c = (ConstantArray*)calloc(1, sizeof(ConstantArray));
     c->type = VARIOUS_CONSTANTS;
     c->constant = constant;
     c->nextConstantArray = nextConstantArray;
@@ -88,8 +95,8 @@ ConstantArray* ConstantArrayGrammarAction(Constant* constant, ConstantArray* nex
 }
 
 Constant* DeclarationGrammarAction(Declaration* declaration) {
-    LogDebug("\tDeclarationGrammarAction(%d)", declaration);
-    Constant* c = (Constant*) calloc(1, sizeof(Constant));
+    LogDebug("\tDeclarationGrammarAction");
+    Constant* c = (Constant*)calloc(1, sizeof(Constant));
     c->type = DECLARATION;
     c->declaration = declaration;
     c->block = NULL;
@@ -97,8 +104,8 @@ Constant* DeclarationGrammarAction(Declaration* declaration) {
 }
 
 Constant* BlockGrammarAction(Block* block) {
-    LogDebug("\tBlockGrammarAction(%d)", block);
-    Constant* c = (Constant*) calloc(1, sizeof(Constant));
+    LogDebug("\tBlockGrammarAction");
+    Constant* c = (Constant*)calloc(1, sizeof(Constant));
     c->type = BLOCK;
     c->declaration = NULL;
     c->block = block;
@@ -106,99 +113,116 @@ Constant* BlockGrammarAction(Block* block) {
 }
 
 Declaration* DeclarationTreeGrammarAction(char* treeName, DeclarationParameters* declarationParameters) {
-    LogDebug("\tDeclarationTreeGrammarAction(d, %d)", treeName, declarationParameters);
-    Declaration* d = (Declaration*) calloc(1, sizeof(Declaration));
-    //TODO aca deberia crearlo en la tabla de simbolos
-    d->treeName = createTreeName(treeName); 
+    LogDebug("\tDeclarationTreeGrammarAction(d)", treeName);
+    Declaration* d = (Declaration*)calloc(1, sizeof(Declaration));
+    d->treeName = createTreeName(treeName);
     d->declarationParameters = declarationParameters;
     return d;
 }
 
 DeclarationParameters* DeclarationTreeParametersGrammarAction(IntegerParameters* treeIntegersParameters) {
-    LogDebug("\tDeclarationTreeParametersGrammarAction(%d)", treeIntegersParameters);
-    DeclarationParameters* d = (DeclarationParameters*) calloc(1, sizeof(DeclarationParameters));
+    LogDebug("\tDeclarationTreeParametersGrammarAction");
+    DeclarationParameters* d = (DeclarationParameters*)calloc(1, sizeof(DeclarationParameters));
     d->integerParameters = treeIntegersParameters;
     return d;
 }
 
 IntegerParameters* IntegerParametersGrammarAction(IntegerArray* nodesIntegerArray) {
-    LogDebug("\tIntegerParametersGrammarAction(%d)", nodesIntegerArray);
-    IntegerParameters* i = (IntegerParameters*) calloc(1, sizeof(IntegerParameters));
+    LogDebug("\tIntegerParametersGrammarAction");
+    IntegerParameters* i = (IntegerParameters*)calloc(1, sizeof(IntegerParameters));
     i->integerArray = nodesIntegerArray;
     return i;
 }
 
 IntegerArray* IntegerConstantGrammarAction(int node) {
     LogDebug("\tIntegerConstantGrammarAction(%d)", node);
-    IntegerArray* i = (IntegerArray*) calloc(1, sizeof(IntegerArray));
+    IntegerArray* i = (IntegerArray*)calloc(1, sizeof(IntegerArray));
     i->type = ONE_INTEGER;
-    //TODO aca tengo que hacer algo mas???
+    // TODO aca tengo que hacer algo mas???
     i->integer = createInteger(node);
     i->nextIntegerArray = NULL;
     return i;
 }
 
 IntegerArray* IntegerConstantArrayGrammarAction(int node, IntegerArray* nextNodesIntegerArray) {
-    LogDebug("\tIntegerConstantArrayGrammarAction(%d, %d)", node, nextNodesIntegerArray);
-    IntegerArray* i = (IntegerArray*) calloc(1, sizeof(IntegerArray));
+    LogDebug("\tIntegerConstantArrayGrammarAction(%d)", node);
+    IntegerArray* i = (IntegerArray*)calloc(1, sizeof(IntegerArray));
     i->type = VARIOUS_INTEGER;
-    //TODO aca tengo que hacer algo mas???
+    // TODO aca tengo que hacer algo mas???
     i->integer = createInteger(node);
     i->nextIntegerArray = nextNodesIntegerArray;
     return i;
 }
 
-Block* ConfigureBlockGrammarAction(TreeType* treeType, char* treeName, ConfigureBlock* configureBlock) {
-    LogDebug("\tConfigureBlockGrammarAction(%d, %d, %d)", treeType, treeName, configureBlock);
-    Block* b = (Block*) calloc(1, sizeof(Block));
-    b->type = CONFIGURE_BLOCK;
-    b->treeType = treeType;
-    //TODO aca en realidad tengo que ver si ya existe en la tabla de simbolos
-    b->treeName = createTreeName(treeName);
-    b->fileName = NULL;
-    b->configureBlock = configureBlock;
-    b->createBlock = NULL;
-    return b;
+Block* ConfigureBlockGrammarAction(TreeTypeStruct* treeType, char* treeName, ConfigureBlock* configureBlock) {
+    LogDebug("\tConfigureBlockGrammarAction(%s)", treeName);
+
+    Variable* var = get_variable_st(treeName);
+    if (var == NULL) {
+        LogError("El arbol %s no esta declarado", treeName);
+        exit(1);
+    }
+
+    if (var->name == treeName && var->type == VARIABLE_TREE) {
+        Block* b = (Block*)calloc(1, sizeof(Block));
+        var->treeType = treeType;
+        b->type = CONFIGURE_BLOCK;
+        b->treeType = treeType;
+        b->treeName = treeName;
+        b->fileName = NULL;
+        b->configureBlock = configureBlock;
+        b->createBlock = NULL;
+        return b;
+    } else {
+        // Si estoy aca, ya existe esta variable, pero es del tipo FILE_PATH
+        LogError("La variable 'tree' %s ya se encuentra declarada como un file path", treeName);
+        exit(1);
+    }
 }
 
 Block* CreateBlockGrammarAction(char* fileName, CreateBlock* createBlock) {
-    LogDebug("\tCreateBlockGrammarAction(%d, %d)", fileName, createBlock);
-    Block* b = (Block*) calloc(1, sizeof(Block));
+    LogDebug("\tCreateBlockGrammarAction(%s)", fileName);
+    Block* b = (Block*)calloc(1, sizeof(Block));
     b->type = CREATE_BLOCK;
-    b->treeType = NULL;
+    b->treeType = NONE;
     b->treeName = NULL;
-    //TODO deberia agregarlo a la tabla de simbolos si no existe
     b->fileName = createFileName(fileName);
     b->configureBlock = NULL;
     b->createBlock = createBlock;
     return b;
 }
 
-TreeType TreeTypeBSTGrammarAction() {
+TreeTypeStruct* TreeTypeBSTGrammarAction() {
     LogDebug("\tTreeTypeBSTGrammarAction");
-    return BST_TYPE;
+    TreeTypeStruct* t = (TreeTypeStruct*)calloc(1, sizeof(TreeTypeStruct));
+    t->treeType = BST_TYPE;
+    return t;
 }
 
-TreeType TreeTypeAVLGrammarAction() {
+TreeTypeStruct* TreeTypeAVLGrammarAction() {
     LogDebug("\tTreeTypeAVLGrammarAction");
-    return AVL_TYPE;
+    TreeTypeStruct* t = (TreeTypeStruct*)calloc(1, sizeof(TreeTypeStruct));
+    t->treeType = AVL_TYPE;
+    return t;
 }
 
-TreeType TreeTypeRBTGrammarAction() {
+TreeTypeStruct* TreeTypeRBTGrammarAction() {
     LogDebug("\tTreeTypeRBTGrammarAction");
-    return RBT_TYPE;
+    TreeTypeStruct* t = (TreeTypeStruct*)calloc(1, sizeof(TreeTypeStruct));
+    t->treeType = RBT_TYPE;
+    return t;
 }
 
 ConfigureBlock* TreeSentencesGrammarAction(TreeSentences* treeSentences) {
-    LogDebug("\tTreeSentencesGrammarAction(%d)", treeSentences);
-    ConfigureBlock* c = (ConfigureBlock*) calloc(1, sizeof(ConfigureBlock));
+    LogDebug("\tTreeSentencesGrammarAction");
+    ConfigureBlock* c = (ConfigureBlock*)calloc(1, sizeof(ConfigureBlock));
     c->treeSentences = treeSentences;
     return c;
 }
 
 TreeSentences* TreeSentenceGrammarAction(TreeSentence* treeSentence) {
-    LogDebug("\tTreeSentenceGrammarAction(%d)", treeSentence);
-    TreeSentences* t = (TreeSentences*) calloc(1, sizeof(TreeSentences));
+    LogDebug("\tTreeSentenceGrammarAction");
+    TreeSentences* t = (TreeSentences*)calloc(1, sizeof(TreeSentences));
     t->type = ONE_TREE_SENTENCE;
     t->treeSentence = treeSentence;
     t->nextTreeSentences = NULL;
@@ -206,8 +230,8 @@ TreeSentences* TreeSentenceGrammarAction(TreeSentence* treeSentence) {
 }
 
 TreeSentences* TreeSentenceArrayGrammarAction(TreeSentence* treeSentence, TreeSentences* nextTreeSentences) {
-    LogDebug("\tTreeSentenceArrayGrammarAction(%d, %d)", treeSentence, nextTreeSentences);
-    TreeSentences* t = (TreeSentences*) calloc(1, sizeof(TreeSentences));
+    LogDebug("\tTreeSentenceArrayGrammarAction");
+    TreeSentences* t = (TreeSentences*)calloc(1, sizeof(TreeSentences));
     t->type = VARIOUS_TREE_SENTENCES;
     t->treeSentence = treeSentence;
     t->nextTreeSentences = nextTreeSentences;
@@ -215,39 +239,39 @@ TreeSentences* TreeSentenceArrayGrammarAction(TreeSentence* treeSentence, TreeSe
 }
 
 TreeSentence* AddNodeGrammarAction(IntegerParameters* integerParameters) {
-    LogDebug("\tAddNodeGrammarAction(%d)", integerParameters);
-    TreeSentence* t = (TreeSentence*) calloc(1, sizeof(TreeSentence));
+    LogDebug("\tAddNodeGrammarAction");
+    TreeSentence* t = (TreeSentence*)calloc(1, sizeof(TreeSentence));
     t->type = ADD_NODE_SENTENCE;
     t->integerParameters = integerParameters;
     return t;
 }
 
 TreeSentence* DeleteNodeGrammarAction(IntegerParameters* integerParameters) {
-    LogDebug("\tDeleteNodeGrammarAction(%d)", integerParameters);
-    TreeSentence* t = (TreeSentence*) calloc(1, sizeof(TreeSentence));
+    LogDebug("\tDeleteNodeGrammarAction");
+    TreeSentence* t = (TreeSentence*)calloc(1, sizeof(TreeSentence));
     t->type = DELETE_NODE_SENTENCE;
     t->integerParameters = integerParameters;
     return t;
 }
 
 TreeSentence* FindNodeGrammarAction(IntegerParameters* integerParameters) {
-    LogDebug("\tFindNodeGrammarAction(%d)", integerParameters);
-    TreeSentence* t = (TreeSentence*) calloc(1, sizeof(TreeSentence));
+    LogDebug("\tFindNodeGrammarAction");
+    TreeSentence* t = (TreeSentence*)calloc(1, sizeof(TreeSentence));
     t->type = FIND_NODE_SENTENCE;
     t->integerParameters = integerParameters;
     return t;
 }
 
 CreateBlock* FileSentencesGrammarAction(FileSentences* fileSentences) {
-    LogDebug("\tFileSentencesGrammarAction(%d)", fileSentences);
-    CreateBlock* c = (CreateBlock*) calloc(1, sizeof(CreateBlock));
+    LogDebug("\tFileSentencesGrammarAction");
+    CreateBlock* c = (CreateBlock*)calloc(1, sizeof(CreateBlock));
     c->fileSentences = fileSentences;
     return c;
 }
 
 FileSentences* FileSentenceGrammarAction(FileSentence* fileSentence) {
-    LogDebug("\tFileSentenceGrammarAction(%d)", fileSentence);
-    FileSentences* f = (FileSentences*) calloc(1, sizeof(FileSentences));
+    LogDebug("\tFileSentenceGrammarAction");
+    FileSentences* f = (FileSentences*)calloc(1, sizeof(FileSentences));
     f->type = ONE_FILE_SENTENCE;
     f->fileSentence = fileSentence;
     f->nextFileSentences = NULL;
@@ -255,8 +279,8 @@ FileSentences* FileSentenceGrammarAction(FileSentence* fileSentence) {
 }
 
 FileSentences* FileSentenceArrayGrammarAction(FileSentence* fileSentence, FileSentences* nextFileSentences) {
-    LogDebug("\tFileSentenceArrayGrammarAction(%d, %d)", fileSentence, nextFileSentences);
-    FileSentences* f = (FileSentences*) calloc(1, sizeof(FileSentences));
+    LogDebug("\tFileSentenceArrayGrammarAction");
+    FileSentences* f = (FileSentences*)calloc(1, sizeof(FileSentences));
     f->type = VARIOUS_FILE_SENTENCES;
     f->fileSentence = fileSentence;
     f->nextFileSentences = nextFileSentences;
@@ -264,8 +288,8 @@ FileSentences* FileSentenceArrayGrammarAction(FileSentence* fileSentence, FileSe
 }
 
 FileSentence* AddTreeGrammarAction(TreeParameters* treeParameters) {
-    LogDebug("\tAddTreeGrammarAction(%d)", treeParameters);
-    FileSentence* f = (FileSentence*) calloc(1, sizeof(FileSentence));
+    LogDebug("\tAddTreeGrammarAction");
+    FileSentence* f = (FileSentence*)calloc(1, sizeof(FileSentence));
     f->type = ADD_TREE_SENTENCE;
     f->treeParameters = treeParameters;
     f->fileParameter = NULL;
@@ -274,8 +298,8 @@ FileSentence* AddTreeGrammarAction(TreeParameters* treeParameters) {
 }
 
 FileSentence* AddFilePathGrammarAction(TreeParameters* fileParameter) {
-    LogDebug("\tAddFilePathGrammarAction(%d)", fileParameter);
-    FileSentence* f = (FileSentence*) calloc(1, sizeof(FileSentence));
+    LogDebug("\tAddFilePathGrammarAction");
+    FileSentence* f = (FileSentence*)calloc(1, sizeof(FileSentence));
     f->type = ADD_FILE_PATH_SENTENCE;
     f->treeParameters = NULL;
     f->fileParameter = fileParameter;
@@ -284,8 +308,8 @@ FileSentence* AddFilePathGrammarAction(TreeParameters* fileParameter) {
 }
 
 FileSentence* AddLegendGrammarAction(TreeParameters* legendParameters) {
-    LogDebug("\tAddLegendGrammarAction(%d)", legendParameters);
-    FileSentence* f = (FileSentence*) calloc(1, sizeof(FileSentence));
+    LogDebug("\tAddLegendGrammarAction");
+    FileSentence* f = (FileSentence*)calloc(1, sizeof(FileSentence));
     f->type = ADD_LEGEND_SENTENCE;
     f->treeParameters = NULL;
     f->fileParameter = NULL;
@@ -294,86 +318,119 @@ FileSentence* AddLegendGrammarAction(TreeParameters* legendParameters) {
 }
 
 TreeParameters* TreeParametersGrammarAction(TreeArray* treeArray) {
-    LogDebug("\tTreeParametersGrammarAction(%d)", treeArray);
-    TreeParameters* t = (TreeParameters*) calloc(1, sizeof(TreeParameters));
+    LogDebug("\tTreeParametersGrammarAction");
+    TreeParameters* t = (TreeParameters*)calloc(1, sizeof(TreeParameters));
     t->treeArray = treeArray;
     return t;
 }
 
 FileParameter* FileParameterSentenceGrammarAction(char* filePath) {
-    LogDebug("\tFileParameterSentenceGrammarAction(%d)", filePath);
-    FileParameter* f = (FileParameter*) calloc(1, sizeof(FileParameter));
-    //TODO deberia hacer algo con el filePath ??
+    LogDebug("\tFileParameterSentenceGrammarAction(%s)", filePath);
+    FileParameter* f = (FileParameter*)calloc(1, sizeof(FileParameter));
     f->filePath = createFilePath(filePath);
     return f;
 }
 
 TreeArray* TreeNameGrammarAction(char* treeName) {
-    LogDebug("\tTreeNameGrammarAction(%d)", treeName);
-    TreeArray* t = (TreeArray*) calloc(1, sizeof(TreeArray));
-    t->type = ONE_TREE;
-    //TODO deberia ver si existen en la tabla de simbolos
-    t->treeName = createTreeName(treeName);
-    t->nextTreeArray = NULL;
-    return t;
+    LogDebug("\tTreeNameGrammarAction(%s)", treeName);
+
+    Variable* var = get_variable_st(treeName);
+    if (var == NULL) {
+        LogError("El arbol %s no esta declarado", treeName);
+        exit(1);
+    }
+
+    if (var->name == treeName && var->type == VARIABLE_TREE) {
+        TreeArray* t = (TreeArray*)calloc(1, sizeof(TreeArray));
+        t->type = ONE_TREE;
+        t->treeName = treeName;
+        t->nextTreeArray = NULL;
+        return t;
+    } else {
+        // Si estoy aca, ya existe esta variable, pero es del tipo FILE_PATH
+        LogError("La variable 'tree' %s ya se encuentra declarada como un file path", treeName);
+        exit(1);
+    }
 }
 
 TreeArray* TreeNameArrayGrammarAction(char* treeName, TreeArray* nextTreeNames) {
-    LogDebug("\tTreeNameArrayGrammarAction(%d, %d)", treeName, nextTreeNames);
-    TreeArray* t = (TreeArray*) calloc(1, sizeof(TreeArray));
-    t->type = VARIOUS_TREES;
-    //TODO deberia ver si existen en la tabla de simbolos
-    t->treeName = createTreeName(treeName);
-    t->nextTreeArray = nextTreeNames;
-    return t;
+    LogDebug("\tTreeNameArrayGrammarAction(%s)", treeName);
+
+    Variable* var = get_variable_st(treeName);
+    if (var == NULL) {
+        LogError("El arbol %s no esta declarado", treeName);
+        exit(1);
+    }
+
+    if (var->name == treeName && var->type == VARIABLE_TREE) {
+        TreeArray* t = (TreeArray*)calloc(1, sizeof(TreeArray));
+        t->type = VARIOUS_TREES;
+        t->treeName = treeName;
+        t->nextTreeArray = nextTreeNames;
+        return t;
+    } else {
+        // Si estoy aca, ya existe esta variable, pero es del tipo FILE_PATH
+        LogError("La variable 'tree' %s ya se encuentra declarada como un file path", treeName);
+        exit(1);
+    }
 }
 
 LegendParameters* LegendParametersGrammarAction(LegendArray* legendArray) {
-    LogDebug("\tLegendParametersGrammarAction(%d)", legendArray);
-    LegendParameters* l = (LegendParameters*) calloc(1, sizeof(LegendParameters));
+    LogDebug("\tLegendParametersGrammarAction");
+    LegendParameters* l = (LegendParameters*)calloc(1, sizeof(LegendParameters));
     l->legendArray = legendArray;
     return l;
 }
 
-LegendArray* LegendTypeGrammarAction(LegendType* legendType) {
-    LogDebug("\tLegendTypeGrammarAction(%d)", legendType);
-    LegendArray* l = (LegendArray*) calloc(1, sizeof(LegendArray));
+LegendArray* LegendTypeGrammarAction(LegendTypeStruct* legendType) {
+    LogDebug("\tLegendTypeGrammarAction");
+    LegendArray* l = (LegendArray*)calloc(1, sizeof(LegendArray));
     l->type = ONE_LEGEND;
     l->legendType = legendType;
     l->nextLegendArray = NULL;
     return l;
 }
 
-LegendArray* LegendTypeArrayGrammarAction(LegendType* legendType, LegendArray* nextLegendTypes) {
-    LogDebug("\tLegendTypeArrayGrammarAction(%d, %d)", legendType, nextLegendTypes);
-    LegendArray* l = (LegendArray*) calloc(1, sizeof(LegendArray));
+LegendArray* LegendTypeArrayGrammarAction(LegendTypeStruct* legendType, LegendArray* nextLegendTypes) {
+    LogDebug("\tLegendTypeArrayGrammarAction");
+    LegendArray* l = (LegendArray*)calloc(1, sizeof(LegendArray));
     l->type = VARIOUS_LEGENDS;
     l->legendType = legendType;
     l->nextLegendArray = nextLegendTypes;
     return l;
 }
 
-LegendType LegendMaxGrammarAction() {
+LegendTypeStruct* LegendMaxGrammarAction() {
     LogDebug("\tLegendMaxGrammarAction");
-    return MAX_LEGEND;
+    LegendTypeStruct* l = (LegendTypeStruct*)calloc(1, sizeof(LegendTypeStruct));
+    l->legendType = MAX_LEGEND;
+    return l;
 }
 
-LegendType LegendMinGrammarAction() {
+LegendTypeStruct* LegendMinGrammarAction() {
     LogDebug("\tLegendMinGrammarAction");
-    return MIN_LEGEND;
+    LegendTypeStruct* l = (LegendTypeStruct*)calloc(1, sizeof(LegendTypeStruct));
+    l->legendType = MIN_LEGEND;
+    return l;
 }
 
-LegendType LegendCountGrammarAction() {
+LegendTypeStruct* LegendCountGrammarAction() {
     LogDebug("\tLegendCountGrammarAction");
-    return COUNT_LEGEND;
+    LegendTypeStruct* l = (LegendTypeStruct*)calloc(1, sizeof(LegendTypeStruct));
+    l->legendType = COUNT_LEGEND;
+    return l;
 }
 
-LegendType LegendBalancedGrammarAction() {
+LegendTypeStruct* LegendBalancedGrammarAction() {
     LogDebug("\tLegendBalancedGrammarAction");
-    return BALANCED_LEGEND;
+    LegendTypeStruct* l = (LegendTypeStruct*)calloc(1, sizeof(LegendTypeStruct));
+    l->legendType = BALANCED_LEGEND;
+    return l;
 }
 
-LegendType LegendHeightGrammarAction() {
+LegendTypeStruct* LegendHeightGrammarAction() {
     LogDebug("\tLegendHeightGrammarAction");
-    return HEIGHT_LEGEND;
+    LegendTypeStruct* l = (LegendTypeStruct*)calloc(1, sizeof(LegendTypeStruct));
+    l->legendType = HEIGHT_LEGEND;
+    return l;
 }
