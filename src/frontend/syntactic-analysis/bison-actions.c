@@ -293,7 +293,7 @@ FileSentence* AddTreeGrammarAction(TreeParameters* treeParameters) {
     return f;
 }
 
-FileSentence* AddFilePathGrammarAction(TreeParameters* fileParameter) {
+FileSentence* AddFilePathGrammarAction(FileParameter* fileParameter) {
     LogDebug("\tAddFilePathGrammarAction");
     FileSentence* f = (FileSentence*)calloc(1, sizeof(FileSentence));
     f->type = ADD_FILE_PATH_SENTENCE;
@@ -303,7 +303,7 @@ FileSentence* AddFilePathGrammarAction(TreeParameters* fileParameter) {
     return f;
 }
 
-FileSentence* AddLegendGrammarAction(TreeParameters* legendParameters) {
+FileSentence* AddLegendGrammarAction(LegendParameters* legendParameters) {
     LogDebug("\tAddLegendGrammarAction");
     FileSentence* f = (FileSentence*)calloc(1, sizeof(FileSentence));
     f->type = ADD_LEGEND_SENTENCE;

@@ -62,6 +62,7 @@ add_executable(Compiler
 	src/backend/code-generation/generator.c
 	src/backend/support/logger.c
 	src/backend/semantic-analysis/symbol-table.c
+	src/backend/support/free_ast.c
 	src/frontend/lexical-analysis/flex-actions.c
 	src/frontend/lexical-analysis/flex-scanner.c
 	src/frontend/syntactic-analysis/bison-actions.c

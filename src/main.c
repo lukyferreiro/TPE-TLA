@@ -3,6 +3,7 @@
 #include "backend/semantic-analysis/symbol-table.h"
 #include "backend/support/logger.h"
 #include "backend/support/shared.h"
+#include "backend/support/free_ast.h"
 #include "frontend/syntactic-analysis/bison-actions.h"
 #include "frontend/syntactic-analysis/bison-parser.h"
 #include <stdio.h>
@@ -52,6 +53,7 @@ const int main(const int argumentCount, const char** arguments) {
                 if (system(to_write_commands) == -1) {
                     LogError("Se produjo un error en la aplicacion.");
                     free_st();
+                    freeProgram(state.program);
                     return -1;
                 }
 
@@ -73,5 +75,6 @@ const int main(const int argumentCount, const char** arguments) {
     }
     LogInfo("Fin.");
     free_st();
+    freeProgram(state.program);
     return result;
 }

@@ -54,8 +54,8 @@ FileSentences* FileSentenceGrammarAction(FileSentence* fileSentence);
 FileSentences* FileSentenceArrayGrammarAction(FileSentence* fileSentence, FileSentences* nextFileSentences);
 
 FileSentence* AddTreeGrammarAction(TreeParameters* treeParameters);
-FileSentence* AddFilePathGrammarAction(TreeParameters* fileParameter);
-FileSentence* AddLegendGrammarAction(TreeParameters* legendParameters);
+FileSentence* AddFilePathGrammarAction(FileParameter* fileParameter);
+FileSentence* AddLegendGrammarAction(LegendParameters* legendParameters);
 
 TreeParameters* TreeParametersGrammarAction(TreeArray* treeArray);
 

@@ -46,7 +46,7 @@ void GeneratorIntegerParameters(IntegerParameters* integerParameters, FILE* out)
 void GeneratorIntegerArray(IntegerArray* integerArray, FILE* out) {
     switch (integerArray->type) {
         case ONE_INTEGER:
-            GeneratorInteger(integerArray->integer->value, out);
+            GeneratorInteger(integerArray->integer, out);
             break;
         case VARIOUS_INTEGER:
             GeneratorInteger(integerArray->integer, out);
