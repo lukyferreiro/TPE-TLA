@@ -18,7 +18,7 @@ int yyparse();
 // Punto de entrada principal del compilador.
 const int main(const int argumentCount, const char** arguments) {
     // Inicializar estado de la aplicación.
-    // state" es una variable global que almacena el estado del compilador
+    // state es una variable global que almacena el estado del compilador
     state.program = NULL;
     state.result = 0;
     state.succeed = false;

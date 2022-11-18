@@ -61,12 +61,12 @@ add_executable(Compiler
 	src/main.c
 	src/backend/code-generation/generator.c
 	src/backend/support/logger.c
-	src/backend/semantic-analysis/symbol-table.c
-	src/backend/support/free_ast.c
 	src/frontend/lexical-analysis/flex-actions.c
 	src/frontend/lexical-analysis/flex-scanner.c
 	src/frontend/syntactic-analysis/bison-actions.c
 	src/frontend/syntactic-analysis/bison-parser.c
+	src/backend/semantic-analysis/symbol-table.c
+	src/backend/support/free_ast.c
 	# TODO ver que agregar
 	# Agregar otros archivos *.c (si no se incluyen, no se compilan).
 	# ...

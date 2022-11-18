@@ -109,7 +109,7 @@ Constant* BlockGrammarAction(Block* block) {
 }
 
 Declaration* DeclarationTreeGrammarAction(char* treeName, DeclarationParameters* declarationParameters) {
-    LogDebug("\tDeclarationTreeGrammarAction(%d)", treeName);
+    LogDebug("\tDeclarationTreeGrammarAction(%s)", treeName);
     Declaration* d = (Declaration*)calloc(1, sizeof(Declaration));
     d->treeName = createTreeName(treeName);
     d->declarationParameters = declarationParameters;

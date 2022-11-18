@@ -1,7 +1,1 @@
 tree miArbol(1,2,3,4);
-
-create fotoMiArbolCompleto {
-    addFilePath("/home/miUsuario/");
-}
-
-

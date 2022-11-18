@@ -1,6 +1,7 @@
 #include "free_ast.h"
 #include "logger.h"
 
+
 void freeProgram(Program * program) {
     if(program == NULL)
         return;
