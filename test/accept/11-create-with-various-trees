@@ -1,7 +1,7 @@
 tree miArbol(1);
 tree miArbol2(10,11);
 
-configure rbt miArbol1 {
+configure rbt miArbol {
     addNode(2);
 }  
 

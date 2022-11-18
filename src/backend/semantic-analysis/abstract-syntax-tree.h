@@ -24,30 +24,6 @@ typedef struct LegendTypeStruct LegendTypeStruct;
 typedef struct IntegerParameters IntegerParameters;
 typedef struct IntegerArray IntegerArray;
 
-//--------------------------------------------------
-//---------------------TERMINALES-------------------
-//--------------------------------------------------
-
-typedef struct {
-    int value;
-} Integer;
-
-typedef struct {
-    char* name;
-} TreeName;
-
-typedef struct {
-    char* name;
-} FileName;
-
-typedef struct {
-    char* file_path;
-} FilePath;
-
-//--------------------------------------------------
-//-------------------NO TERMINALES------------------
-//--------------------------------------------------
-
 typedef enum {
     ONE_INTEGER,
     VARIOUS_INTEGER
@@ -55,7 +31,7 @@ typedef enum {
 
 struct IntegerArray {
     IntegerArrayType type;
-    Integer* integer;
+    int value;
     IntegerArray* nextIntegerArray;
 };
 
@@ -91,7 +67,7 @@ struct LegendParameters {
 };
 
 struct FileParameter {
-    FilePath* filePath;
+    char* filePath;
 };
 
 typedef enum {
@@ -101,7 +77,7 @@ typedef enum {
 
 struct TreeArray {
     TreeArrayType type;
-    TreeName* treeName;
+    char* treeName;
     TreeArray* nextTreeArray;
 };
 
@@ -166,8 +142,7 @@ struct ConfigureBlock {
 typedef enum {
     BST_TYPE,
     AVL_TYPE,
-    RBT_TYPE,
-    NONE
+    RBT_TYPE
 } TreeType;
 
 struct TreeTypeStruct {
@@ -182,8 +157,8 @@ typedef enum {
 struct Block {
     BlockType type;
     TreeTypeStruct* treeType;
-    TreeName* treeName;
-    FileName* fileName;
+    char* treeName;
+    char* fileName;
     ConfigureBlock* configureBlock;
     CreateBlock* createBlock;
 };
@@ -193,7 +168,7 @@ struct DeclarationParameters {
 };
 
 struct Declaration {
-    TreeName* treeName;
+    char* treeName;
     DeclarationParameters* declarationParameters;
 };
 

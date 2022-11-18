@@ -7,43 +7,6 @@
 #define TRUE 1
 #define FALSE 0
 
-static Integer* createInteger(int integer);
-static TreeName* createTreeName(char* treeName);
-static FileName* createFileName(char* fileName);
-static FilePath* createFilePath(char* filePath);
-
-static Integer* createInteger(int integer) {
-    Integer* i = (Integer*)calloc(1, sizeof(Integer));
-    i->value = integer;
-    return i;
-}
-
-static TreeName* createTreeName(char* treeName) {
-    if (create_variable_st(treeName, VARIABLE_TREE) == NULL) {
-        LogError("El arbol %s ya estaba declarado\n", treeName);
-        exit(1);    //TODO sacar el exit y levantar flag de syntax error
-    }
-    TreeName* t = (TreeName*)calloc(1, sizeof(TreeName));
-    t->name = treeName;
-    return t;
-}
-
-static FileName* createFileName(char* fileName) {
-    if (create_variable_st(fileName, VARIABLE_FILE) == NULL) {
-        LogError("Ya se encuentra declarado un archivo con el nombre %s\n", fileName);
-        exit(1);    //TODO sacar el exit y levantar flag de syntax error
-    }
-    FileName* t = (FileName*)calloc(1, sizeof(FileName));
-    t->name = fileName;
-    return t;
-}
-
-static FilePath* createFilePath(char* filePath) {
-    FilePath* t = (FilePath*)calloc(1, sizeof(FilePath));
-    t->file_path = filePath;
-    return t;
-}
-
 /**
  * Esta función se ejecuta cada vez que se emite un error de sintaxis.
  */
@@ -110,8 +73,15 @@ Constant* BlockGrammarAction(Block* block) {
 
 Declaration* DeclarationTreeGrammarAction(char* treeName, DeclarationParameters* declarationParameters) {
     LogDebug("\tDeclarationTreeGrammarAction(%s)", treeName);
+
+    //Me fijo si ya esta declarada en la tabla de simbolos
+    if (create_variable_st(treeName, VARIABLE_TREE) == NULL) {
+        LogError("El arbol %s ya estaba declarado\n", treeName);
+        exit(1);    //TODO sacar el exit y levantar flag de syntax error
+    }
+
     Declaration* d = (Declaration*)calloc(1, sizeof(Declaration));
-    d->treeName = createTreeName(treeName);
+    d->treeName = treeName;
     d->declarationParameters = declarationParameters;
     return d;
 }
@@ -134,8 +104,7 @@ IntegerArray* IntegerConstantGrammarAction(int node) {
     LogDebug("\tIntegerConstantGrammarAction(%d)", node);
     IntegerArray* i = (IntegerArray*)calloc(1, sizeof(IntegerArray));
     i->type = ONE_INTEGER;
-    // TODO aca tengo que hacer algo mas???
-    i->integer = createInteger(node);
+    i->value = node;
     i->nextIntegerArray = NULL;
     return i;
 }
@@ -144,8 +113,7 @@ IntegerArray* IntegerConstantArrayGrammarAction(int node, IntegerArray* nextNode
     LogDebug("\tIntegerConstantArrayGrammarAction(%d)", node);
     IntegerArray* i = (IntegerArray*)calloc(1, sizeof(IntegerArray));
     i->type = VARIOUS_INTEGER;
-    // TODO aca tengo que hacer algo mas???
-    i->integer = createInteger(node);
+    i->value = node;
     i->nextIntegerArray = nextNodesIntegerArray;
     return i;
 }
@@ -159,9 +127,8 @@ Block* ConfigureBlockGrammarAction(TreeTypeStruct* treeType, char* treeName, Con
         exit(1);
     }
 
-    if (var->name == treeName && var->type == VARIABLE_TREE) {
+    if (var->type == VARIABLE_TREE) {
         Block* b = (Block*)calloc(1, sizeof(Block));
-        var->treeType = treeType;
         b->type = CONFIGURE_BLOCK;
         b->treeType = treeType;
         b->treeName = treeName;
@@ -178,11 +145,18 @@ Block* ConfigureBlockGrammarAction(TreeTypeStruct* treeType, char* treeName, Con
 
 Block* CreateBlockGrammarAction(char* fileName, CreateBlock* createBlock) {
     LogDebug("\tCreateBlockGrammarAction(%s)", fileName);
+    
+    //Me fijo si ya esta declarada en la tabla de simbolos
+    if (create_variable_st(fileName, VARIABLE_FILE) == NULL) {
+        LogError("Ya se encuentra declarado un archivo con el nombre %s\n", fileName);
+        exit(1);    //TODO sacar el exit y levantar flag de syntax error
+    }
+
     Block* b = (Block*)calloc(1, sizeof(Block));
     b->type = CREATE_BLOCK;
-    b->treeType = NONE;
+    b->treeType = NULL;
     b->treeName = NULL;
-    b->fileName = createFileName(fileName);
+    b->fileName = fileName;
     b->configureBlock = NULL;
     b->createBlock = createBlock;
     return b;
@@ -323,7 +297,7 @@ TreeParameters* TreeParametersGrammarAction(TreeArray* treeArray) {
 FileParameter* FileParameterSentenceGrammarAction(char* filePath) {
     LogDebug("\tFileParameterSentenceGrammarAction(%s)", filePath);
     FileParameter* f = (FileParameter*)calloc(1, sizeof(FileParameter));
-    f->filePath = createFilePath(filePath);
+    f->filePath = filePath;
     return f;
 }
 
@@ -336,7 +310,7 @@ TreeArray* TreeNameGrammarAction(char* treeName) {
         exit(1);
     }
 
-    if (var->name == treeName && var->type == VARIABLE_TREE) {
+    if (var->type == VARIABLE_TREE) {
         TreeArray* t = (TreeArray*)calloc(1, sizeof(TreeArray));
         t->type = ONE_TREE;
         t->treeName = treeName;
@@ -358,7 +332,7 @@ TreeArray* TreeNameArrayGrammarAction(char* treeName, TreeArray* nextTreeNames) 
         exit(1);
     }
 
-    if (var->name == treeName && var->type == VARIABLE_TREE) {
+    if (var->type == VARIABLE_TREE) {
         TreeArray* t = (TreeArray*)calloc(1, sizeof(TreeArray));
         t->type = VARIOUS_TREES;
         t->treeName = treeName;

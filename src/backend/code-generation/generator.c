@@ -37,7 +37,7 @@ void GeneratorConstant(Constant* constant, FILE* out) {
 
 void GeneratorDeclaration(Declaration* declaration, FILE* out) {
     LogInfo("Generating Declaration");
-    fprintf(out, "label = \"%s\";\n", declaration->treeName->name);
+    fprintf(out, "\tlabel = \"%s\";\n", declaration->treeName);
     GeneratorDeclarationParameters(declaration->declarationParameters, out);
 }
 
@@ -55,10 +55,10 @@ void GeneratorIntegerArray(IntegerArray* integerArray, FILE* out) {
     LogInfo("Generating IntegerArray");
     switch (integerArray->type) {
         case ONE_INTEGER:
-            GeneratorInteger(integerArray->integer, out);
+            GeneratorInteger(integerArray->value, out);
             break;
         case VARIOUS_INTEGER:
-            GeneratorInteger(integerArray->integer, out);
+            GeneratorInteger(integerArray->value, out);
             GeneratorIntegerArray(integerArray->nextIntegerArray, out);
             break;
         default:
@@ -205,9 +205,9 @@ void GeneratorLegendArray(LegendArray* legendArray, FILE* out) {
     }
 }
 
-void GeneratorInteger(Integer* integer, FILE* out) {
+void GeneratorInteger(int value, FILE* out) {
     LogInfo("Generating Integer leaf");
-    fprintf(out, "%d;", integer->value);
+    fprintf(out, "\t%d;\n", value);
 }
 
 void GeneratorTreeType(TreeTypeStruct* type, FILE* out) {
@@ -222,17 +222,17 @@ void GeneratorLegendType(LegendTypeStruct* type, FILE* out) {
     type->legendType;
 }
 
-void GeneratorTreeName(TreeName* treeName, FILE* out) {
+void GeneratorTreeName(char* treeName, FILE* out) {
     // TODO
     LogInfo("Generating TreeName leaf");
 }
 
-void GeneratorFileName(FileName* fileName, FILE* out) {
+void GeneratorFileName(char* fileName, FILE* out) {
     // TODO
     LogInfo("Generating FileName leaf");
 }
 
-void GeneratorFilePath(FilePath* FilePath, FILE* out) {
+void GeneratorFilePath(char* FilePath, FILE* out) {
     // TODO
     LogInfo("Generating FilePath leaf");
 }

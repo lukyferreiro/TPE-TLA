@@ -156,35 +156,25 @@ void freeIntegerParameters(IntegerParameters* i){
 void freeIntegerArray(IntegerArray* i){
     if(i == NULL)
         return;
-    freeInteger(i->integer);
     freeIntegerArray(i->nextIntegerArray);
     free(i);
 }
 
-void freeInteger(Integer* i){
-    if(i == NULL)
-        return;
-    free(i);
-}
 
-void freeTreeName(TreeName* t){
+void freeTreeName(char* t){
     if(t == NULL)
         return;
-    free(t->name);
     free(t);
 }
 
-void freeFileName(FileName* f){
+void freeFileName(char* f){
     if(f == NULL)
         return;
-    free(f->name);
     free(f);
 }
 
-void freeFilePath(FilePath* f){
+void freeFilePath(char* f){
     if(f == NULL)
         return;
-    free(f->file_path);
     free(f);
 }
-

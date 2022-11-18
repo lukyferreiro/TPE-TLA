@@ -46,7 +46,7 @@ const int main(const int argumentCount, const char** arguments) {
 
                 fprintf(out, "strict graph {\n");
                 Generator(state.program, out);
-                fprintf(out, "\n}");
+                fprintf(out, "}\n");
                 fclose(out);
 
                 sprintf(to_write_commands, "dot -Tsvg a.dot -o foto.svg");

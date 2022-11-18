@@ -15,7 +15,7 @@
     IntegerArray* integerArray;
     Declaration* declaration;
     DeclarationParameters* declarationParameters;
-    TreeTypeStruct* treeTypeStruct;
+    TreeTypeStruct* treeType;
     ConfigureBlock* configureBlock;
     TreeSentences* treeSentences;
     TreeSentence* treeSentence;
@@ -27,7 +27,7 @@
     TreeArray* treeArray;
     LegendParameters* legendParameters;
     LegendArray* legendArray;
-    LegendTypeStruct* legendTypeStruct;
+    LegendTypeStruct* legendType;
 
 	// Terminales.
 	token token;
@@ -81,7 +81,7 @@
 %type <block> block
 %type <integerParameters> integerParameters
 %type <integerArray> integerArray
-%type <treeTypeStruct> treeType
+%type <treeType> treeType
 // Bloque configure
 %type <configureBlock> configureBlock
 %type <treeSentences> treeSentences
@@ -95,7 +95,7 @@
 %type <fileParameter> fileParameter
 %type <legendParameters> legendParameters
 %type <legendArray> legendArray
-%type <legendTypeStruct> legendType
+%type <legendType> legendType
 
 // El símbolo inicial de la gramatica.
 %start program

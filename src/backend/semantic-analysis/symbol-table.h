@@ -15,7 +15,6 @@ typedef struct Variable Variable;
 struct Variable {
     VariableType type;
     char* name;
-    TreeTypeStruct* treeType;
 };
 
 void initialize_st(void);

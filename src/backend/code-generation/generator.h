@@ -26,11 +26,11 @@ void GeneratorLegendParameters(LegendParameters* legendParameters, FILE* out);
 void GeneratorLegendArray(LegendArray* legendArray, FILE* out);
 
 // Nodos hoja
-void GeneratorInteger(Integer* integer, FILE* out);
+void GeneratorInteger(int integer, FILE* out);
 void GeneratorTreeType(TreeTypeStruct* type, FILE* out);
 void GeneratorLegendType(LegendTypeStruct* type, FILE* out);
-void GeneratorTreeName(TreeName* treeName, FILE* out);
-void GeneratorFileName(FileName* fileName, FILE* out);
-void GeneratorFilePath(FilePath* FilePath, FILE* out);
+void GeneratorTreeName(char* treeName, FILE* out);
+void GeneratorFileName(char* fileName, FILE* out);
+void GeneratorFilePath(char* FilePath, FILE* out);
 
 #endif

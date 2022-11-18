@@ -26,9 +26,8 @@ void freeLegendTypeStruct(LegendTypeStruct* l);
 void freeTreeTypeStruct(TreeTypeStruct* t);
 void freeIntegerParameters(IntegerParameters* i);
 void freeIntegerArray(IntegerArray* i);
-void freeInteger(Integer* i);
-void freeTreeName(TreeName* t);
-void freeFileName(FileName* f);
-void freeFilePath(FilePath* f);
+void freeTreeName(char* t);
+void freeFileName(char* f);
+void freeFilePath(char* f);
 
 #endif
