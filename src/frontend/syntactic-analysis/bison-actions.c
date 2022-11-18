@@ -21,7 +21,7 @@ static Integer* createInteger(int integer) {
 static TreeName* createTreeName(char* treeName) {
     if (create_variable_st(treeName, VARIABLE_TREE) == NULL) {
         LogError("El arbol %s ya estaba declarado\n", treeName);
-        exit(1);
+        exit(1);    //TODO sacar el exit y levantar flag de syntax error
     }
     TreeName* t = (TreeName*)calloc(1, sizeof(TreeName));
     t->name = treeName;
@@ -31,7 +31,7 @@ static TreeName* createTreeName(char* treeName) {
 static FileName* createFileName(char* fileName) {
     if (create_variable_st(fileName, VARIABLE_FILE) == NULL) {
         LogError("Ya se encuentra declarado un archivo con el nombre %s\n", fileName);
-        exit(1);
+        exit(1);    //TODO sacar el exit y levantar flag de syntax error
     }
     FileName* t = (FileName*)calloc(1, sizeof(FileName));
     t->name = fileName;

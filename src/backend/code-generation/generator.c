@@ -2,54 +2,57 @@
 #include "../../backend/support/logger.h"
 
 void Generator(Program* program, FILE* out) {
+    LogInfo("Generating program");
     GeneratorConstantArray(program->constantArray, out);
 }
 
 void GeneratorConstantArray(ConstantArray* constantArray, FILE* out) {
-    LogInfo("-----2-----");
+    LogInfo("Generating ConstantArray");
     switch (constantArray->type) {
         case ONE_CONSTANT:
-            LogInfo("-----2-----");
             GeneratorConstant(constantArray->constant, out);
             break;
-        case VARIOUS_CONSTANTS:
-        LogInfo("-----2--132121312312---");
+        case VARIOUS_CONSTANTS:;
             GeneratorConstant(constantArray->constant, out);
             GeneratorConstantArray(constantArray->nextConstantArray, out);
             break;
         default:
-        LogInfo("-----132131-----");
             break;
     }
 }
 
 void GeneratorConstant(Constant* constant, FILE* out) {
+    LogInfo("Generating Constant");
     switch (constant->type) {
         case DECLARATION:
-            LogInfo("-----3-----");
             GeneratorDeclaration(constant->declaration, out);
+            break;
         case BLOCK:
             GeneratorBlock(constant->block, out);
+            break;
         default:
             break;
     }
 }
 
 void GeneratorDeclaration(Declaration* declaration, FILE* out) {
-    LogInfo("-----5-----");
-    fprintf(out, "label = \"%s\";\n", declaration->treeName);
+    LogInfo("Generating Declaration");
+    fprintf(out, "label = \"%s\";\n", declaration->treeName->name);
     GeneratorDeclarationParameters(declaration->declarationParameters, out);
 }
 
 void GeneratorDeclarationParameters(DeclarationParameters* declarationParameters, FILE* out) {
+    LogInfo("Generating DeclarationParameters");
     GeneratorIntegerParameters(declarationParameters->integerParameters, out);
 }
 
 void GeneratorIntegerParameters(IntegerParameters* integerParameters, FILE* out) {
+    LogInfo("Generating IntegerParameters");
     GeneratorIntegerArray(integerParameters->integerArray, out);
 }
 
 void GeneratorIntegerArray(IntegerArray* integerArray, FILE* out) {
+    LogInfo("Generating IntegerArray");
     switch (integerArray->type) {
         case ONE_INTEGER:
             GeneratorInteger(integerArray->integer, out);
@@ -64,6 +67,7 @@ void GeneratorIntegerArray(IntegerArray* integerArray, FILE* out) {
 }
 
 void GeneratorBlock(Block* block, FILE* out) {
+    LogInfo("Generating Block");
     switch (block->type) {
         case CONFIGURE_BLOCK:
             GeneratorTreeType(block->treeType, out);
@@ -81,10 +85,12 @@ void GeneratorBlock(Block* block, FILE* out) {
 }
 
 void GeneratorConfigureBlock(ConfigureBlock* configureBlock, FILE* out) {
+    LogInfo("Generating ConfigureBlock");
     GeneratorTreeSentences(configureBlock->treeSentences, out);
 }
 
 void GeneratorTreeSentences(TreeSentences* treeSentences, FILE* out) {
+    LogInfo("Generating TreeSentences");
     switch (treeSentences->type) {
         case ONE_TREE_SENTENCE:
             GeneratorTreeSentence(treeSentences->treeSentence, out);
@@ -99,6 +105,7 @@ void GeneratorTreeSentences(TreeSentences* treeSentences, FILE* out) {
 }
 
 void GeneratorTreeSentence(TreeSentence* treeSentence, FILE* out) {
+    LogInfo("Generating TreeSentence");
     switch (treeSentence->type) {
         case ADD_NODE_SENTENCE:
             GeneratorIntegerParameters(treeSentence->integerParameters, out);
@@ -115,10 +122,12 @@ void GeneratorTreeSentence(TreeSentence* treeSentence, FILE* out) {
 }
 
 void GeneratorCreateBlock(CreateBlock* createBlock, FILE* out) {
+    LogInfo("Generating CreateBlock");
     GeneratorFileSentences(createBlock->fileSentences, out);
 }
 
 void GeneratorFileSentences(FileSentences* fileSentences, FILE* out) {
+    LogInfo("Generating FileSentences");
     switch (fileSentences->type) {
         case ONE_FILE_SENTENCE:
             GeneratorFileSentence(fileSentences->fileSentence, out);
@@ -133,6 +142,7 @@ void GeneratorFileSentences(FileSentences* fileSentences, FILE* out) {
 }
 
 void GeneratorFileSentence(FileSentence* fileSentence, FILE* out) {
+    LogInfo("Generating FileSentence");
     switch (fileSentence->type) {
         case ADD_TREE_SENTENCE:
             GeneratorTreeParameters(fileSentence->treeParameters, out);
@@ -149,10 +159,12 @@ void GeneratorFileSentence(FileSentence* fileSentence, FILE* out) {
 }
 
 void GeneratorTreeParameters(TreeParameters* treeParameters, FILE* out) {
+    LogInfo("Generating TreeParameters");
     GeneratorTreeArray(treeParameters->treeArray, out);
 }
 
 void GeneratorTreeArray(TreeArray* treeArray, FILE* out) {
+    LogInfo("Generating TreeArray");
     switch (treeArray->type) {
         case ONE_TREE:
             // TODO mmmmmm
@@ -169,14 +181,17 @@ void GeneratorTreeArray(TreeArray* treeArray, FILE* out) {
 }
 
 void GeneratorFileParameter(FileParameter* fileParameter, FILE* out) {
+    LogInfo("Generating FileParameter");
     GeneratorFilePath(fileParameter->filePath, out);
 }
 
 void GeneratorLegendParameters(LegendParameters* legendParameters, FILE* out) {
+    LogInfo("Generating LegendParameters");
     GeneratorLegendArray(legendParameters->legendArray, out);
 }
 
 void GeneratorLegendArray(LegendArray* legendArray, FILE* out) {
+    LogInfo("Generating LegendArray");
     switch (legendArray->type) {
         case ONE_LEGEND:
             GeneratorLegendType(legendArray->legendType, out);
@@ -191,27 +206,33 @@ void GeneratorLegendArray(LegendArray* legendArray, FILE* out) {
 }
 
 void GeneratorInteger(Integer* integer, FILE* out) {
+    LogInfo("Generating Integer leaf");
     fprintf(out, "%d;", integer->value);
 }
 
 void GeneratorTreeType(TreeTypeStruct* type, FILE* out) {
     // TODO
+    LogInfo("Generating TreeType leaf");
     type->treeType;
 }
 
 void GeneratorLegendType(LegendTypeStruct* type, FILE* out) {
     // TODO
+    LogInfo("Generating LegendType leaf");
     type->legendType;
 }
 
 void GeneratorTreeName(TreeName* treeName, FILE* out) {
     // TODO
+    LogInfo("Generating TreeName leaf");
 }
 
 void GeneratorFileName(FileName* fileName, FILE* out) {
     // TODO
+    LogInfo("Generating FileName leaf");
 }
 
 void GeneratorFilePath(FilePath* FilePath, FILE* out) {
     // TODO
+    LogInfo("Generating FilePath leaf");
 }

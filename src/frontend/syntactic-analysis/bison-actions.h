@@ -15,10 +15,10 @@
  * abstracta (i.e., el AST).
  */
 
-Program* ProgramGrammarAction(ConstantArray* ntArray);
+Program* ProgramGrammarAction(ConstantArray* constantArray);
 
-ConstantArray* ntGrammarAction(Constant* nt);
-ConstantArray* ntArrayGrammarAction(Constant* nt, ConstantArray* nextntArray);
+ConstantArray* ConstantGrammarAction(Constant* constant);
+ConstantArray* ConstantArrayGrammarAction(Constant* constant, ConstantArray* nextConstantArray);
 
 Constant* DeclarationGrammarAction(Declaration* declaration);
 Constant* BlockGrammarAction(Block* block);
@@ -29,8 +29,8 @@ DeclarationParameters* DeclarationTreeParametersGrammarAction(IntegerParameters*
 
 IntegerParameters* IntegerParametersGrammarAction(IntegerArray* nodesIntegerArray);
 
-IntegerArray* IntegerntGrammarAction(int node);
-IntegerArray* IntegerntArrayGrammarAction(int node, IntegerArray* nextNodesIntegerArray);
+IntegerArray* IntegerConstantGrammarAction(int node);
+IntegerArray* IntegerConstantArrayGrammarAction(int node, IntegerArray* nextNodesIntegerArray);
 
 Block* ConfigureBlockGrammarAction(TreeTypeStruct* treeType, char* treeName, ConfigureBlock* configureBlock);
 Block* CreateBlockGrammarAction(char* fileName, CreateBlock* createBlock);

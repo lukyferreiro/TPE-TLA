@@ -27,25 +27,24 @@ void EndCommentPatternAction() {
     LogDebug("EndCommentPatternAction.");
 }
 
-token BeginContextFilePathPatternAction(){
+token BeginContextFilePathPatternAction() {
     LogDebug("BeginContextFilePathPatternAction.");
     yylval.token = INVERTED_COMMA;
     return INVERTED_COMMA;
 }
 
-token EndContextFilePathPatternAction(){
+token EndContextFilePathPatternAction() {
     LogDebug("EndContextFilePathPatternAction.");
     yylval.token = INVERTED_COMMA;
     return INVERTED_COMMA;
 }
-
 
 token IntegerPatternAction(const char* lexeme, const int length) {
     LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
     char* integer = (char*)calloc(length + 1, sizeof(char));
     strncpy(integer, lexeme, length);
     yylval.integer = atoi(integer);
-    free(integer);     //TODO chequear si hay que hacer este free
+    free(integer);
     return INTEGER;
 }
 
@@ -62,7 +61,6 @@ token FilePathPatternAction(const char* lexeme, const int length) {
     char* filePath = (char*)calloc(length + 1, sizeof(char));
     strncpy(filePath, lexeme, length);
     yylval.string = filePath;
-
     return FILE_PATH;
 }
 
