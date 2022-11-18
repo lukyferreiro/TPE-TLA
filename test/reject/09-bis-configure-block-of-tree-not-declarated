@@ -1,0 +1,4 @@
+configure rbt miArbol {
+    addNode(1);
+    findNode(1);
+}
