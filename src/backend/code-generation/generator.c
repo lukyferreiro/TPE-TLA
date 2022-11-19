@@ -1,7 +1,26 @@
 #include "generator.h"
 #include "../../backend/support/logger.h"
+#include "../../backend/domain-specific/tree_handlers/tree.h"
+
+#define MAX_NUM_TREES 128
+
+struct FileWithName {
+    char* name;
+    char* filePath;
+    //arreglo con los árboles que va a imprimir
+    //arreglo de modificadores para el archivo
+};
+struct GeneratorState {
+    char* treeNames[MAX_NUM_TREES]; //arreglo con los nombres
+    struct node* currentTrees[MAX_NUM_TREES];
+    int size;
+};
+
+static struct GeneratorState *myGeneratorState;
 
 void Generator(Program* program, FILE* out) {
+    //inicializar struct generator state
+    //myGeneratorState= (struct GeneratorState *) calloc(1, sizeof(struct GeneratorState));
     LogInfo("Generating program");
     GeneratorConstantArray(program->constantArray, out);
 }
@@ -38,6 +57,11 @@ void GeneratorConstant(Constant* constant, FILE* out) {
 void GeneratorDeclaration(Declaration* declaration, FILE* out) {
     LogInfo("Generating Declaration");
     fprintf(out, "\tlabel = \"%s\";\n", declaration->treeName);
+
+    //guardo el nombre del nuevo arbol y inicializo ese arbol con null
+    //ver cuando conviene mover el size++
+    //myGeneratorState->treeNames[myGeneratorState->size] = declaration->treeName;
+    //myGeneratorState->currentTrees[myGeneratorState->size] = NULL;
     GeneratorDeclarationParameters(declaration->declarationParameters, out);
 }
 
@@ -70,12 +94,19 @@ void GeneratorBlock(Block* block, FILE* out) {
     LogInfo("Generating Block");
     switch (block->type) {
         case CONFIGURE_BLOCK:
+            //capaz debería inicializar una variable según el tipo que nos hayan pasado
             GeneratorTreeType(block->treeType, out);
-            // TODO mmmmmm
+            //debería buscar en el estado del programa el árbol con ese nombre 
+            // cambiarle el tipo por el nuevo??? 
+            //insertar los nodos que ya tuviera
+            //ya debería estar creado. con esto lo único que hago es devoler el nombre 
             GeneratorTreeName(block->treeName, out);
+            //pasar el árbol como parámetro?
             GeneratorConfigureBlock(block->configureBlock, out);
             break;
         case CREATE_BLOCK:
+            //crear un struct que sea para los files, con el filename
+            //filepath, arreglo de nombres de arboles, etc... ?
             GeneratorFileName(block->fileName, out);
             GeneratorCreateBlock(block->createBlock, out);
             break;
@@ -108,12 +139,18 @@ void GeneratorTreeSentence(TreeSentence* treeSentence, FILE* out) {
     LogInfo("Generating TreeSentence");
     switch (treeSentence->type) {
         case ADD_NODE_SENTENCE:
+            //Voy al arbol que haga falta y le inserto el nodo
+            //si ya existía el nodo, debería tirar un warning y no generar outputs
             GeneratorIntegerParameters(treeSentence->integerParameters, out);
             break;
         case DELETE_NODE_SENTENCE:
+            //Voy al arbol que haga falta y le borro el nodo
+            //si no existía el nodo, debería tirar un warning y no generar outputs
             GeneratorIntegerParameters(treeSentence->integerParameters, out);
             break;
         case FIND_NODE_SENTENCE:
+            //Voy al arbol que haga falta y le seteo al nodo found=true?
+            //Si no existía, no hago nada y sigo
             GeneratorIntegerParameters(treeSentence->integerParameters, out);
             break;
         default:
@@ -145,12 +182,16 @@ void GeneratorFileSentence(FileSentence* fileSentence, FILE* out) {
     LogInfo("Generating FileSentence");
     switch (fileSentence->type) {
         case ADD_TREE_SENTENCE:
+            //Voy al arbol y lo agrego al archivo
             GeneratorTreeParameters(fileSentence->treeParameters, out);
             break;
         case ADD_FILE_PATH_SENTENCE:
+            //agrego al struct el filepath 
             GeneratorFileParameter(fileSentence->fileParameter, out);
             break;
         case ADD_LEGEND_SENTENCE:
+            //agrego a un arreglo de legend parameters el que me pasen
+            //O tengo un arreglo de bool a ver si tengo que usarlo o no
             GeneratorLegendParameters(fileSentence->legendParameters, out);
             break;
         default:
@@ -167,7 +208,7 @@ void GeneratorTreeArray(TreeArray* treeArray, FILE* out) {
     LogInfo("Generating TreeArray");
     switch (treeArray->type) {
         case ONE_TREE:
-            // TODO mmmmmm
+            // Veo como agregar las structs a 
             GeneratorTreeName(treeArray->treeName, out);
             break;
         case VARIOUS_TREES:
@@ -207,6 +248,15 @@ void GeneratorLegendArray(LegendArray* legendArray, FILE* out) {
 
 void GeneratorInteger(int value, FILE* out) {
     LogInfo("Generating Integer leaf");
+    //aca realizo la inserción en sí al arbol que me vayan pasando
+    //agregar switch case para ver si tengo que hacer insert, delete, o find
+    //if(myGeneratorState->currentTrees[myGeneratorState->size]==NULL){
+    //    myGeneratorState->currentTrees[myGeneratorState->size] = insertFirstNode(myGeneratorState->currentTrees[myGeneratorState->size], value, BST);
+    //}
+    //else {
+    //    myGeneratorState->currentTrees[myGeneratorState->size] = insertNode(myGeneratorState->currentTrees[myGeneratorState->size], value);
+    //}
+
     fprintf(out, "\t%d;\n", value);
 }
 
