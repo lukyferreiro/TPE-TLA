@@ -247,7 +247,7 @@ static void generateDotSubGraph(struct node* node, char* treeName, int* i, int c
     fprintf(out, "\nsubgraph cluster%d{ \n", clusternum);
     struct node* aux;
 
-    fprintf(out, "\tlabel=\"%s ", treeName);
+    fprintf(out, "\tlabel=\"%s \\n", treeName);
     for (int x = 0; x < LEGEND_TYPES; x++) {
         switch (legend[x]) {
             case MAX_LEGEND:

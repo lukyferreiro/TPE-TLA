@@ -74,9 +74,6 @@ void GeneratorDeclaration(Declaration* declaration) {
     // chequear si todavía puedo agregar arboles o no
 
     // guardo el nombre del nuevo arbol
-    // TODO: ver si se guarda directo o si se hace el strcppy
-    //myGeneratorState->treeNames[myGeneratorState->size] = malloc(strlen(declaration->treeName) + 1);
-    //strcpy(myGeneratorState->treeNames[myGeneratorState->size], declaration->treeName);
     myGeneratorState->treeNames[myGeneratorState->size] = declaration->treeName;
 
     // inicializo ese arbol en null
@@ -309,7 +306,7 @@ void GeneratorLegendType(LegendTypeStruct* type) {
     for (int i = 0; i < LEGEND_TYPES && !alreadyAdded; i++) {
         //Si todavía no estaba, agrego
         if(currentFile->legendParams[i]==NONE){
-            currentFile->legendParams[i]==type->legendType;
+            currentFile->legendParams[i]=type->legendType;
             alreadyAdded=1;
 
             LogDebug("Number of legends: %d", i);

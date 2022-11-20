@@ -1,22 +1,19 @@
-tree miArbol(1);
-tree miArbol2(10,11);
+tree miArbol(4, 2, 1);
 
-configure rbt miArbol {
-    addNode(2);
-}  
-
-configure avl miArbol2 {
-    deleteNode(10);
-    addNode(3,7,5);
-    findNode(3);
-}  
+configure avl miArbol {
+    addNode(5, 6);
+    findNode(1);
+}
 
 create fotoMiArbol {
-    addTree(miArbol, miArbol2);
-    addLegend(max, min, count, height, balanced);
+    addTree(miArbol);
+    addLegend(max, min, count);
+}
+
+configure avl miArbol {
+    addNode(7);
 }
 
 create fotoMiArbol2 {
-    addTree(miArbol, miArbol2);
-    addLegend(max, min, count, height, balanced);
+    addTree(miArbol);
 }
