@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 #define MAX_NUM_TREES 20
-#define LEGEND_TYPES 5
 
 struct FileWithName {
     char* name;
@@ -14,6 +13,7 @@ struct FileWithName {
     // arreglo con los árboles que va a imprimir
     char* treeNames[MAX_NUM_TREES]; // arreglo con los nombres
     struct node* currentTrees[MAX_NUM_TREES];
+    int treeSize;
 
     // arreglo de modificadores para el archivo
     LegendType legendParams[LEGEND_TYPES];
@@ -25,10 +25,12 @@ struct GeneratorState {
 };
 
 static struct GeneratorState* myGeneratorState;
+static struct FileWithName* currentFile;
+static FILE* outputFile;
 
-//aux functions
+// aux functions
 static int findTreeIndexByName(char* treeName);
-
+static void resetFoundNodes();
 
 void Generator(Program* program) {
     // inicializar struct generator state
@@ -69,24 +71,24 @@ void GeneratorConstant(Constant* constant) {
 void GeneratorDeclaration(Declaration* declaration) {
     LogDebug("Generating Declaration");
 
-    //chequear si todavía puedo agregar arboles o no
+    // chequear si todavía puedo agregar arboles o no
 
-    // guardo el nombre del nuevo arbol 
-    //TODO: ver si se guarda directo o si se hace el strcppy
-    myGeneratorState->treeNames[myGeneratorState->size] = malloc(strlen(declaration->treeName) + 1);
-    strcpy(myGeneratorState->treeNames[myGeneratorState->size], declaration->treeName);
-    // myGeneratorState->treeNames[myGeneratorState->size] = declaration->treeName;
+    // guardo el nombre del nuevo arbol
+    // TODO: ver si se guarda directo o si se hace el strcppy
+    //myGeneratorState->treeNames[myGeneratorState->size] = malloc(strlen(declaration->treeName) + 1);
+    //strcpy(myGeneratorState->treeNames[myGeneratorState->size], declaration->treeName);
+    myGeneratorState->treeNames[myGeneratorState->size] = declaration->treeName;
 
-    //inicializo ese arbol en null
+    // inicializo ese arbol en null
     myGeneratorState->currentTrees[myGeneratorState->size] = NULL;
 
-    //incremento el size luego de que paso el index como param, para que las funciones que sigan sepan donde realizar la operacion
+    // incremento el size luego de que paso el index como param, para que las funciones que sigan sepan donde realizar la operacion
     GeneratorDeclarationParameters(declaration->declarationParameters, myGeneratorState->size++);
 }
 
 void GeneratorDeclarationParameters(DeclarationParameters* declarationParameters, int treeIndex) {
     LogDebug("Generating DeclarationParameters");
-    //Por default las declaration se hacen sobre el tipo BST. La operación será obviamente, addNode
+    // Por default las declaration se hacen sobre el tipo BST. La operación será obviamente, addNode
     GeneratorIntegerParameters(declarationParameters->integerParameters, treeIndex, ADD_NODE_SENTENCE, BST_TYPE);
 }
 
@@ -114,14 +116,22 @@ void GeneratorBlock(Block* block) {
     LogDebug("Generating Block");
     switch (block->type) {
         case CONFIGURE_BLOCK:
-            //Guardo el treeType y el index asociado al nombre para pasar a las funciones siguientes
-            GeneratorConfigureBlock(block->configureBlock, GeneratorTreeName(block->treeName),  GeneratorTreeType(block->treeType));
+            // Guardo el treeType y el index asociado al nombre para pasar a las funciones siguientes
+            GeneratorConfigureBlock(block->configureBlock, GeneratorTreeName(block->treeName), GeneratorTreeType(block->treeType));
             break;
         case CREATE_BLOCK:
             // crear un struct que sea para los files, con el filename
             // filepath, arreglo de nombres de arboles, etc... ?
             GeneratorFileName(block->fileName);
             GeneratorCreateBlock(block->createBlock);
+
+            outputFile = fopen(currentFile->name,"w+") ;
+
+            generateDotFile(currentFile->currentTrees, currentFile->treeNames, currentFile->treeSize, currentFile->legendParams, outputFile);
+            resetFoundNodes();
+            free(currentFile->name);
+            free(currentFile);
+            // Llamo a función que genere dot del archivo
             break;
         default:
             break;
@@ -130,8 +140,8 @@ void GeneratorBlock(Block* block) {
 
 void GeneratorConfigureBlock(ConfigureBlock* configureBlock, int treeIndex, TreeType treeType) {
     LogDebug("Generating ConfigureBlock");
-    //Hago el cambio de type de ser necesario antes de empezar a ejecutar las sentencias
-    //Si el tipo fuera el mismo, no se hace más que devolver la misma root
+    // Hago el cambio de type de ser necesario antes de empezar a ejecutar las sentencias
+    // Si el tipo fuera el mismo, no se hace más que devolver la misma root
     myGeneratorState->currentTrees[treeIndex] = switchType(myGeneratorState->currentTrees[treeIndex], treeType);
     GeneratorTreeSentences(configureBlock->treeSentences, treeIndex, treeType);
 }
@@ -162,7 +172,7 @@ void GeneratorTreeSentence(TreeSentence* treeSentence, int treeIndex, TreeType t
         case DELETE_NODE_SENTENCE:
             // Voy al arbol que haga falta y le borro el nodo
             // si no existía el nodo, debería tirar un warning y no generar outputs
-            GeneratorIntegerParameters(treeSentence->integerParameters, treeIndex,  DELETE_NODE_SENTENCE, treeType);
+            GeneratorIntegerParameters(treeSentence->integerParameters, treeIndex, DELETE_NODE_SENTENCE, treeType);
             break;
         case FIND_NODE_SENTENCE:
             // Voy al arbol que haga falta y le seteo al nodo found=true?
@@ -224,12 +234,16 @@ void GeneratorTreeArray(TreeArray* treeArray) {
     LogDebug("Generating TreeArray");
     switch (treeArray->type) {
         case ONE_TREE:
-            // Veo como agregar las structs a
-            GeneratorTreeName(treeArray->treeName);
+            // Agrego nombre del árbol y root en la struct currentFile
+            // No es necesario incrementar el size porque es el último árbol
+            currentFile->treeNames[currentFile->treeSize] = treeArray->treeName;
+            currentFile->currentTrees[currentFile->treeSize++] = myGeneratorState->currentTrees[GeneratorTreeName(treeArray->treeName)];
             break;
         case VARIOUS_TREES:
-            // TODO mmmmmm
-            GeneratorTreeName(treeArray->treeName);
+            // Agrego nombre del árbol y root en la struct currentFile
+            // Me desplazo al siguiente y sigo agregando árboles
+            currentFile->treeNames[currentFile->treeSize] = treeArray->treeName;
+            currentFile->currentTrees[currentFile->treeSize++] = myGeneratorState->currentTrees[GeneratorTreeName(treeArray->treeName)];
             GeneratorTreeArray(treeArray->nextTreeArray);
             break;
         default:
@@ -266,7 +280,7 @@ void GeneratorInteger(int value, int treeIndex, TreeSentenceType sentenceType, T
     LogDebug("Generating Integer leaf");
     switch (sentenceType) {
         case ADD_NODE_SENTENCE:
-            //Recibo por parámetro el treeType siempre, porque puede llegar a ser la primer inserción y necesitarlo
+            // Recibo por parámetro el treeType siempre, porque puede llegar a ser la primer inserción y necesitarlo
             if (myGeneratorState->currentTrees[treeIndex] == NULL) {
                 myGeneratorState->currentTrees[treeIndex] = insertFirstNode(myGeneratorState->currentTrees[treeIndex], value, treeType);
             } else {
@@ -290,9 +304,24 @@ TreeType GeneratorTreeType(TreeTypeStruct* type) {
 }
 
 void GeneratorLegendType(LegendTypeStruct* type) {
-    // TODO
     LogDebug("Generating LegendType leaf");
-    type->legendType;
+    int alreadyAdded=0;
+    for (int i = 0; i < LEGEND_TYPES && !alreadyAdded; i++) {
+        //Si todavía no estaba, agrego
+        if(currentFile->legendParams[i]==NONE){
+            currentFile->legendParams[i]==type->legendType;
+            alreadyAdded=1;
+
+            LogDebug("Number of legends: %d", i);
+
+        }
+        //Si ya se agregó, ignoro
+        //Tirar warning
+        else if(currentFile->legendParams[i]==type->legendType){
+            alreadyAdded=1;
+        }
+    }
+
 }
 
 int GeneratorTreeName(char* treeName) {
@@ -301,28 +330,50 @@ int GeneratorTreeName(char* treeName) {
 }
 
 void GeneratorFileName(char* fileName) {
-    // TODO
     LogDebug("Generating FileName leaf");
+    currentFile = (struct FileWithName*)calloc(1, sizeof(struct FileWithName));
+    
+    currentFile -> name = calloc((strlen(fileName)) + 8, sizeof(char));
+
+    char* fileAux="./";
+    char* dotAux= ".dot";
+
+    strcpy(currentFile->name, fileAux);
+    currentFile -> name = strcat(currentFile->name, fileName);
+    currentFile-> name = strcat(currentFile ->name, dotAux);
+
+    for (int i = 0; i < LEGEND_TYPES; i++) {
+        currentFile->legendParams[i] = NONE;
+    }
+
 }
 
 void GeneratorFilePath(char* FilePath) {
-    // TODO
     LogDebug("Generating FilePath leaf");
+    currentFile->filePath = FilePath;
 }
 
-static int findTreeIndexByName(char* treeName){
-    for(int i=0; i<myGeneratorState->size; i++){
-        if(strcmp(treeName, myGeneratorState->treeNames[i])==0){
-            return i;
-        }
-    }
-    //TODO ver como handlear error
-    return -1;
-}
-
-void freeGeneratorState(){
-    for(int i=0; i<myGeneratorState->size;i++){
+void freeGeneratorState() {
+    for (int i = 0; i < myGeneratorState->size; i++) {
         freeTree(myGeneratorState->currentTrees[i]);
         free(myGeneratorState->treeNames[i]);
     }
 }
+
+static int findTreeIndexByName(char* treeName) {
+    for (int i = 0; i < myGeneratorState->size; i++) {
+        if (strcmp(treeName, myGeneratorState->treeNames[i]) == 0) {
+            return i;
+        }
+    }
+    // No debería llegar nunca porque handlea la tabla de simbolos, pero se deja por completitud
+    return -1;
+}
+
+static void resetFoundNodes() {
+    for (int  i = 0; i < currentFile->treeSize; i++) {
+        resetFindNode(currentFile->currentTrees[i]);
+    }
+}
+
+

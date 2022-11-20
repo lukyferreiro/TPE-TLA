@@ -3,6 +3,8 @@
 
 #include "../../semantic-analysis/abstract-syntax-tree.h"
 
+#define LEGEND_TYPES 5
+
 typedef enum rbtTypeEnum {
     RED,
     BLACK,
@@ -31,8 +33,9 @@ struct node* insertFirstNode(struct node* node, int key, TreeType type);
 struct node* insertNode(struct node* node, int key);
 struct node* deleteNode(struct node* node, int key);
 void findNode(struct node* node, int key);
+void resetFindNode(struct node* node);
 struct node* switchType(struct node* node, TreeType type);
-void generateDotFile(struct node* node, int* i, int j, LegendType* legend, int legendSize);
+void generateDotFile(struct node** currentTrees, char** treeNames,int treeSize, LegendType* legend, FILE* out);
 void freeTree(struct node* node);
 
 //To be used in legend

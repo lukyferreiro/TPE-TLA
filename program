@@ -5,12 +5,18 @@ configure rbt miArbol {
     addNode(2);
 }  
 
-configure rbt miArbol2 {
+configure avl miArbol2 {
     deleteNode(10);
     addNode(3,7,5);
+    findNode(3);
 }  
 
 create fotoMiArbol {
+    addTree(miArbol, miArbol2);
+    addLegend(max, min, count, height, balanced);
+}
+
+create fotoMiArbol2 {
     addTree(miArbol, miArbol2);
     addLegend(max, min, count, height, balanced);
 }

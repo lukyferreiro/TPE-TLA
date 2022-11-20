@@ -7,11 +7,12 @@
 
 static int max(int a, int b);
 static void transformToBst(struct node* node);
-static struct node* transformToAvl(struct node* node) ;
+static struct node* transformToAvl(struct node* node);
+static int* transformTreeToArray(struct node* node, int* size);
 static int addToArray(struct node* node, int arr[], int i);
 static void assignDotNumber(struct node* node, int* i);
-static int* transformTreeToArray(struct node* node, int* size);
-static void generateDot(struct node* node);
+static void generateDotSubGraph(struct node* node, char* treeName, int* i, int clusternum, LegendType* legend, FILE* out);
+static void generateDot(struct node* node, FILE* out);
 
 struct node* insertFirstNode(struct node* node, int key, TreeType type) {
     switch (type) {
@@ -75,8 +76,17 @@ void findNode(struct node* node, int key) {
     }
 }
 
+void resetFindNode(struct node* node) {
+    if (node != NULL) {
+        node->found=0;
+        resetFindNode(node->left);
+        resetFindNode(node->right);
+    }
+}
+
+
 struct node* switchType(struct node* node, TreeType type) {
-    if (node==NULL || node->type == type) {
+    if (node == NULL || node->type == type) {
         return node;
     }
 
@@ -96,25 +106,17 @@ struct node* switchType(struct node* node, TreeType type) {
     }
 }
 
-static void generateDot(struct node* node) {
-    if (node != NULL) {
-        if (node->found) {
-            printf("\tn%d [color=\"greenyellow\" style=\"filled\"]\n", node->dotNumber);
-        }
+void generateDotFile(struct node** currentTrees, char** treeNames, int treeSize, LegendType* legend, FILE* out) {
+    fprintf(out, "strict digraph{ ");
 
-        printf("\tn%d [label=\"%d\"] ;\n", node->dotNumber, node->key);
-        if (node->left != NULL) {
-            printf("\tn%d->n%d;\n", node->dotNumber, node->left->dotNumber);
-        }
-        if (node->right != NULL) {
-            printf("\tn%d->n%d;\n", node->dotNumber, node->right->dotNumber);
-        }
+    int i = 0;
 
-        generateDot(node->left);
-        generateDot(node->right);
+    for (int x = 0; x < treeSize; x++) {
+        generateDotSubGraph(currentTrees[x], treeNames[x], &i, x, legend, out);
     }
-}
 
+    fprintf(out, "}");
+}
 
 void freeTree(struct node* node) {
     if (node != NULL) {
@@ -154,62 +156,6 @@ int nodeCount(struct node* node) {
     }
 }
 
-static void assignDotNumber(struct node* node, int* i){
-    if (node != NULL) {
-        assignDotNumber(node->left, i);
-        node->dotNumber=*i;
-        (*i)++;
-        assignDotNumber(node->right, i);
-    }
-}
-
-void generateDotFile(struct node* node, int* i, int j, LegendType* legend, int legendSize) {
-    assignDotNumber(node, i);
-    // asignar numero de cluster para que se imprima aparte
-    printf("\nsubgraph cluster%d{ \n", j);
-    struct node* aux;
-
-    printf("label=\" ");
-    for(int x=0; x<legendSize; x++){
-        switch (legend[x])
-        {
-        case MAX_LEGEND:
-            aux=maxValueNode(node);
-            printf("Maximo valor: %d\\n", aux->key);
-            break;
-        
-        case MIN_LEGEND:
-            aux=minValueNode(node);
-            printf("Minimo valor: %d\\n", aux->key);
-            break;
-        
-        case COUNT_LEGEND:
-            printf("Cantidad de nodos: %d\\n", nodeCount(node));
-            break;
-
-        case BALANCED_LEGEND:
-            if(isBalanced(node)){
-                printf("Arbol balanceado\\n");
-            }
-            else {
-                printf("Arbol no balanceado\\n");
-
-            }
-            break;
-
-        case HEIGHT_LEGEND:
-            printf("Altura del arbol: %d\\n", treeHeight(node)-1);
-            break;               
-
-        default:
-            break;
-        }
-    }
-    printf("\";\n");
-    generateDot(node);
-    printf("}\n");
-}
-
 int treeHeight(struct node* node) {
     if (node == NULL)
         return 0;
@@ -239,11 +185,37 @@ static void transformToBst(struct node* node) {
     if (node != NULL) {
         node->height = 0;
         node->par = NULL;
-        node->color = NONE;
+        node->color = NO_COLOR;
         node->type = BST_TYPE;
         transformToBst(node->left);
         transformToBst(node->right);
     }
+}
+
+static struct node* transformToAvl(struct node* node) {
+    int i;
+    int* allNodes = transformTreeToArray(node, &i);
+    struct node* toRet = NULL;
+
+    for (int j = 0; j < i; j++) {
+        toRet = insertAvlNode(toRet, allNodes[j]);
+    }
+
+    free(allNodes);
+    freeTree(node);
+
+    return toRet;
+}
+
+static int* transformTreeToArray(struct node* node, int* size) {
+    int count = nodeCount(node);
+    int i = 0;
+    int* allNodes = malloc(count * sizeof(int));
+    i = addToArray(node, allNodes, i);
+
+    *size = i;
+
+    return allNodes;
 }
 
 static int addToArray(struct node* node, int arr[], int i) {
@@ -260,28 +232,74 @@ static int addToArray(struct node* node, int arr[], int i) {
     return i;
 }
 
-static int* transformTreeToArray(struct node* node, int* size) {
-    int count = nodeCount(node);
-    int i = 0;
-    int* allNodes = malloc(count * sizeof(int));
-    i = addToArray(node, allNodes, i);
-
-    *size = i;
-
-    return allNodes;
+static void assignDotNumber(struct node* node, int* i) {
+    if (node != NULL) {
+        assignDotNumber(node->left, i);
+        node->dotNumber = *i;
+        (*i)++;
+        assignDotNumber(node->right, i);
+    }
 }
 
-static struct node* transformToAvl(struct node* node) {
-    int i;
-    int* allNodes = transformTreeToArray(node, &i);
-    struct node* toRet = NULL;
+static void generateDotSubGraph(struct node* node, char* treeName, int* i, int clusternum, LegendType* legend, FILE* out) {
+    assignDotNumber(node, i);
+    // asignar numero de cluster para que se imprima aparte
+    fprintf(out, "\nsubgraph cluster%d{ \n", clusternum);
+    struct node* aux;
 
-    for (int j = 0; j < i; j++) {
-        toRet = insertAvlNode(toRet, allNodes[j]);
+    fprintf(out, "\tlabel=\"%s ", treeName);
+    for (int x = 0; x < LEGEND_TYPES; x++) {
+        switch (legend[x]) {
+            case MAX_LEGEND:
+                aux = maxValueNode(node);
+                fprintf(out, "Maximo valor: %d\\n", aux->key);
+                break;
+
+            case MIN_LEGEND:
+                aux = minValueNode(node);
+                fprintf(out, "Minimo valor: %d\\n", aux->key);
+                break;
+
+            case COUNT_LEGEND:
+                fprintf(out, "Cantidad de nodos: %d\\n", nodeCount(node));
+                break;
+
+            case BALANCED_LEGEND:
+                if (isBalanced(node)) {
+                    fprintf(out, "Arbol balanceado\\n");
+                } else {
+                    fprintf(out, "Arbol no balanceado\\n");
+                }
+                break;
+
+            case HEIGHT_LEGEND:
+                fprintf(out, "Altura del arbol: %d\\n", treeHeight(node) - 1);
+                break;
+
+            default:
+                break;
+        }
     }
+    fprintf(out, "\";\n");
+    generateDot(node, out);
+    fprintf(out, "}\n");
+}
 
-    free(allNodes);
-    freeTree(node);
+static void generateDot(struct node* node, FILE* out) {
+    if (node != NULL) {
+        if (node->found) {
+            fprintf(out, "\tn%d [color=\"greenyellow\" style=\"filled\"]\n", node->dotNumber);
+        }
 
-    return toRet;
+        fprintf(out, "\tn%d [label=\"%d\"] ;\n", node->dotNumber, node->key);
+        if (node->left != NULL) {
+            fprintf(out, "\tn%d->n%d;\n", node->dotNumber, node->left->dotNumber);
+        }
+        if (node->right != NULL) {
+            fprintf(out, "\tn%d->n%d;\n", node->dotNumber, node->right->dotNumber);
+        }
+
+        generateDot(node->left, out);
+        generateDot(node->right, out);
+    }
 }
