@@ -4,33 +4,43 @@
 #include "../../backend/semantic-analysis/abstract-syntax-tree.h"
 #include "../support/shared.h"
 
-void Generator(Program* program, FILE* out);
-void GeneratorConstantArray(ConstantArray* constantArray, FILE* out);
-void GeneratorConstant(Constant* constant, FILE* out);
-void GeneratorDeclaration(Declaration* declaration, FILE* out);
-void GeneratorDeclarationParameters(DeclarationParameters* declarationParameters, FILE* out);
-void GeneratorIntegerParameters(IntegerParameters* integerParameters, FILE* out);
-void GeneratorIntegerArray(IntegerArray* integerArray, FILE* out);
-void GeneratorBlock(Block* block, FILE* out);
-void GeneratorLegendParameters(LegendParameters* legendParameters, FILE* out);
-void GeneratorConfigureBlock(ConfigureBlock* configureBlock, FILE* out);
-void GeneratorTreeSentences(TreeSentences* treeSentences, FILE* out);
-void GeneratorTreeSentence(TreeSentence* treeSentence, FILE* out);
-void GeneratorCreateBlock(CreateBlock* createBlock, FILE* out);
-void GeneratorFileSentences(FileSentences* fileSentences, FILE* out);
-void GeneratorFileSentence(FileSentence* fileSentence, FILE* out);
-void GeneratorTreeParameters(TreeParameters* treeParameters, FILE* out);
-void GeneratorTreeArray(TreeArray* TreeArray, FILE* out);
-void GeneratorFileParameter(FileParameter* fileParameter, FILE* out);
-void GeneratorLegendParameters(LegendParameters* legendParameters, FILE* out);
-void GeneratorLegendArray(LegendArray* legendArray, FILE* out);
+// Funciones generales
+void Generator(Program* program);
+void GeneratorConstantArray(ConstantArray* constantArray);
+void GeneratorConstant(Constant* constant);
+void GeneratorBlock(Block* block);
+
+// Funciones declaration
+void GeneratorDeclaration(Declaration* declaration);
+void GeneratorDeclarationParameters(DeclarationParameters* declarationParameters, int treeIndex);
+void GeneratorIntegerParameters(IntegerParameters* integerParameters, int treeIndex, TreeSentenceType sentenceType, TreeType treeType);
+void GeneratorIntegerArray(IntegerArray* integerArray, int treeIndex, TreeSentenceType sentenceType, TreeType treeType);
+
+// Funciones configure
+void GeneratorConfigureBlock(ConfigureBlock* configureBlock, int treeIndex, TreeType treeType);
+void GeneratorTreeSentences(TreeSentences* treeSentences, int treeIndex, TreeType treeType);
+void GeneratorTreeSentence(TreeSentence* treeSentence, int treeIndex, TreeType treeType);
+
+// Funciones create
+void GeneratorLegendParameters(LegendParameters* legendParameters);
+void GeneratorCreateBlock(CreateBlock* createBlock);
+void GeneratorFileSentences(FileSentences* fileSentences);
+void GeneratorFileSentence(FileSentence* fileSentence);
+void GeneratorTreeParameters(TreeParameters* treeParameters);
+void GeneratorTreeArray(TreeArray* TreeArray);
+void GeneratorFileParameter(FileParameter* fileParameter);
+void GeneratorLegendParameters(LegendParameters* legendParameters);
+void GeneratorLegendArray(LegendArray* legendArray);
 
 // Nodos hoja
-void GeneratorInteger(int integer, FILE* out);
-void GeneratorTreeType(TreeTypeStruct* type, FILE* out);
-void GeneratorLegendType(LegendTypeStruct* type, FILE* out);
-void GeneratorTreeName(char* treeName, FILE* out);
-void GeneratorFileName(char* fileName, FILE* out);
-void GeneratorFilePath(char* FilePath, FILE* out);
+void GeneratorInteger(int value, int treeIndex, TreeSentenceType sentenceType, TreeType treeType);
+TreeType GeneratorTreeType(TreeTypeStruct* type);
+void GeneratorLegendType(LegendTypeStruct* type);
+int GeneratorTreeName(char* treeName);
+void GeneratorFileName(char* fileName);
+void GeneratorFilePath(char* FilePath);
+
+// Función para liberar recursos de generatorState
+void freeGeneratorState();
 
 #endif

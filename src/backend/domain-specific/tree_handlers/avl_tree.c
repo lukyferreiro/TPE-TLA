@@ -25,7 +25,7 @@ static struct node* newAvlNode(int key) {
     temp->left = NULL;
     temp->right = NULL;
     temp->height = 1;
-    temp->type = AVL;
+    temp->type = AVL_TYPE;
     temp->color=NONE;
     return temp;
 }

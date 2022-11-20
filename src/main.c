@@ -37,22 +37,14 @@ const int main(const int argumentCount, const char** arguments) {
             if (state.succeed) {
                 char to_write_commands[MAX_COMMAND];
                 // Creamos el archivo .dot
-                out = fopen("./a.dot", "w+");
-                if (out == NULL) {
-                    perror("Se produjo un error en la aplicacion.");
-                    free_st();
-                    exit(EXIT_FAILURE);
-                }
+            
+                Generator(state.program);
 
-                fprintf(out, "strict graph {\n");
-                Generator(state.program, out);
-                fprintf(out, "}\n");
-                fclose(out);
-
-                sprintf(to_write_commands, "dot -Tsvg a.dot -o foto.svg");
+                // sprintf(to_write_commands, "dot -Tsvg a.dot -o foto.svg");
                 if (system(to_write_commands) == -1) {
                     LogError("Se produjo un error en la aplicacion.");
                     free_st();
+                    freeGeneratorState();
                     freeProgram(state.program);
                     return -1;
                 }

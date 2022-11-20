@@ -1,20 +1,16 @@
 #ifndef TREE_H
 #define TREE_H
 
-typedef enum treeTypeEnum {
-    BST,
-    AVL,
-    RBT
-} treeTypeEnum;
+#include "../../semantic-analysis/abstract-syntax-tree.h"
 
 typedef enum rbtTypeEnum {
     RED,
     BLACK,
-    NONE
+    NO_COLOR
 } rbtTypeEnum;
 
 struct node {
-    treeTypeEnum type;
+    TreeType type;
     int key;
     int found;
     struct node *left, *right;
@@ -25,15 +21,18 @@ struct node {
     // Para rbt
     struct node* par;
     rbtTypeEnum color;
+
+    // Para dot
+    int dotNumber;
 };
 
 // General tree functions
-struct node* insertFirstNode(struct node* node, int key, treeTypeEnum type);
+struct node* insertFirstNode(struct node* node, int key, TreeType type);
 struct node* insertNode(struct node* node, int key);
 struct node* deleteNode(struct node* node, int key);
 void findNode(struct node* node, int key);
-struct node* switchType(struct node* node, treeTypeEnum type);
-void generateDot(struct node* node);
+struct node* switchType(struct node* node, TreeType type);
+void generateDotFile(struct node* node, int* i, int j, LegendType* legend, int legendSize);
 void freeTree(struct node* node);
 
 //To be used in legend

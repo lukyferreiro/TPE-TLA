@@ -44,7 +44,8 @@ typedef enum {
     MIN_LEGEND,
     COUNT_LEGEND,
     BALANCED_LEGEND,
-    HEIGHT_LEGEND
+    HEIGHT_LEGEND,
+    NONE
 } LegendType;
 
 struct LegendTypeStruct {

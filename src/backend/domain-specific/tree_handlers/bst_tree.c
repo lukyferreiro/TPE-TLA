@@ -6,7 +6,7 @@ static struct node* newBstNode(int key) {
     struct node* temp = (struct node*)calloc(1, sizeof(struct node));
     temp->key = key;
     temp->left = temp->right = NULL;
-    temp->type = BST;
+    temp->type = BST_TYPE;
     temp->color=NONE;
     return temp;
 }
