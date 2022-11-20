@@ -34,7 +34,7 @@ void GeneratorLegendArray(LegendArray* legendArray);
 
 // Nodos hoja
 void GeneratorInteger(int value, int treeIndex, TreeSentenceType sentenceType, TreeType treeType);
-TreeType GeneratorTreeType(TreeTypeStruct* type);
+TreeType GeneratorTreeType(TreeTypeStruct* type, int treeIndex);
 void GeneratorLegendType(LegendTypeStruct* type);
 int GeneratorTreeName(char* treeName);
 void GeneratorFileName(char* fileName);

@@ -183,6 +183,13 @@ TreeTypeStruct* TreeTypeRBTGrammarAction() {
     return t;
 }
 
+TreeTypeStruct* NoTreeTypeGrammarAction() {
+    LogDebug("\tNoTreeTypeGrammarAction");
+    TreeTypeStruct* t = (TreeTypeStruct*)calloc(1, sizeof(TreeTypeStruct));
+    t->treeType = NO_TYPE;
+    return t;
+}
+
 ConfigureBlock* TreeSentencesGrammarAction(TreeSentences* treeSentences) {
     LogDebug("\tTreeSentencesGrammarAction");
     ConfigureBlock* c = (ConfigureBlock*)calloc(1, sizeof(ConfigureBlock));

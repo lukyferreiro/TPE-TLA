@@ -111,10 +111,12 @@ void GeneratorIntegerArray(IntegerArray* integerArray, int treeIndex, TreeSenten
 
 void GeneratorBlock(Block* block) {
     LogDebug("Generating Block");
+    int treeIndex;
     switch (block->type) {
         case CONFIGURE_BLOCK:
             // Guardo el treeType y el index asociado al nombre para pasar a las funciones siguientes
-            GeneratorConfigureBlock(block->configureBlock, GeneratorTreeName(block->treeName), GeneratorTreeType(block->treeType));
+            treeIndex = GeneratorTreeName(block->treeName);
+            GeneratorConfigureBlock(block->configureBlock, treeIndex, GeneratorTreeType(block->treeType, treeIndex));
             break;
         case CREATE_BLOCK:
             // crear un struct que sea para los files, con el filename
@@ -295,9 +297,24 @@ void GeneratorInteger(int value, int treeIndex, TreeSentenceType sentenceType, T
     }
 }
 
-TreeType GeneratorTreeType(TreeTypeStruct* type) {
+TreeType GeneratorTreeType(TreeTypeStruct* type, int treeIndex) {
     LogDebug("Generating TreeType leaf");
-    return type->treeType;
+    //Si tengo un treeType distinto de empty, lo devuelvo directamente
+    //porque quiere decir que quiero cambiar el tipo de arbol
+    if(type->treeType!=NO_TYPE){
+        LogDebug("Handled != no type");
+        return type->treeType;
+    }
+
+    //Sino, me fijo si en esa posición había un árbol y devuelvo su tipo
+    if(myGeneratorState->currentTrees[treeIndex]!=NULL){
+        LogDebug("Handled previous tree type");
+        return myGeneratorState->currentTrees[treeIndex]->type;
+    }
+
+    LogDebug("Handled default tree type");
+    //Si no había un árbol y estaba vacío, devuelvo BST_TYPE como default
+    return BST_TYPE;
 }
 
 void GeneratorLegendType(LegendTypeStruct* type) {

@@ -38,6 +38,7 @@ Block* CreateBlockGrammarAction(char* fileName, CreateBlock* createBlock);
 TreeTypeStruct* TreeTypeBSTGrammarAction();
 TreeTypeStruct* TreeTypeAVLGrammarAction();
 TreeTypeStruct* TreeTypeRBTGrammarAction();
+TreeTypeStruct* NoTreeTypeGrammarAction();
 
 ConfigureBlock* TreeSentencesGrammarAction(TreeSentences* treeSentences);
 

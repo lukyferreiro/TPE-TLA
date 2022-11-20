@@ -87,15 +87,20 @@ void resetFindNode(struct node* node) {
 
 struct node* switchType(struct node* node, TreeType type) {
     if (node == NULL || node->type == type) {
+        printf("No change\n");
         return node;
     }
 
     switch (type) {
         case BST_TYPE:
+        printf("BST change\n");
+
             transformToBst(node);
             return node;
 
         case AVL_TYPE:
+        printf("AVL change\n");
+
             return transformToAvl(node);
 
         case RBT_TYPE:

@@ -143,7 +143,8 @@ struct ConfigureBlock {
 typedef enum {
     BST_TYPE,
     AVL_TYPE,
-    RBT_TYPE
+    RBT_TYPE,
+    NO_TYPE
 } TreeType;
 
 struct TreeTypeStruct {

@@ -10,7 +10,7 @@ create fotoMiArbol {
     addLegend(max, min, count);
 }
 
-configure avl miArbol {
+configure miArbol {
     addNode(7);
 }
 
