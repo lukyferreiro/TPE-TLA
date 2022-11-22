@@ -4,11 +4,12 @@
 #include <stdio.h>
 
 // Descomentar para loguear en modo DEBUG (con mas detalle).
-#define DEBUG true
+//#define DEBUG true
 
 void Log(FILE* const stream, const char* prefix, const char* const format, const char* suffix, va_list arguments);
 void LogDebug(const char* const format, ...);
 void LogError(const char* const format, ...);
+void LogWarn(const char* const format, ...);
 void LogErrorRaw(const char* const format, ...);
 void LogInfo(const char* const format, ...);
 

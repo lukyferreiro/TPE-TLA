@@ -7,6 +7,8 @@
 #define TRUE 1
 #define FALSE 0
 
+static int programSuccess= TRUE;
+
 /**
  * Esta función se ejecuta cada vez que se emite un error de sintaxis.
  */
@@ -30,7 +32,7 @@ Program* ProgramGrammarAction(ConstantArray* constantArray) {
     LogDebug("\tProgramGrammarAction");
     Program* program = (Program*)calloc(1, sizeof(Program));
     program->constantArray = constantArray;
-    state.succeed = TRUE;
+    state.succeed = programSuccess;
     state.program = program;
     return program;
 }
@@ -76,8 +78,9 @@ Declaration* DeclarationTreeGrammarAction(char* treeName, DeclarationParameters*
 
     //Me fijo si ya esta declarada en la tabla de simbolos
     if (create_variable_st(treeName, VARIABLE_TREE) == NULL) {
-        LogError("El arbol %s ya estaba declarado\n", treeName);
-        exit(1);    //TODO sacar el exit y levantar flag de syntax error
+        LogWarn("El arbol '%s' ya se encuentra declarado. La salida podria ser distinta a la esperada.", treeName);
+        programSuccess=FALSE;
+        return NULL;
     }
 
     Declaration* d = (Declaration*)calloc(1, sizeof(Declaration));
@@ -123,8 +126,9 @@ Block* ConfigureBlockGrammarAction(TreeTypeStruct* treeType, char* treeName, Con
 
     Variable* var = get_variable_st(treeName);
     if (var == NULL) {
-        LogError("El arbol %s no esta declarado", treeName);
-        exit(1);
+        LogError("El arbol '%s' no esta declarado.", treeName);
+        programSuccess=FALSE;
+        return NULL;
     }
 
     if (var->type == VARIABLE_TREE) {
@@ -138,8 +142,9 @@ Block* ConfigureBlockGrammarAction(TreeTypeStruct* treeType, char* treeName, Con
         return b;
     } else {
         // Si estoy aca, ya existe esta variable, pero es del tipo FILE_PATH
-        LogError("La variable 'tree' %s ya se encuentra declarada como un file path", treeName);
-        exit(1);
+        LogWarn("El arbol '%s' ya se encuentra declarado. La salida podria ser distinta a la esperada.", treeName);
+        programSuccess=FALSE;
+        return NULL;
     }
 }
 
@@ -148,8 +153,9 @@ Block* CreateBlockGrammarAction(char* fileName, CreateBlock* createBlock) {
     
     //Me fijo si ya esta declarada en la tabla de simbolos
     if (create_variable_st(fileName, VARIABLE_FILE) == NULL) {
-        LogError("Ya se encuentra declarado un archivo con el nombre %s\n", fileName);
-        exit(1);    //TODO sacar el exit y levantar flag de syntax error
+        LogWarn("La variable '%s' ya se encuentra declarada. La salida podria ser diferente a la esperada.", fileName);
+        programSuccess=FALSE;
+        return NULL;
     }
 
     Block* b = (Block*)calloc(1, sizeof(Block));
@@ -313,8 +319,9 @@ TreeArray* TreeNameGrammarAction(char* treeName) {
 
     Variable* var = get_variable_st(treeName);
     if (var == NULL) {
-        LogError("El arbol %s no esta declarado", treeName);
-        exit(1);
+        LogError("El arbol '%s' no esta declarado", treeName);
+        programSuccess=FALSE;
+        return NULL;
     }
 
     if (var->type == VARIABLE_TREE) {
@@ -325,8 +332,9 @@ TreeArray* TreeNameGrammarAction(char* treeName) {
         return t;
     } else {
         // Si estoy aca, ya existe esta variable, pero es del tipo FILE_PATH
-        LogError("La variable 'tree' %s ya se encuentra declarada como un file path", treeName);
-        exit(1);
+        LogWarn("La arbol '%s' ya se encuentra declarado. La salida podria ser distinta a la esperada.", treeName);
+        programSuccess=FALSE;
+        return NULL;
     }
 }
 
@@ -335,8 +343,9 @@ TreeArray* TreeNameArrayGrammarAction(char* treeName, TreeArray* nextTreeNames) 
 
     Variable* var = get_variable_st(treeName);
     if (var == NULL) {
-        LogError("El arbol %s no esta declarado", treeName);
-        exit(1);
+        LogError("El arbol '%s' no esta declarado", treeName);
+        programSuccess=FALSE;
+        return NULL;
     }
 
     if (var->type == VARIABLE_TREE) {
@@ -347,8 +356,9 @@ TreeArray* TreeNameArrayGrammarAction(char* treeName, TreeArray* nextTreeNames) 
         return t;
     } else {
         // Si estoy aca, ya existe esta variable, pero es del tipo FILE_PATH
-        LogError("La variable 'tree' %s ya se encuentra declarada como un file path", treeName);
-        exit(1);
+        LogWarn("El arbol '%s' ya se encuentra declarado. La salida prodira ser diferente a la esperada.", treeName);
+        programSuccess=FALSE;
+        return NULL;
     }
 }
 

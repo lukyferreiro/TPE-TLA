@@ -3,6 +3,7 @@
 #include "../../backend/domain-specific/tree_handlers/tree.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define MAX_NUM_TREES 20
 
@@ -31,6 +32,7 @@ static FILE* outputFile;
 // aux functions
 static int findTreeIndexByName(char* treeName);
 static void resetFoundNodes();
+static void freeFileResources();
 
 void Generator(Program* program) {
     // inicializar struct generator state
@@ -72,6 +74,10 @@ void GeneratorDeclaration(Declaration* declaration) {
     LogDebug("Generating Declaration");
 
     // chequear si todavía puedo agregar arboles o no
+    if (myGeneratorState->size >= MAX_NUM_TREES) {
+        LogError("La aplicación solo soporta un máximo de 20 árboles simultáneamente\n");
+        return;
+    }
 
     // guardo el nombre del nuevo arbol
     myGeneratorState->treeNames[myGeneratorState->size] = declaration->treeName;
@@ -124,12 +130,64 @@ void GeneratorBlock(Block* block) {
             GeneratorFileName(block->fileName);
             GeneratorCreateBlock(block->createBlock);
 
-            outputFile = fopen(currentFile->name,"w+") ;
+            char* fullPathName = NULL;
+            char* dotAux = ".dot";
+            char* noFilePathAux = "./";
+
+            if (currentFile->filePath == NULL) {
+                fullPathName = calloc(strlen(noFilePathAux) + strlen(currentFile->name) + strlen(dotAux) + 1, sizeof(char));
+                strcat(fullPathName, noFilePathAux);
+                strcat(fullPathName, currentFile->name);
+                strcat(fullPathName, dotAux);
+            } else {
+                fullPathName = calloc(strlen(currentFile->filePath) + strlen(currentFile->name) + strlen(dotAux) + 1, sizeof(char));
+                strcat(fullPathName, currentFile->filePath);
+                strcat(fullPathName, currentFile->name);
+                strcat(fullPathName, dotAux);
+            }
+
+            int fullPathNameSize = strlen(fullPathName);
+            outputFile = fopen(fullPathName, "w+");
+
+            if (outputFile == NULL) {
+                printf("Error abriendo archivo\n");
+                freeFileResources();
+            }
 
             generateDotFile(currentFile->currentTrees, currentFile->treeNames, currentFile->treeSize, currentFile->legendParams, outputFile);
+
+            printf("Antes de comando: %s\n", fullPathName);
+
+            char* pngAux = ".png";
+            char* dotCommandAux = "dot -Tpng ";
+            char* outAux = " -o ";
+            char* to_write_commands  = calloc(strlen(dotCommandAux) + 2*strlen(fullPathName) + strlen(outAux) + 1, sizeof(char));
+
+            strcat(to_write_commands, dotCommandAux);
+            strcat(to_write_commands, fullPathName);
+            strcat(to_write_commands, outAux);
+
+            fullPathName[fullPathNameSize-1] = 'g';
+            fullPathName[fullPathNameSize-2] = 'n';
+            fullPathName[fullPathNameSize-3] = 'p';
+            
+            strcat(to_write_commands, fullPathName);
+
+            printf("Despues de comando: \n%s\n", to_write_commands);
+     
+            if (system(to_write_commands) == -1) {
+                LogError("Se produjo un error en la aplicacion.");
+                free(fullPathName);
+                free(to_write_commands);
+                return;
+            }
+
+            free(fullPathName);
+            free(to_write_commands);
             resetFoundNodes();
-            free(currentFile->name);
-            free(currentFile);
+            freeFileResources();
+            fclose(outputFile);
+
             // Llamo a función que genere dot del archivo
             break;
         default:
@@ -299,43 +357,42 @@ void GeneratorInteger(int value, int treeIndex, TreeSentenceType sentenceType, T
 
 TreeType GeneratorTreeType(TreeTypeStruct* type, int treeIndex) {
     LogDebug("Generating TreeType leaf");
-    //Si tengo un treeType distinto de empty, lo devuelvo directamente
-    //porque quiere decir que quiero cambiar el tipo de arbol
-    if(type->treeType!=NO_TYPE){
+    // Si tengo un treeType distinto de empty, lo devuelvo directamente
+    // porque quiere decir que quiero cambiar el tipo de arbol
+    if (type->treeType != NO_TYPE) {
         LogDebug("Handled != no type");
         return type->treeType;
     }
 
-    //Sino, me fijo si en esa posición había un árbol y devuelvo su tipo
-    if(myGeneratorState->currentTrees[treeIndex]!=NULL){
+    // Sino, me fijo si en esa posición había un árbol y devuelvo su tipo
+    if (myGeneratorState->currentTrees[treeIndex] != NULL) {
         LogDebug("Handled previous tree type");
         return myGeneratorState->currentTrees[treeIndex]->type;
     }
 
     LogDebug("Handled default tree type");
-    //Si no había un árbol y estaba vacío, devuelvo BST_TYPE como default
+    // Si no había un árbol y estaba vacío, devuelvo BST_TYPE como default
     return BST_TYPE;
 }
 
 void GeneratorLegendType(LegendTypeStruct* type) {
     LogDebug("Generating LegendType leaf");
-    int alreadyAdded=0;
+    int alreadyAdded = 0;
     for (int i = 0; i < LEGEND_TYPES && !alreadyAdded; i++) {
-        //Si todavía no estaba, agrego
-        if(currentFile->legendParams[i]==NONE){
-            currentFile->legendParams[i]=type->legendType;
-            alreadyAdded=1;
+        // Si todavía no estaba, agrego
+        if (currentFile->legendParams[i] == NONE) {
+            currentFile->legendParams[i] = type->legendType;
+            alreadyAdded = 1;
 
             LogDebug("Number of legends: %d", i);
 
         }
-        //Si ya se agregó, ignoro
-        //Tirar warning
-        else if(currentFile->legendParams[i]==type->legendType){
-            alreadyAdded=1;
+        // Si ya se agregó, ignoro
+        // Tirar warning
+        else if (currentFile->legendParams[i] == type->legendType) {
+            alreadyAdded = 1;
         }
     }
-
 }
 
 int GeneratorTreeName(char* treeName) {
@@ -346,20 +403,20 @@ int GeneratorTreeName(char* treeName) {
 void GeneratorFileName(char* fileName) {
     LogDebug("Generating FileName leaf");
     currentFile = (struct FileWithName*)calloc(1, sizeof(struct FileWithName));
-    
-    currentFile -> name = calloc((strlen(fileName)) + 8, sizeof(char));
 
-    char* fileAux="./";
-    char* dotAux= ".dot";
+    currentFile->name = calloc((strlen(fileName)) + 3, sizeof(char));
+    currentFile->filePath = NULL;
 
-    strcpy(currentFile->name, fileAux);
-    currentFile -> name = strcat(currentFile->name, fileName);
-    currentFile-> name = strcat(currentFile ->name, dotAux);
+    //char* fileAux = "./";
+    //char* dotAux = ".dot";
+
+    //strcpy(currentFile->name, fileAux);
+    currentFile->name = strcat(currentFile->name, fileName);
+    //currentFile->name = strcat(currentFile->name, dotAux);
 
     for (int i = 0; i < LEGEND_TYPES; i++) {
         currentFile->legendParams[i] = NONE;
     }
-
 }
 
 void GeneratorFilePath(char* FilePath) {
@@ -385,9 +442,12 @@ static int findTreeIndexByName(char* treeName) {
 }
 
 static void resetFoundNodes() {
-    for (int  i = 0; i < currentFile->treeSize; i++) {
+    for (int i = 0; i < currentFile->treeSize; i++) {
         resetFindNode(currentFile->currentTrees[i]);
     }
 }
 
-
+static void freeFileResources() {
+    free(currentFile->name);
+    free(currentFile);
+}

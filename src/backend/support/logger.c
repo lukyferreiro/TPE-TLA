@@ -24,6 +24,13 @@ void LogError(const char* const format, ...) {
     va_end(arguments);
 }
 
+void LogWarn(const char* const format, ...) {
+    va_list arguments;
+    va_start(arguments, format);
+    Log(stderr, "[WARNING] ", format, "\n", arguments);
+    va_end(arguments);
+}
+
 void LogErrorRaw(const char* const format, ...) {
     va_list arguments;
     va_start(arguments, format);

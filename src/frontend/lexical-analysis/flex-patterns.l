@@ -20,7 +20,7 @@
 /* Patrones reutilizables. */
 /* https://www.regextester.com/115652 */
 variableName    [A-Za-z][A-Za-z0-9]*
-filePath        (([/]{1}[A-Za-z0-9_-]+)+([/]?){1})|(^([\/]{1}))
+filePath        (([/]{1}[A-Za-z0-9_-]+)+([/]){1})|(^([\/]{1}))
 digit			[0-9]
 endline			[\n]
 whitespace		[ \f\n\r\t\v]

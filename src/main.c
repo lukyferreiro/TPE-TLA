@@ -35,20 +35,7 @@ const int main(const int argumentCount, const char** arguments) {
     switch (result) {
         case 0:
             if (state.succeed) {
-                char to_write_commands[MAX_COMMAND];
-                // Creamos el archivo .dot
-            
                 Generator(state.program);
-
-                // sprintf(to_write_commands, "dot -Tsvg a.dot -o foto.svg");
-                if (system(to_write_commands) == -1) {
-                    LogError("Se produjo un error en la aplicacion.");
-                    free_st();
-                    freeGeneratorState();
-                    freeProgram(state.program);
-                    return -1;
-                }
-
                 LogInfo("La compilacion fue exitosa.");
             } else {
                 LogError("Se produjo un error en la aplicacion.");

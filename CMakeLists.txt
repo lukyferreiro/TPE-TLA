@@ -70,6 +70,7 @@ add_executable(Compiler
 	src/backend/domain-specific/tree_handlers/tree.c
 	src/backend/domain-specific/tree_handlers/bst_tree.c
 	src/backend/domain-specific/tree_handlers/avl_tree.c
+	src/backend/domain-specific/tree_handlers/rbt_tree.c
 	# TODO ver que agregar
 	# Agregar otros archivos *.c (si no se incluyen, no se compilan).
 	# ...
