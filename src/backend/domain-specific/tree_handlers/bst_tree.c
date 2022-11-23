@@ -11,26 +11,30 @@ static struct node* newBstNode(int key) {
     return temp;
 }
 
-struct node* insertBstNode(struct node* node, int key) {
+struct node* insertBstNode(struct node* node, int key, int *flag) {
     if (node == NULL)
         return newBstNode(key);
 
     if (key < node->key)
-        node->left = insertBstNode(node->left, key);
+        node->left = insertBstNode(node->left, key, flag);
     else if (key > node->key)
-        node->right = insertBstNode(node->right, key);
-
+        node->right = insertBstNode(node->right, key, flag);
+    else if (key == node->key){
+        (*flag)=1;
+    }
     return node;
 }
 
-struct node* deleteBstNode(struct node* node, int key) {
-    if (node == NULL)
+struct node* deleteBstNode(struct node* node, int key, int* flag) {
+    if (node == NULL){
+        (*flag)=3;
         return node;
+    }
 
     if (key < node->key)
-        node->left = deleteBstNode(node->left, key);
+        node->left = deleteBstNode(node->left, key, flag);
     else if (key > node->key)
-        node->right = deleteBstNode(node->right, key);
+        node->right = deleteBstNode(node->right, key, flag);
 
     else {
         if (node->left == NULL) {
@@ -46,8 +50,8 @@ struct node* deleteBstNode(struct node* node, int key) {
         struct node* temp = minValueNode(node->right);
 
         node->key = temp->key;
-
-        node->right = deleteBstNode(node->right, temp->key);
+        int aux=0;
+        node->right = deleteBstNode(node->right, temp->key, &aux);
     }
     return node;
 }

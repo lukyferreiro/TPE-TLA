@@ -4,6 +4,7 @@
 #include "bst_tree.h"
 #include "avl_tree.h"
 #include "rbt_tree.h"
+#include "../../../backend/support/logger.h"
 
 static int max(int a, int b);
 static void transformToBst(struct node* node);
@@ -14,39 +15,58 @@ static int addToArray(struct node* node, int arr[], int i);
 static void assignDotNumber(struct node* node, int* i);
 static void generateDotSubGraph(struct node* node, char* treeName, int* i, int clusternum, LegendType* legend, FILE* out);
 static void generateDot(struct node* node, FILE* out);
+static void handleFlagWarning(int flag);
 
-static char* nodeDuplicate="El nodo %d ya se encontraba agregado";
-static char* nodeNotDeleted="El nodo %d no se encontraba presente en el árbol";
-static char* nodeMallocFail="No se pudo reservar memoria para agregar el nodo";
+static char* nodeDuplicate = "El nodo %d ya se encontraba agregado";
+static char* nodeNotDeleted = "El nodo %d no se encontraba presente en el árbol";
+static char* nodeMallocFail = "No se pudo reservar memoria para agregar el nodo";
 
 struct node* insertFirstNode(struct node* node, int key, TreeType type) {
-    int flag=0;
+    int flag = 0;
     switch (type) {
         case BST_TYPE:
-            node = insertBstNode(node, key);
-            return node;
+            node = insertBstNode(node, key, &flag);
+            break;
         case AVL_TYPE:
-            node = insertAvlNode(node, key);
-            return node;
+            node = insertAvlNode(node, key, &flag);
+            break;
         case RBT_TYPE:
-            node = insertRbtNode(node, key);
-            return node;
+            node = insertRbtNode(node, key, &flag);
+            break;
         default:
             return NULL;
     }
+    if(flag==1){
+        LogWarn(nodeDuplicate, key);
+    }
+    if(flag==3){
+        LogWarn(nodeMallocFail);
+    }
+    return node;
 }
 
 struct node* insertNode(struct node* node, int key) {
+    int flag = 0;
     switch (node->type) {
         case BST_TYPE:
-            return insertBstNode(node, key);
+            node = insertBstNode(node, key, &flag);
+            break;
         case AVL_TYPE:
-            return insertAvlNode(node, key);
+            node = insertAvlNode(node, key, &flag);
+            break;
         case RBT_TYPE:
-            return insertRbtNode(node, key);
+            node = insertRbtNode(node, key, &flag);
+            break;
         default:
             return NULL;
     }
+    if(flag==1){
+        LogWarn(nodeDuplicate, key);
+    }
+    if(flag==2){
+        LogWarn(nodeMallocFail);
+    }
+    return node;
 }
 
 struct node* deleteNode(struct node* node, int key) {
@@ -54,17 +74,26 @@ struct node* deleteNode(struct node* node, int key) {
         return NULL;
     }
 
+    int flag = 0;
     switch (node->type) {
         case BST_TYPE:
-            return deleteBstNode(node, key);
+            node = deleteBstNode(node, key, &flag);
+            break;
         case AVL_TYPE:
-            return deleteAvlNode(node, key);
+            node =  deleteAvlNode(node, key, &flag);
+            break;
         case RBT_TYPE:
-            // return deleteRbtNode(node, key);
-            return NULL;
+            LogWarn("La operación de borrado no se encuentra disponible para arboles rbt aun");
+            //node = deleteRbtNode(node, key, &flag);
+            break;
         default:
             return NULL;
     }
+    if(flag){
+        LogWarn(nodeNotDeleted, key);
+    }
+
+    return node;
 }
 
 void findNode(struct node* node, int key) {
@@ -85,12 +114,11 @@ void findNode(struct node* node, int key) {
 
 void resetFindNode(struct node* node) {
     if (node != NULL) {
-        node->found=0;
+        node->found = 0;
         resetFindNode(node->left);
         resetFindNode(node->right);
     }
 }
-
 
 struct node* switchType(struct node* node, TreeType type) {
     if (node == NULL || node->type == type) {
@@ -205,7 +233,7 @@ static struct node* transformToAvl(struct node* node) {
     struct node* toRet = NULL;
 
     for (int j = 0; j < i; j++) {
-        toRet = insertAvlNode(toRet, allNodes[j]);
+        toRet = insertFirstNode(toRet, allNodes[j], AVL_TYPE);
     }
 
     free(allNodes);
@@ -220,7 +248,7 @@ static struct node* transformToRbt(struct node* node) {
     struct node* toRet = NULL;
 
     for (int j = 0; j < i; j++) {
-        toRet = insertRbtNode(toRet, allNodes[j]);
+        toRet = insertFirstNode(toRet, allNodes[j], RBT_TYPE);
     }
 
     free(allNodes);
@@ -228,7 +256,6 @@ static struct node* transformToRbt(struct node* node) {
 
     return toRet;
 }
-
 
 static int* transformTreeToArray(struct node* node, int* size) {
     int count = nodeCount(node);
@@ -312,14 +339,11 @@ static void generateDot(struct node* node, FILE* out) {
     if (node != NULL) {
         if (node->found) {
             fprintf(out, "\tn%d [color=\"greenyellow\" style=\"filled\"]\n", node->dotNumber);
-        }
-        else if(node->color==RED) {
+        } else if (node->color == RED) {
             fprintf(out, "\tn%d [color=\"red\"]\n", node->dotNumber);
-        }
-        else if(node->color==BLACK){
+        } else if (node->color == BLACK) {
             fprintf(out, "\tn%d [color=\"black\"]\n", node->dotNumber);
         }
-          
 
         fprintf(out, "\tn%d [label=\"%d\"] ;\n", node->dotNumber, node->key);
         if (node->left != NULL) {

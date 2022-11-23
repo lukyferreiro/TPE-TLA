@@ -62,16 +62,20 @@ static int getBalance(struct node* node) {
     return height(node->left) - height(node->right);
 }
 
-struct node* insertAvlNode(struct node* node, int key) {
+struct node* insertAvlNode(struct node* node, int key, int* flag) {
     if (node == NULL)
         return (newAvlNode(key));
 
-    if (key < node->key)
-        node->left = insertAvlNode(node->left, key);
-    else if (key > node->key)
-        node->right = insertAvlNode(node->right, key);
-    else
+    if (key < node->key){
+        node->left = insertAvlNode(node->left, key, flag);
+    }
+    else if (key > node->key){
+        node->right = insertAvlNode(node->right, key, flag);
+    }
+    else{
+        (*flag) = 1;
         return node;
+    }
 
     node->height = 1 + max(height(node->left), height(node->right));
 
@@ -95,16 +99,18 @@ struct node* insertAvlNode(struct node* node, int key) {
     return node;
 }
 
-struct node* deleteAvlNode(struct node* node, int key) {
-    if (node == NULL)
+struct node* deleteAvlNode(struct node* node, int key, int* flag) {
+    if (node == NULL) {
+        (*flag) = 3;
         return node;
+    }
 
-    if (key < node->key)
-        node->left = deleteAvlNode(node->left, key);
-
-    else if (key > node->key)
-        node->right = deleteAvlNode(node->right, key);
-
+    if (key < node->key) {
+        node->left = deleteAvlNode(node->left, key, flag);
+    }
+    else if (key > node->key) {
+        node->right = deleteAvlNode(node->right, key, flag);
+    }
     else {
         if ((node->left == NULL) || (node->right == NULL)) {
             struct node* temp = node->left ? node->left : node->right;
@@ -120,7 +126,7 @@ struct node* deleteAvlNode(struct node* node, int key) {
 
             node->key = temp->key;
 
-            node->right = deleteAvlNode(node->right, temp->key);
+            node->right = deleteAvlNode(node->right, temp->key, flag);
         }
     }
 

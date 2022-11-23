@@ -1,31 +1,7 @@
-tree miArbolAvl(4, 2, 1);
-tree miArbolBst(4,2,1);
+tree miArbol(1);
 
-
-configure avl miArbolAvl {
-    addNode(6, 7, 8, 9);
-    findNode(1);
+configure avl miArbol {
+    addNode(1,2,3,4,5);
+    deleteNode(1,6);
+    findNode(1,3,5);
 }
-
-configure miArbolBst {
-    addNode(6, 7, 8, 9);
-    findNode(1);
-}
-
-configure arbol {
-    addNode(1);
-}
-
-create miArbolAvl {
-    addTree(arbol, miArbolBst);
-}
-
-create archivo {
-    addTree(arbol, miArbolBst);
-}
-
-create archivo {
-    addTree(arbol, miArbolBst);
-}
-
-tree archivo(1);

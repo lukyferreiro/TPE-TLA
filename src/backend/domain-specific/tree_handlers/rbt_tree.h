@@ -3,7 +3,7 @@
 
 #include "tree.h"
 
-struct node* insertRbtNode(struct node* node, int key);
-struct node* deleteRbtNode(struct node* node, int key);
+struct node* insertRbtNode(struct node* node, int key, int* flag);
+struct node* deleteRbtNode(struct node* node, int key, int* flag);
 
 #endif

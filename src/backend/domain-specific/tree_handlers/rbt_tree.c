@@ -4,15 +4,15 @@
 
 
 static struct node* newRbtNode(int key);
-static struct node* bstInsertNode(struct node* trav, struct node* temp);
+static struct node* bstInsertNode(struct node* trav, struct node* temp, int* flag);
 static struct node* rightrotate(struct node* root, struct node* x);
 static struct node* lefttrotate(struct node* root, struct node* x);
 static struct node* fixup(struct node* root, struct node* pt);
 
 
-struct node* insertRbtNode(struct node* node, int key) {
+struct node* insertRbtNode(struct node* node, int key, int* flag) {
     struct node* toAdd = newRbtNode(key);
-    node = bstInsertNode(node, toAdd);
+    node = bstInsertNode(node, toAdd, flag);
     node = fixup(node, toAdd);
     return node;
 }
@@ -27,18 +27,19 @@ static struct node* newRbtNode(int key) {
     return temp;
 }
 
-struct node* bstInsertNode(struct node* trav, struct node* temp) {
+struct node* bstInsertNode(struct node* trav, struct node* temp, int* flag) {
     if (trav == NULL)
         return temp;
 
     if (temp->key < trav->key) {
-        trav->left = bstInsertNode(trav->left, temp);
+        trav->left = bstInsertNode(trav->left, temp, flag);
         trav->left->par = trav;
     } else if (temp->key > trav->key) {
-        trav->right = bstInsertNode(trav->right, temp);
+        trav->right = bstInsertNode(trav->right, temp, flag);
         trav->right->par = trav;
     }
 
+    (*flag)=1;
     return trav;
 }
 
