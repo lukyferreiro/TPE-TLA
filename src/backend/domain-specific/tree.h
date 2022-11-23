@@ -1,7 +1,7 @@
 #ifndef TREE_H
 #define TREE_H
 
-#include "../../semantic-analysis/abstract-syntax-tree.h"
+#include "../semantic-analysis/abstract-syntax-tree.h"
 
 #define LEGEND_TYPES 5
 
@@ -29,12 +29,12 @@ struct node {
 };
 
 // General tree functions
-struct node* insertFirstNode(struct node* node, int key, TreeType type);
-struct node* insertNode(struct node* node, int key);
-struct node* deleteNode(struct node* node, int key);
+struct node* insertFirstNode(struct node* node, int key, TreeType type, int* flag);
+struct node* insertNode(struct node* node, int key, int *flag);
+struct node* deleteNode(struct node* node, int key, int *flag);
 void findNode(struct node* node, int key);
 void resetFindNode(struct node* node);
-struct node* switchType(struct node* node, TreeType type);
+struct node* switchType(struct node* node, TreeType type, int* flag);
 void generateDotFile(struct node** currentTrees, char** treeNames,int treeSize, LegendType* legend, FILE* out);
 void freeTree(struct node* node);
 

@@ -4,6 +4,7 @@
 #include "../../backend/semantic-analysis/abstract-syntax-tree.h"
 #include "../../backend/semantic-analysis/symbol-table.h"
 #include "../../backend/support/shared.h"
+#include "../../backend/support/free_ast.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

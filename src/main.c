@@ -35,8 +35,19 @@ const int main(const int argumentCount, const char** arguments) {
     switch (result) {
         case 0:
             if (state.succeed) {
-                Generator(state.program);
-                LogInfo("La compilacion fue exitosa.");
+                switch (Generator(state.program)) {
+                    case 0:
+                        LogInfo("La compilacion fue exitosa.");
+                        break;
+                    case 1:
+                        LogInfo("La compilacion se realizo con warnings.");
+                        break;
+                    case 2:
+                        LogInfo("La compilacion encontro uno o más errores.");
+                        break;
+                    default:
+                        break;
+                }
             } else {
                 LogError("Se produjo un error en la aplicacion.");
                 free_st();
@@ -53,6 +64,7 @@ const int main(const int argumentCount, const char** arguments) {
             LogError("Error desconocido mientras se ejecutaba el analizador Bison (codigo %d).", result);
     }
     LogInfo("Fin.");
+    freeGeneratorState();
     free_st();
     freeProgram(state.program);
     return result;

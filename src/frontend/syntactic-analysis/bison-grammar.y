@@ -97,6 +97,30 @@
 %type <legendArray> legendArray
 %type <legendType> legendType
 
+//Destructores para liberar los nodos del AST en caso de que falle la compilacion
+//https://www.gnu.org/software/bison/manual/html_node/Destructor-Decl.html
+%destructor { freeConstantArray($$); } <constantArray>
+%destructor { freeConstant($$); } <constant>
+%destructor { freeDeclaration($$); } <declaration>
+%destructor { freeDeclarationParameters($$); } <declarationParameters>
+%destructor { freeBlock($$); } <block>
+%destructor { freeConfigureBlock($$); } <configureBlock>
+%destructor { freeTreeSentences($$); } <treeSentences>
+%destructor { freeTreeSentence($$); } <treeSentence>
+%destructor { freeCreateBlock($$); } <createBlock>
+%destructor { freeFileSentences($$); } <fileSentences>
+%destructor { freeFileSentence($$); } <fileSentence>
+%destructor { freeTreeParameters($$); } <treeParameters>
+%destructor { freeTreeArray($$); } <treeArray>
+%destructor { freeFileParameter($$); } <fileParameter>
+%destructor { freeLengendParameter($$); } <legendParameters>
+%destructor { freeLegendArray($$); } <legendArray>
+%destructor { freeLegendTypeStruct($$); } <legendType>
+%destructor { freeTreeTypeStruct($$); } <treeType>
+%destructor { freeIntegerParameters($$); } <integerParameters>
+%destructor { freeIntegerArray($$); } <integerArray>
+%destructor { freeTreeName($$); } <string>  //freeTreeName hace lo mismo que freeFileName y freeFilePath
+
 // El símbolo inicial de la gramatica.
 %start program
 

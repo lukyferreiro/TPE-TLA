@@ -5,3 +5,9 @@ configure avl miArbol {
     deleteNode(1,6);
     findNode(1,3,5);
 }
+
+create foton {
+    addTree(miArbol);
+    addFilePath("/home/romgomez/pruebatla/");
+    addLegend(max,max,min,count);
+}

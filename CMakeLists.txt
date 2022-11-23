@@ -67,10 +67,10 @@ add_executable(Compiler
 	src/frontend/syntactic-analysis/bison-parser.c
 	src/backend/semantic-analysis/symbol-table.c
 	src/backend/support/free_ast.c
-	src/backend/domain-specific/tree_handlers/tree.c
-	src/backend/domain-specific/tree_handlers/bst_tree.c
-	src/backend/domain-specific/tree_handlers/avl_tree.c
-	src/backend/domain-specific/tree_handlers/rbt_tree.c
+	src/backend/domain-specific/tree.c
+	src/backend/domain-specific/bst_tree.c
+	src/backend/domain-specific/avl_tree.c
+	src/backend/domain-specific/rbt_tree.c
 	# TODO ver que agregar
 	# Agregar otros archivos *.c (si no se incluyen, no se compilan).
 	# ...

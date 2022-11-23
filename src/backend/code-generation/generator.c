@@ -1,6 +1,6 @@
 #include "generator.h"
 #include "../../backend/support/logger.h"
-#include "../../backend/domain-specific/tree_handlers/tree.h"
+#include "../../backend/domain-specific/tree.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,6 +10,9 @@
 struct FileWithName {
     char* name;
     char* filePath;
+
+    char* fullPathName;
+    char* command;
 
     // arreglo con los árboles que va a imprimir
     char* treeNames[MAX_NUM_TREES]; // arreglo con los nombres
@@ -28,17 +31,29 @@ struct GeneratorState {
 static struct GeneratorState* myGeneratorState;
 static struct FileWithName* currentFile;
 static FILE* outputFile;
+static char* legendNames[LEGEND_TYPES] = {"max", "min", "count", "balanced", "height"};
+
+static int programSuccess = 0;
 
 // aux functions
 static int findTreeIndexByName(char* treeName);
 static void resetFoundNodes();
-static void freeFileResources();
+static void generateDotFullPathName();
+static void generateCommand();
 
-void Generator(Program* program) {
+int Generator(Program* program) {
     // inicializar struct generator state
     myGeneratorState = (struct GeneratorState*)calloc(1, sizeof(struct GeneratorState));
+
+    if (myGeneratorState == NULL) {
+        LogError("El programa finalizo abruptamente debido a que ya no hay memoria disponible");
+        programSuccess = 2;
+        return programSuccess;
+    }
+
     LogDebug("Generating program");
     GeneratorConstantArray(program->constantArray);
+    return programSuccess;
 }
 
 void GeneratorConstantArray(ConstantArray* constantArray) {
@@ -76,6 +91,7 @@ void GeneratorDeclaration(Declaration* declaration) {
     // chequear si todavía puedo agregar arboles o no
     if (myGeneratorState->size >= MAX_NUM_TREES) {
         LogError("La aplicación solo soporta un máximo de 20 árboles simultáneamente\n");
+        programSuccess = 2;
         return;
     }
 
@@ -125,70 +141,42 @@ void GeneratorBlock(Block* block) {
             GeneratorConfigureBlock(block->configureBlock, treeIndex, GeneratorTreeType(block->treeType, treeIndex));
             break;
         case CREATE_BLOCK:
-            // crear un struct que sea para los files, con el filename
-            // filepath, arreglo de nombres de arboles, etc... ?
+            // Guardo el nombre del archivo
             GeneratorFileName(block->fileName);
+            // Guardo los distintos parámetros que se hayan mandado en el bloque create
             GeneratorCreateBlock(block->createBlock);
 
-            char* fullPathName = NULL;
-            char* dotAux = ".dot";
-            char* noFilePathAux = "./";
+            // Guardo el nombre de archivo completo donde se guardará el .dot
+            generateDotFullPathName();
 
-            if (currentFile->filePath == NULL) {
-                fullPathName = calloc(strlen(noFilePathAux) + strlen(currentFile->name) + strlen(dotAux) + 1, sizeof(char));
-                strcat(fullPathName, noFilePathAux);
-                strcat(fullPathName, currentFile->name);
-                strcat(fullPathName, dotAux);
-            } else {
-                fullPathName = calloc(strlen(currentFile->filePath) + strlen(currentFile->name) + strlen(dotAux) + 1, sizeof(char));
-                strcat(fullPathName, currentFile->filePath);
-                strcat(fullPathName, currentFile->name);
-                strcat(fullPathName, dotAux);
-            }
-
-            int fullPathNameSize = strlen(fullPathName);
-            outputFile = fopen(fullPathName, "w+");
+            // Hago un fopen de dicho fileName, al que le voy a escribir el archivo .dot
+            outputFile = fopen(currentFile->fullPathName, "w+");
 
             if (outputFile == NULL) {
-                printf("Error abriendo archivo\n");
-                freeFileResources();
+                LogError("Error abriendo archivo .dot\n");
+                free(currentFile->fullPathName);
+                free(currentFile);
+                programSuccess=2;
+                return;
             }
 
             generateDotFile(currentFile->currentTrees, currentFile->treeNames, currentFile->treeSize, currentFile->legendParams, outputFile);
 
-            printf("Antes de comando: %s\n", fullPathName);
+            // Creo el comando que transformará en foto el archivo .dot
+            generateCommand();
 
-            char* pngAux = ".png";
-            char* dotCommandAux = "dot -Tpng ";
-            char* outAux = " -o ";
-            char* to_write_commands  = calloc(strlen(dotCommandAux) + 2*strlen(fullPathName) + strlen(outAux) + 1, sizeof(char));
-
-            strcat(to_write_commands, dotCommandAux);
-            strcat(to_write_commands, fullPathName);
-            strcat(to_write_commands, outAux);
-
-            fullPathName[fullPathNameSize-1] = 'g';
-            fullPathName[fullPathNameSize-2] = 'n';
-            fullPathName[fullPathNameSize-3] = 'p';
-            
-            strcat(to_write_commands, fullPathName);
-
-            printf("Despues de comando: \n%s\n", to_write_commands);
-     
-            if (system(to_write_commands) == -1) {
-                LogError("Se produjo un error en la aplicacion.");
-                free(fullPathName);
-                free(to_write_commands);
+            if (system(currentFile->command) == -1) {
+                LogError("Se produjo un error al convertir el .dot en .png.");
+                free(currentFile->command);
+                free(currentFile);
                 return;
             }
 
-            free(fullPathName);
-            free(to_write_commands);
+            free(currentFile->command);
+            free(currentFile);
             resetFoundNodes();
-            freeFileResources();
             fclose(outputFile);
 
-            // Llamo a función que genere dot del archivo
             break;
         default:
             break;
@@ -199,7 +187,7 @@ void GeneratorConfigureBlock(ConfigureBlock* configureBlock, int treeIndex, Tree
     LogDebug("Generating ConfigureBlock");
     // Hago el cambio de type de ser necesario antes de empezar a ejecutar las sentencias
     // Si el tipo fuera el mismo, no se hace más que devolver la misma root
-    myGeneratorState->currentTrees[treeIndex] = switchType(myGeneratorState->currentTrees[treeIndex], treeType);
+    myGeneratorState->currentTrees[treeIndex] = switchType(myGeneratorState->currentTrees[treeIndex], treeType, &programSuccess);
     GeneratorTreeSentences(configureBlock->treeSentences, treeIndex, treeType);
 }
 
@@ -339,13 +327,13 @@ void GeneratorInteger(int value, int treeIndex, TreeSentenceType sentenceType, T
         case ADD_NODE_SENTENCE:
             // Recibo por parámetro el treeType siempre, porque puede llegar a ser la primer inserción y necesitarlo
             if (myGeneratorState->currentTrees[treeIndex] == NULL) {
-                myGeneratorState->currentTrees[treeIndex] = insertFirstNode(myGeneratorState->currentTrees[treeIndex], value, treeType);
+                myGeneratorState->currentTrees[treeIndex] = insertFirstNode(myGeneratorState->currentTrees[treeIndex], value, treeType, &programSuccess);
             } else {
-                myGeneratorState->currentTrees[treeIndex] = insertNode(myGeneratorState->currentTrees[treeIndex], value);
+                myGeneratorState->currentTrees[treeIndex] = insertNode(myGeneratorState->currentTrees[treeIndex], value, &programSuccess);
             }
             break;
         case DELETE_NODE_SENTENCE:
-            myGeneratorState->currentTrees[treeIndex] = deleteNode(myGeneratorState->currentTrees[treeIndex], value);
+            myGeneratorState->currentTrees[treeIndex] = deleteNode(myGeneratorState->currentTrees[treeIndex], value, &programSuccess);
             break;
         case FIND_NODE_SENTENCE:
             findNode(myGeneratorState->currentTrees[treeIndex], value);
@@ -383,13 +371,12 @@ void GeneratorLegendType(LegendTypeStruct* type) {
         if (currentFile->legendParams[i] == NONE) {
             currentFile->legendParams[i] = type->legendType;
             alreadyAdded = 1;
-
-            LogDebug("Number of legends: %d", i);
-
         }
         // Si ya se agregó, ignoro
         // Tirar warning
         else if (currentFile->legendParams[i] == type->legendType) {
+            LogWarn("Legend %s ya agregado", legendNames[i]);
+            programSuccess = 1;
             alreadyAdded = 1;
         }
     }
@@ -404,15 +391,17 @@ void GeneratorFileName(char* fileName) {
     LogDebug("Generating FileName leaf");
     currentFile = (struct FileWithName*)calloc(1, sizeof(struct FileWithName));
 
-    currentFile->name = calloc((strlen(fileName)) + 3, sizeof(char));
+    if (currentFile == NULL) {
+        LogError("El programa finalizo abruptamente debido a que ya no hay memoria disponible");
+        programSuccess = 2;
+        return;
+    }
+
     currentFile->filePath = NULL;
+    currentFile->fullPathName = NULL;
+    currentFile->command = NULL;
 
-    //char* fileAux = "./";
-    //char* dotAux = ".dot";
-
-    //strcpy(currentFile->name, fileAux);
-    currentFile->name = strcat(currentFile->name, fileName);
-    //currentFile->name = strcat(currentFile->name, dotAux);
+    currentFile->name = fileName;
 
     for (int i = 0; i < LEGEND_TYPES; i++) {
         currentFile->legendParams[i] = NONE;
@@ -447,7 +436,67 @@ static void resetFoundNodes() {
     }
 }
 
-static void freeFileResources() {
-    free(currentFile->name);
-    free(currentFile);
+static void generateDotFullPathName() {
+
+    char* dotAux = ".dot";
+    char* noFilePathAux = "./";
+
+    if (currentFile->filePath == NULL) {
+        currentFile->fullPathName = calloc(strlen(noFilePathAux) + strlen(currentFile->name) + strlen(dotAux) + 1, sizeof(char));
+
+        if (currentFile->fullPathName == NULL) {
+            LogError("El programa finalizo abruptamente debido a que ya no hay memoria disponible");
+            programSuccess = 2;
+            return;
+        }
+
+        strcat(currentFile->fullPathName, noFilePathAux);
+        strcat(currentFile->fullPathName, currentFile->name);
+        strcat(currentFile->fullPathName, dotAux);
+    } else {
+        currentFile->fullPathName = calloc(strlen(currentFile->filePath) + strlen(currentFile->name) + strlen(dotAux) + 1, sizeof(char));
+
+        if (currentFile->fullPathName == NULL) {
+            LogError("El programa finalizo abruptamente debido a que ya no hay memoria disponible");
+            programSuccess = 2;
+            return;
+        }
+
+        strcat(currentFile->fullPathName, currentFile->filePath);
+        strcat(currentFile->fullPathName, currentFile->name);
+        strcat(currentFile->fullPathName, dotAux);
+    }
+
+    printf("FullPathName: %s\n", currentFile->fullPathName);
+}
+
+static void generateCommand() {
+    printf("Antes de comando: %s\n", currentFile->fullPathName);
+
+    char* pngAux = ".png";
+    char* dotCommandAux = "dot -Tpng ";
+    char* outAux = " -o ";
+    int fullPathNameSize = strlen(currentFile->fullPathName);
+
+    char* command = calloc(strlen(dotCommandAux) + 2 * fullPathNameSize + strlen(outAux) + 1, sizeof(char));
+
+    if (currentFile->fullPathName == NULL) {
+        LogError("El programa finalizo abruptamente debido a que ya no hay memoria disponible");
+        programSuccess = 2;
+        return;
+    }
+
+    strcat(command, dotCommandAux);
+    strcat(command, currentFile->fullPathName);
+    strcat(command, outAux);
+
+    currentFile->fullPathName[fullPathNameSize - 1] = 'g';
+    currentFile->fullPathName[fullPathNameSize - 2] = 'n';
+    currentFile->fullPathName[fullPathNameSize - 3] = 'p';
+
+    strcat(command, currentFile->fullPathName);
+
+    free(currentFile->fullPathName);
+
+    printf("Despues de comando: \n%s\n", command);
 }

@@ -5,7 +5,7 @@
 #include "../support/shared.h"
 
 // Funciones generales
-void Generator(Program* program);
+int Generator(Program* program);
 void GeneratorConstantArray(ConstantArray* constantArray);
 void GeneratorConstant(Constant* constant);
 void GeneratorBlock(Block* block);
