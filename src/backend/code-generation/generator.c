@@ -11,11 +11,14 @@ struct FileWithName {
     char* name;
     char* filePath;
 
+    // Nombre del archivo con su path
     char* fullPathName;
+    // Comando a correr para generar el .png
     char* command;
 
-    // arreglo con los árboles que va a imprimir
-    char* treeNames[MAX_NUM_TREES]; // arreglo con los nombres
+    // Arreglo con los nombres de los árboles que va a imprimir
+    char* treeNames[MAX_NUM_TREES];
+    // Arreglo con los árboles que va a imprimir
     struct node* currentTrees[MAX_NUM_TREES];
     int treeSize;
 
@@ -23,26 +26,33 @@ struct FileWithName {
     LegendType legendParams[LEGEND_TYPES];
 };
 struct GeneratorState {
-    char* treeNames[MAX_NUM_TREES]; // arreglo con los nombres
+    // Arreglo global con todos los árboles, y sus nombres
+    char* treeNames[MAX_NUM_TREES];
     struct node* currentTrees[MAX_NUM_TREES];
     int size;
 };
 
+// Estado global de la aplicación
 static struct GeneratorState* myGeneratorState;
+// Archivo actual a utilizar
 static struct FileWithName* currentFile;
+// FILE* al que escribir el .dot
 static FILE* outputFile;
+// Arreglo de char* para indicar si un legend se encuentra repetido
 static char* legendNames[LEGEND_TYPES] = {"max", "min", "count", "balanced", "height"};
 
+// Variable a retornar al main.c
+// 0 si no hubo problemas, 1 en caso de warning, 2 en caso de error
 static int programSuccess = 0;
 
-// aux functions
+// Funciones auxiliares
 static int findTreeIndexByName(char* treeName);
 static void resetFoundNodes();
 static void generateDotFullPathName();
 static void generateCommand();
 
 int Generator(Program* program) {
-    // inicializar struct generator state
+    // Inicializar struct generator state
     myGeneratorState = (struct GeneratorState*)calloc(1, sizeof(struct GeneratorState));
 
     if (myGeneratorState == NULL) {
@@ -88,17 +98,17 @@ void GeneratorConstant(Constant* constant) {
 void GeneratorDeclaration(Declaration* declaration) {
     LogDebug("Generating Declaration");
 
-    // chequear si todavía puedo agregar arboles o no
+    // Chequeamos que todavía se puedan agregar árboles. Sino, informamos el error
     if (myGeneratorState->size >= MAX_NUM_TREES) {
         LogError("La aplicación solo soporta un máximo de 20 árboles simultáneamente\n");
         programSuccess = 2;
         return;
     }
 
-    // guardo el nombre del nuevo arbol
+    // Guardo el nombre del nuevo arbol
     myGeneratorState->treeNames[myGeneratorState->size] = declaration->treeName;
 
-    // inicializo ese arbol en null
+    // Inicializo ese arbol en null
     myGeneratorState->currentTrees[myGeneratorState->size] = NULL;
 
     // incremento el size luego de que paso el index como param, para que las funciones que sigan sepan donde realizar la operacion
@@ -152,6 +162,7 @@ void GeneratorBlock(Block* block) {
             // Hago un fopen de dicho fileName, al que le voy a escribir el archivo .dot
             outputFile = fopen(currentFile->fullPathName, "w+");
 
+            // En caso de error, libero los recursos utilizados hasta el momento
             if (outputFile == NULL) {
                 LogError("Error abriendo archivo .dot\n");
                 free(currentFile->fullPathName);
@@ -160,23 +171,28 @@ void GeneratorBlock(Block* block) {
                 return;
             }
 
+            // Genero el archivo dot y lo guardo en el FILE* outputFile
             generateDotFile(currentFile->currentTrees, currentFile->treeNames, currentFile->treeSize, currentFile->legendParams, outputFile);
 
             fclose(outputFile);
 
+            // Si no había ningún árbol, informo el warning
             if (currentFile->treeSize == 0) {
                 LogWarn("No se agregaron arboles. El archivo %s se ha generado vacio.", currentFile->name);
+                programSuccess = programSuccess==0 ? 1:programSuccess;
             }
 
             // Creo el comando que transformará en foto el archivo .dot
             generateCommand();
 
-            LogInfo("Se ha generado la imagen: %s", currentFile->command);
+            LogInfo("Se ha corrido el comando: %s", currentFile->command);
 
+            // Corro el comando command, en caso de error, logueo
             if (system(currentFile->command) == -1) {
-                LogError("Se produjo un error al convertir el .dot en .png.");
+                LogError("Se produjo un error al correr el comando %s", currentFile->command);
                 free(currentFile->command);
                 free(currentFile);
+                programSuccess = 2;
                 return;
             }
 
@@ -218,17 +234,17 @@ void GeneratorTreeSentence(TreeSentence* treeSentence, int treeIndex, TreeType t
     switch (treeSentence->type) {
         case ADD_NODE_SENTENCE:
             // Voy al arbol que haga falta y le inserto el nodo
-            // si ya existía el nodo, debería tirar un warning y no generar outputs
+            // Si ya existía el nodo, tira un warning 
             GeneratorIntegerParameters(treeSentence->integerParameters, treeIndex, ADD_NODE_SENTENCE, treeType);
             break;
         case DELETE_NODE_SENTENCE:
             // Voy al arbol que haga falta y le borro el nodo
-            // si no existía el nodo, debería tirar un warning y no generar outputs
+            // Si no existía el nodo, tira un warning
             GeneratorIntegerParameters(treeSentence->integerParameters, treeIndex, DELETE_NODE_SENTENCE, treeType);
             break;
         case FIND_NODE_SENTENCE:
-            // Voy al arbol que haga falta y le seteo al nodo found=true?
-            // Si no existía, no hago nada y sigo
+            // Voy al arbol que haga falta y le seteo al nodo found=true
+            // Si no existía el nodo, no hago nada y sigo
             GeneratorIntegerParameters(treeSentence->integerParameters, treeIndex, FIND_NODE_SENTENCE, treeType);
             break;
         default:
@@ -264,12 +280,11 @@ void GeneratorFileSentence(FileSentence* fileSentence) {
             GeneratorTreeParameters(fileSentence->treeParameters);
             break;
         case ADD_FILE_PATH_SENTENCE:
-            // agrego al struct el filepath
+            // Agrego al struct el filepath
             GeneratorFileParameter(fileSentence->fileParameter);
             break;
         case ADD_LEGEND_SENTENCE:
-            // agrego a un arreglo de legend parameters el que me pasen
-            // O tengo un arreglo de bool a ver si tengo que usarlo o no
+            // Agrego a un arreglo de legend parameters el que me pasen
             GeneratorLegendParameters(fileSentence->legendParameters);
             break;
         default:
@@ -287,7 +302,6 @@ void GeneratorTreeArray(TreeArray* treeArray) {
     switch (treeArray->type) {
         case ONE_TREE:
             // Agrego nombre del árbol y root en la struct currentFile
-            // No es necesario incrementar el size porque es el último árbol
             currentFile->treeNames[currentFile->treeSize] = treeArray->treeName;
             currentFile->currentTrees[currentFile->treeSize++] = myGeneratorState->currentTrees[GeneratorTreeName(treeArray->treeName)];
             break;
@@ -379,11 +393,10 @@ void GeneratorLegendType(LegendTypeStruct* type) {
             currentFile->legendParams[i] = type->legendType;
             alreadyAdded = 1;
         }
-        // Si ya se agregó, ignoro
-        // Tirar warning
+        // Si ya se agregó, ignoro y tiro un warning
         else if (currentFile->legendParams[i] == type->legendType) {
             LogWarn("Legend %s ya agregado", legendNames[i]);
-            programSuccess = 1;
+            programSuccess = programSuccess==0 ? 1:programSuccess;
             alreadyAdded = 1;
         }
     }
@@ -396,6 +409,8 @@ int GeneratorTreeName(char* treeName) {
 
 void GeneratorFileName(char* fileName) {
     LogDebug("Generating FileName leaf");
+
+    // Reservo memoria para la estructura de currentFile y luego inicializo sus campos
     currentFile = (struct FileWithName*)calloc(1, sizeof(struct FileWithName));
 
     if (currentFile == NULL) {
@@ -407,7 +422,6 @@ void GeneratorFileName(char* fileName) {
     currentFile->filePath = NULL;
     currentFile->fullPathName = NULL;
     currentFile->command = NULL;
-
     currentFile->name = fileName;
 
     for (int i = 0; i < LEGEND_TYPES; i++) {
@@ -443,7 +457,7 @@ static void resetFoundNodes() {
 }
 
 static void generateDotFullPathName() {
-
+    // Genero el path completo del archivo .dot a abrir
     char* dotAux = ".dot";
     char* noFilePathAux = "./";
 
@@ -475,7 +489,8 @@ static void generateDotFullPathName() {
 }
 
 static void generateCommand() {
-    char* pngAux = ".png";
+    // Genero el comando a ejecutar para crear el png
+
     char* dotCommandAux = "dot -Tpng ";
     char* outAux = " -o ";
     int fullPathNameSize = strlen(currentFile->fullPathName);
@@ -499,5 +514,4 @@ static void generateCommand() {
     strcat(currentFile->command, currentFile->fullPathName);
 
     free(currentFile->fullPathName);
-
 }

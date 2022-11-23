@@ -95,8 +95,6 @@ struct node* leftRotate(struct node* root, struct node* x) {
     return root;
 }
 
-// This function fixes violations
-// caused by BST insertion
 static struct node* fixup(struct node* root, struct node* pt) {
     if (pt == NULL) {
         return root;
@@ -108,17 +106,10 @@ static struct node* fixup(struct node* root, struct node* pt) {
         parent_pt = pt->par;
         grand_parent_pt = pt->par->par;
 
-        /* Case : A
-            Parent of pt is left child
-            of Grand-parent of
-        pt */
         if (parent_pt == grand_parent_pt->left) {
 
             struct node* uncle_pt = grand_parent_pt->right;
 
-            /* Case : 1
-                The uncle of pt is also red
-                Only Recoloring required */
             if (uncle_pt != NULL && uncle_pt->color == RED) {
                 grand_parent_pt->color = RED;
                 parent_pt->color = BLACK;
@@ -127,19 +118,12 @@ static struct node* fixup(struct node* root, struct node* pt) {
             }
 
             else {
-
-                /* Case : 2
-                    pt is right child of its parent
-                    Left-rotation required */
                 if (pt == parent_pt->right) {
                     root = leftRotate(root, parent_pt);
                     pt = parent_pt;
                     parent_pt = pt->par;
                 }
 
-                /* Case : 3
-                    pt is left child of its parent
-                    Right-rotation required */
                 root = rightRotate(root, grand_parent_pt);
                 int t = parent_pt->color;
                 parent_pt->color = grand_parent_pt->color;
@@ -148,34 +132,21 @@ static struct node* fixup(struct node* root, struct node* pt) {
             }
         }
 
-        /* Case : B
-            Parent of pt is right
-            child of Grand-parent of
-        pt */
         else {
             struct node* uncle_pt = grand_parent_pt->left;
 
-            /* Case : 1
-                The uncle of pt is also red
-                Only Recoloring required */
             if ((uncle_pt != NULL) && (uncle_pt->color == RED)) {
                 grand_parent_pt->color = RED;
                 parent_pt->color = BLACK;
                 uncle_pt->color = BLACK;
                 pt = grand_parent_pt;
             } else {
-                /* Case : 2
-                pt is left child of its parent
-                Right-rotation required */
                 if (pt == parent_pt->left) {
                     root = rightRotate(root, parent_pt);
                     pt = parent_pt;
                     parent_pt = pt->par;
                 }
 
-                /* Case : 3
-                    pt is right child of its parent
-                    Left-rotation required */
                 root = leftRotate(root, grand_parent_pt);
                 int t = parent_pt->color;
                 parent_pt->color = grand_parent_pt->color;
