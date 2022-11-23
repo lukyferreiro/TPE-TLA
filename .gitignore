@@ -73,3 +73,6 @@ flex-scanner.c
 
 *.dot
 *.svg
+*.png
+*.jpg
+*.jpeg
