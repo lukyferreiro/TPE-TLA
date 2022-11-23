@@ -423,7 +423,6 @@ void GeneratorFilePath(char* FilePath) {
 void freeGeneratorState() {
     for (int i = 0; i < myGeneratorState->size; i++) {
         freeTree(myGeneratorState->currentTrees[i]);
-        free(myGeneratorState->treeNames[i]);
     }
 }
 

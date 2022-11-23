@@ -1,12 +1,45 @@
-tree miArbol(1);
+tree miArbol(1,2,3,4);
 
-configure rbt miArbol {
-    addNode(1,2,3,4,5);
-    findNode(1,3);
-    deleteNode(3);
+configure avl miArbol {
+    addNode(5,6,7,8,9);
+    findNode(5,7);
 }
 
-create foton {
-    addTree(miArbol, miArbol);
-    addLegend(max,max,min,count);
+create completo {
+    addTree(miArbol);
+    addFilePath("/home/lferreiro/TLA/TPE-TLA/");
+    addLegend(max, min, count, height, balanced);
+}
+
+configure miArbol {
+    deleteNode(1);
+    findNode(5,7);
+}
+
+create completoSin1 {
+    addTree(miArbol);
+    addFilePath("/home/lferreiro/TLA/TPE-TLA/");
+    addLegend(max, min, count, height, balanced);
+}
+
+configure miArbol {
+    deleteNode(2);
+    findNode(5,7);
+}
+
+create completoSin1y2 {
+    addTree(miArbol);
+    addFilePath("/home/lferreiro/TLA/TPE-TLA/");
+    addLegend(max, min, count, height, balanced);
+}
+
+configure miArbol {
+    deleteNode(6);
+    findNode(5,7);
+}
+
+create completoSin1ni2ni6 {
+    addTree(miArbol);
+    addFilePath("/home/lferreiro/TLA/TPE-TLA/");
+    addLegend(max, min, count, height, balanced);
 }

@@ -7,7 +7,7 @@ configure rbt miArbol {
 
 create fotoMiArbolCompleto {
     addTree(miArbol);
-    addFilePath("/home/miUsuario");
+    addFilePath("/home/miUsuario/");
     addLegend(max, min, count, height, balanced);
 }
 
@@ -17,7 +17,7 @@ configure miArbol {
 
 create fotoMiArbolCompletoSin1 {
     addTree(miArbol);
-    addFilePath("/home/miUsuario");
+    addFilePath("/home/miUsuario/");
     addLegend(max, min, count, height, balanced);
 }
 
@@ -27,7 +27,7 @@ configure miArbol {
 
 create fotoMiArbolCompletoSin1y2 {
     addTree(miArbol);
-    addFilePath("/home/miUsuario");
+    addFilePath("/home/miUsuario/");
     addLegend(max, min, count, height, balanced);
 }
 
@@ -37,6 +37,6 @@ configure miArbol {
 
 create fotoMiArbolCompletoSin1ni2ni3 {
     addTree(miArbol);
-    addFilePath("/home/miUsuario");
+    addFilePath("/home/miUsuario/");
     addLegend(max, min, count, height, balanced);
 }
