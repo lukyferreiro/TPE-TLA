@@ -1,8 +1,7 @@
 [![✗](https://img.shields.io/badge/Release-v0.2.0-ffb600.svg?style=for-the-badge)](https://github.com/agustin-golmar/Flex-Bison-Compiler/releases)
 
-# Compilador Flex/Bison
-
-Un compilador vacío de ejemplo construido con Flex y Bison.
+# Nimloth
+#### The white tree of Numemor
 
 ## Requerimientos
 
@@ -13,6 +12,7 @@ Para construir el compilador, se requieren las siguientes dependencias:
 * [Flex v2.6.4](https://github.com/westes/flex)
 * [GCC v11.1.0](https://gcc.gnu.org/)
 * [Make v4.3](https://www.gnu.org/software/make/)
+* [DOT v2.40.1](https://graphviz.org/doc/info/lang.html)
 
 Si en lugar de trabajar con un entorno _Linux_, se está construyendo el proyecto sobre un entorno _Microsoft Windows_, se debe instalar _Microsoft Visual Studio 2022_ con las extensiones para desarrollar aplicaciones en _C/C++_, así como también las herramientas requeridas, con excepción del compilador _GCC_ y la herramienta _Make_.
 
@@ -35,7 +35,7 @@ Luego se deberá abrir la solución generada `bin\Compiler.sln` con el IDE _Micr
 
 ## Ejecución
 
-Para compilar un programa, primero cree un archivo vacío denominado `program` (o el nombre que desee), y con un contenido acorde a nuestro lenguaje.
+Para compilar un programa, primero cree un archivo denominado `program` con un contenido acorde a nuestro lenguaje.
 
 Luego, ejecute el compilador desde el directorio raíz del proyecto, o desde cualquier otro lugar indicando el path hacia el script `start.sh` y pasando por parámetro el path hacia el programa a compilar:
 
