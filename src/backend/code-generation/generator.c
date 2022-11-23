@@ -478,25 +478,25 @@ static void generateCommand() {
     char* outAux = " -o ";
     int fullPathNameSize = strlen(currentFile->fullPathName);
 
-    char* command = calloc(strlen(dotCommandAux) + 2 * fullPathNameSize + strlen(outAux) + 1, sizeof(char));
+    currentFile->command = calloc(strlen(dotCommandAux) + 2 * fullPathNameSize + strlen(outAux) + 1, sizeof(char));
 
-    if (currentFile->fullPathName == NULL) {
+    if (currentFile->command == NULL) {
         LogError("El programa finalizo abruptamente debido a que ya no hay memoria disponible");
         programSuccess = 2;
         return;
     }
 
-    strcat(command, dotCommandAux);
-    strcat(command, currentFile->fullPathName);
-    strcat(command, outAux);
+    strcat(currentFile->command, dotCommandAux);
+    strcat(currentFile->command, currentFile->fullPathName);
+    strcat(currentFile->command, outAux);
 
     currentFile->fullPathName[fullPathNameSize - 1] = 'g';
     currentFile->fullPathName[fullPathNameSize - 2] = 'n';
     currentFile->fullPathName[fullPathNameSize - 3] = 'p';
 
-    strcat(command, currentFile->fullPathName);
+    strcat(currentFile->command, currentFile->fullPathName);
 
     free(currentFile->fullPathName);
 
-    printf("Despues de comando: \n%s\n", command);
+    printf("Despues de comando: \n%s\n", currentFile->command);
 }

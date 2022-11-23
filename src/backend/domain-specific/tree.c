@@ -228,6 +228,12 @@ static void transformToBst(struct node* node) {
 static struct node* transformToAvl(struct node* node, int *flag) {
     int i;
     int* allNodes = transformTreeToArray(node, &i);
+
+    if(allNodes == NULL) {
+        (*flag)=2;
+        return allNodes;
+    }
+
     struct node* toRet = NULL;
 
     for (int j = 0; j < i; j++) {
@@ -243,6 +249,12 @@ static struct node* transformToAvl(struct node* node, int *flag) {
 static struct node* transformToRbt(struct node* node, int *flag) {
     int i;
     int* allNodes = transformTreeToArray(node, &i);
+
+    if(allNodes == NULL) {
+        (*flag)=2;
+        return allNodes;
+    }
+
     struct node* toRet = NULL;
 
     for (int j = 0; j < i; j++) {
@@ -259,6 +271,11 @@ static int* transformTreeToArray(struct node* node, int* size) {
     int count = nodeCount(node);
     int i = 0;
     int* allNodes = malloc(count * sizeof(int));
+
+    if(allNodes==NULL) {
+        return allNodes;
+    }
+
     i = addToArray(node, allNodes, i);
 
     *size = i;

@@ -4,7 +4,7 @@
 
 static int height(struct node* node);
 static int max(int a, int b);
-static struct node* newAvlNode(int key);
+static struct node* newAvlNode(int key, int* flag);
 static struct node* rightRotate(struct node* y);
 static struct node* leftRotate(struct node* x);
 static int getBalance(struct node* node);
@@ -19,8 +19,12 @@ static int max(int a, int b) {
     return (a > b) ? a : b;
 }
 
-static struct node* newAvlNode(int key) {
+static struct node* newAvlNode(int key, int* flag) {
     struct node* temp = (struct node*)calloc(1, sizeof(struct node));
+    if(temp==NULL){
+        (*flag)=2;
+        return NULL;
+    }
     temp->key = key;
     temp->left = NULL;
     temp->right = NULL;
@@ -64,7 +68,7 @@ static int getBalance(struct node* node) {
 
 struct node* insertAvlNode(struct node* node, int key, int* flag) {
     if (node == NULL)
-        return (newAvlNode(key));
+        return newAvlNode(key, flag);
 
     if (key < node->key){
         node->left = insertAvlNode(node->left, key, flag);
@@ -101,7 +105,7 @@ struct node* insertAvlNode(struct node* node, int key, int* flag) {
 
 struct node* deleteAvlNode(struct node* node, int key, int* flag) {
     if (node == NULL) {
-        (*flag) = 3;
+        (*flag) = 1;
         return node;
     }
 

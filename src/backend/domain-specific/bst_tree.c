@@ -2,8 +2,12 @@
 #include <stdlib.h>
 #include "bst_tree.h"
 
-static struct node* newBstNode(int key) {
+static struct node* newBstNode(int key, int *flag) {
     struct node* temp = (struct node*)calloc(1, sizeof(struct node));
+    if(temp==NULL){
+        (*flag)=2;
+        return NULL;
+    }
     temp->key = key;
     temp->left = temp->right = NULL;
     temp->type = BST_TYPE;
@@ -13,7 +17,7 @@ static struct node* newBstNode(int key) {
 
 struct node* insertBstNode(struct node* node, int key, int *flag) {
     if (node == NULL)
-        return newBstNode(key);
+        return newBstNode(key, flag);
 
     if (key < node->key)
         node->left = insertBstNode(node->left, key, flag);
@@ -27,7 +31,7 @@ struct node* insertBstNode(struct node* node, int key, int *flag) {
 
 struct node* deleteBstNode(struct node* node, int key, int* flag) {
     if (node == NULL){
-        (*flag)=3;
+        (*flag)=1;
         return node;
     }
 
