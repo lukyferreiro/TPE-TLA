@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "avl_tree.h"
+#include "../../backend/support/logger.h"
 
 static int height(struct node* node);
 static int max(int a, int b);
@@ -23,6 +24,7 @@ static struct node* newAvlNode(int key, int* flag) {
     struct node* temp = (struct node*)calloc(1, sizeof(struct node));
     if(temp==NULL){
         (*flag)=2;
+        LogError("El programa finalizo abruptamente debido a que ya no hay memoria disponible");
         return NULL;
     }
     temp->key = key;
@@ -77,7 +79,8 @@ struct node* insertAvlNode(struct node* node, int key, int* flag) {
         node->right = insertAvlNode(node->right, key, flag);
     }
     else{
-        (*flag) = 1;
+        (*flag)=*flag == 0 ? 1: *flag;
+        LogWarn("No se pudo agregar. El nodo %d ya se encontraba en el árbol", key);
         return node;
     }
 
@@ -105,7 +108,8 @@ struct node* insertAvlNode(struct node* node, int key, int* flag) {
 
 struct node* deleteAvlNode(struct node* node, int key, int* flag) {
     if (node == NULL) {
-        (*flag) = 1;
+        (*flag)=*flag == 0 ? 1: *flag;
+        LogWarn("No se pudo eliminar. El nodo %d no se encontraba en el árbol", key);
         return node;
     }
 

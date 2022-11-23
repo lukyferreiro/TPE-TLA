@@ -162,6 +162,10 @@ void GeneratorBlock(Block* block) {
 
             generateDotFile(currentFile->currentTrees, currentFile->treeNames, currentFile->treeSize, currentFile->legendParams, outputFile);
 
+            if(currentFile->treeSize == 0){
+                LogWarn("No se agregaron arboles. El archivo %s se ha generado vacio.", currentFile->name);
+            }
+
             // Creo el comando que transformará en foto el archivo .dot
             generateCommand();
 
@@ -287,6 +291,9 @@ void GeneratorTreeArray(TreeArray* treeArray) {
         case VARIOUS_TREES:
             // Agrego nombre del árbol y root en la struct currentFile
             // Me desplazo al siguiente y sigo agregando árboles
+
+            
+
             currentFile->treeNames[currentFile->treeSize] = treeArray->treeName;
             currentFile->currentTrees[currentFile->treeSize++] = myGeneratorState->currentTrees[GeneratorTreeName(treeArray->treeName)];
             GeneratorTreeArray(treeArray->nextTreeArray);

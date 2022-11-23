@@ -17,10 +17,6 @@ static void generateDotSubGraph(struct node* node, char* treeName, int* i, int c
 static void generateDot(struct node* node, FILE* out);
 static void handleFlagWarning(int flag);
 
-static char* nodeDuplicate = "No se pudo agregar. El nodo %d ya se encontraba en el árbol";
-static char* nodeNotDeleted = "No se pudo eliminar. El nodo %d no se encontraba en el árbol";
-static char* nodeMallocFail = "El programa finalizo abruptamente debido a que ya no hay memoria disponible";
-
 struct node* insertFirstNode(struct node* node, int key, TreeType type, int *flag) {
     switch (type) {
         case BST_TYPE:
@@ -34,12 +30,6 @@ struct node* insertFirstNode(struct node* node, int key, TreeType type, int *fla
             break;
         default:
             return NULL;
-    }
-    if(*flag==1){
-        LogWarn(nodeDuplicate, key);
-    }
-    if(*flag==2){
-        LogError(nodeMallocFail);
     }
     return node;
 }
@@ -57,12 +47,6 @@ struct node* insertNode(struct node* node, int key, int *flag) {
             break;
         default:
             return NULL;
-    }
-    if(*flag==1){
-        LogWarn(nodeDuplicate, key);
-    }
-    if(*flag==2){
-        LogError(nodeMallocFail);
     }
     return node;
 }
@@ -86,9 +70,6 @@ struct node* deleteNode(struct node* node, int key, int *flag) {
             break;
         default:
             return NULL;
-    }
-    if(flag){
-        LogWarn(nodeNotDeleted, key);
     }
 
     return node;
@@ -231,7 +212,7 @@ static struct node* transformToAvl(struct node* node, int *flag) {
 
     if(allNodes == NULL) {
         (*flag)=2;
-        return allNodes;
+        return NULL;
     }
 
     struct node* toRet = NULL;
@@ -252,7 +233,7 @@ static struct node* transformToRbt(struct node* node, int *flag) {
 
     if(allNodes == NULL) {
         (*flag)=2;
-        return allNodes;
+        return NULL;
     }
 
     struct node* toRet = NULL;
@@ -353,19 +334,27 @@ static void generateDotSubGraph(struct node* node, char* treeName, int* i, int c
 static void generateDot(struct node* node, FILE* out) {
     if (node != NULL) {
         if (node->found) {
-            fprintf(out, "\tn%d [color=\"greenyellow\" style=\"filled\"]\n", node->dotNumber);
+            if(node->color==RED){
+                fprintf(out, "\tn%d [style=\"filled, setlinewidth(2)\" color=\"red\" fillcolor=\"greenyellow\"] ;\n", node->dotNumber);
+            }
+            else if (node->color==BLACK){
+                fprintf(out, "\tn%d [style=\"filled, setlinewidth(2)\" color=\"black\" fillcolor=\"greenyellow\"] ;\n", node->dotNumber);
+            }
+            else {
+                fprintf(out, "\tn%d [color=\"greenyellow\" style=\"filled\"] ;\n", node->dotNumber);
+            }
         } else if (node->color == RED) {
-            fprintf(out, "\tn%d [color=\"red\"]\n", node->dotNumber);
+            fprintf(out, "\tn%d [color=\"red\"] ;\n", node->dotNumber);
         } else if (node->color == BLACK) {
-            fprintf(out, "\tn%d [color=\"black\"]\n", node->dotNumber);
+            fprintf(out, "\tn%d [color=\"black\"] ;\n", node->dotNumber);
         }
 
         fprintf(out, "\tn%d [label=\"%d\"] ;\n", node->dotNumber, node->key);
         if (node->left != NULL) {
-            fprintf(out, "\tn%d->n%d;\n", node->dotNumber, node->left->dotNumber);
+            fprintf(out, "\tn%d->n%d ;\n", node->dotNumber, node->left->dotNumber);
         }
         if (node->right != NULL) {
-            fprintf(out, "\tn%d->n%d;\n", node->dotNumber, node->right->dotNumber);
+            fprintf(out, "\tn%d->n%d ;\n", node->dotNumber, node->right->dotNumber);
         }
 
         generateDot(node->left, out);

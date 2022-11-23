@@ -1,24 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "rbt_tree.h"
+#include "../../backend/support/logger.h"
 
-
-static struct node* newRbtNode(int key);
+static struct node* newRbtNode(int key, int* flag);
 static struct node* bstInsertNode(struct node* trav, struct node* temp, int* flag);
-static struct node* rightrotate(struct node* root, struct node* x);
+static struct node* rightRotate(struct node* root, struct node* x);
 static struct node* lefttrotate(struct node* root, struct node* x);
 static struct node* fixup(struct node* root, struct node* pt);
 
+static int alreadyAdded=0;
 
 struct node* insertRbtNode(struct node* node, int key, int* flag) {
-    struct node* toAdd = newRbtNode(key);
+    struct node* toAdd = newRbtNode(key, flag);
+    if (toAdd == NULL) {
+        return node;
+    }
     node = bstInsertNode(node, toAdd, flag);
+    if(alreadyAdded){
+        free(toAdd);
+        alreadyAdded=0;
+        return node;
+    }
     node = fixup(node, toAdd);
     return node;
 }
 
-static struct node* newRbtNode(int key) {
+static struct node* newRbtNode(int key, int* flag) {
     struct node* temp = (struct node*)calloc(1, sizeof(struct node));
+    if (temp == NULL) {
+        (*flag) = 2;
+        LogError("El programa finalizo abruptamente debido a que ya no hay memoria disponible");
+        return NULL;
+    }
     temp->key = key;
     temp->left = temp->right = NULL;
     temp->par = NULL;
@@ -38,12 +52,16 @@ struct node* bstInsertNode(struct node* trav, struct node* temp, int* flag) {
         trav->right = bstInsertNode(trav->right, temp, flag);
         trav->right->par = trav;
     }
+    else if (temp->key == trav->key){
+        (*flag) = *flag == 0 ? 1 : *flag;
+        LogWarn("No se pudo agregar. El nodo %d ya se encontraba en el árbol", temp->key);
+        alreadyAdded=1;
+    }
 
-    (*flag)=1;
     return trav;
 }
 
-static struct node* rightrotate(struct node* root, struct node* x) {
+static struct node* rightRotate(struct node* root, struct node* x) {
     struct node* y = x->left;
     x->left = y->right;
     if (y->right != NULL)
@@ -60,7 +78,7 @@ static struct node* rightrotate(struct node* root, struct node* x) {
     return root;
 }
 
-struct node* leftrotate(struct node* root, struct node* x) {
+struct node* leftRotate(struct node* root, struct node* x) {
     struct node* y = x->right;
     x->right = y->left;
     if (y->left != NULL)
@@ -81,6 +99,9 @@ struct node* leftrotate(struct node* root, struct node* x) {
 // This function fixes violations
 // caused by BST insertion
 static struct node* fixup(struct node* root, struct node* pt) {
+    if(pt==NULL){
+        return root;
+    }
     struct node* parent_pt = NULL;
     struct node* grand_parent_pt = NULL;
 
@@ -112,7 +133,7 @@ static struct node* fixup(struct node* root, struct node* pt) {
                     pt is right child of its parent
                     Left-rotation required */
                 if (pt == parent_pt->right) {
-                    root = leftrotate(root, parent_pt);
+                    root = leftRotate(root, parent_pt);
                     pt = parent_pt;
                     parent_pt = pt->par;
                 }
@@ -120,7 +141,7 @@ static struct node* fixup(struct node* root, struct node* pt) {
                 /* Case : 3
                     pt is left child of its parent
                     Right-rotation required */
-                root = rightrotate(root, grand_parent_pt);
+                root = rightRotate(root, grand_parent_pt);
                 int t = parent_pt->color;
                 parent_pt->color = grand_parent_pt->color;
                 grand_parent_pt->color = t;
@@ -148,7 +169,7 @@ static struct node* fixup(struct node* root, struct node* pt) {
                 pt is left child of its parent
                 Right-rotation required */
                 if (pt == parent_pt->left) {
-                    root = rightrotate(root, parent_pt);
+                    root = rightRotate(root, parent_pt);
                     pt = parent_pt;
                     parent_pt = pt->par;
                 }
@@ -156,7 +177,7 @@ static struct node* fixup(struct node* root, struct node* pt) {
                 /* Case : 3
                     pt is right child of its parent
                     Left-rotation required */
-                root = leftrotate(root, grand_parent_pt);
+                root = leftRotate(root, grand_parent_pt);
                 int t = parent_pt->color;
                 parent_pt->color = grand_parent_pt->color;
                 grand_parent_pt->color = t;

@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "bst_tree.h"
+#include "../../backend/support/logger.h"
 
 static struct node* newBstNode(int key, int *flag) {
     struct node* temp = (struct node*)calloc(1, sizeof(struct node));
     if(temp==NULL){
         (*flag)=2;
+        LogError("El programa finalizo abruptamente debido a que ya no hay memoria disponible");
         return NULL;
     }
     temp->key = key;
@@ -24,14 +26,16 @@ struct node* insertBstNode(struct node* node, int key, int *flag) {
     else if (key > node->key)
         node->right = insertBstNode(node->right, key, flag);
     else if (key == node->key){
-        (*flag)=1;
+        (*flag)=*flag == 0 ? 1: *flag;
+        LogWarn("No se pudo agregar. El nodo %d ya se encontraba en el árbol", key);
     }
     return node;
 }
 
 struct node* deleteBstNode(struct node* node, int key, int* flag) {
     if (node == NULL){
-        (*flag)=1;
+        (*flag)=*flag == 0 ? 1: *flag;
+        LogWarn("No se pudo eliminar. El nodo %d no se encontraba en el árbol", key);
         return node;
     }
 
