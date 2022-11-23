@@ -1,10 +1,10 @@
+#include "tree.h"
+#include "../../backend/support/logger.h"
+#include "avl_tree.h"
+#include "bst_tree.h"
+#include "rbt_tree.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "tree.h"
-#include "bst_tree.h"
-#include "avl_tree.h"
-#include "rbt_tree.h"
-#include "../../backend/support/logger.h"
 
 static int max(int a, int b);
 static void transformToBst(struct node* node);
@@ -17,7 +17,7 @@ static void generateDotSubGraph(struct node* node, char* treeName, int* i, int c
 static void generateDot(struct node* node, FILE* out);
 static void handleFlagWarning(int flag);
 
-struct node* insertFirstNode(struct node* node, int key, TreeType type, int *flag) {
+struct node* insertFirstNode(struct node* node, int key, TreeType type, int* flag) {
     switch (type) {
         case BST_TYPE:
             node = insertBstNode(node, key, flag);
@@ -34,7 +34,7 @@ struct node* insertFirstNode(struct node* node, int key, TreeType type, int *fla
     return node;
 }
 
-struct node* insertNode(struct node* node, int key, int *flag) {
+struct node* insertNode(struct node* node, int key, int* flag) {
     switch (node->type) {
         case BST_TYPE:
             node = insertBstNode(node, key, flag);
@@ -51,9 +51,9 @@ struct node* insertNode(struct node* node, int key, int *flag) {
     return node;
 }
 
-struct node* deleteNode(struct node* node, int key, int *flag) {
+struct node* deleteNode(struct node* node, int key, int* flag) {
     if (node == NULL) {
-        (*flag)=1;
+        (*flag) = 1;
         return NULL;
     }
 
@@ -62,11 +62,11 @@ struct node* deleteNode(struct node* node, int key, int *flag) {
             node = deleteBstNode(node, key, flag);
             break;
         case AVL_TYPE:
-            node =  deleteAvlNode(node, key, flag);
+            node = deleteAvlNode(node, key, flag);
             break;
         case RBT_TYPE:
             LogWarn("La operación de borrado no se encuentra disponible para arboles rbt aun");
-            //node = deleteRbtNode(node, key, &flag);
+            // node = deleteRbtNode(node, key, &flag);
             break;
         default:
             return NULL;
@@ -206,12 +206,12 @@ static void transformToBst(struct node* node) {
     }
 }
 
-static struct node* transformToAvl(struct node* node, int *flag) {
+static struct node* transformToAvl(struct node* node, int* flag) {
     int i;
     int* allNodes = transformTreeToArray(node, &i);
 
-    if(allNodes == NULL) {
-        (*flag)=2;
+    if (allNodes == NULL) {
+        (*flag) = 2;
         return NULL;
     }
 
@@ -227,12 +227,12 @@ static struct node* transformToAvl(struct node* node, int *flag) {
     return toRet;
 }
 
-static struct node* transformToRbt(struct node* node, int *flag) {
+static struct node* transformToRbt(struct node* node, int* flag) {
     int i;
     int* allNodes = transformTreeToArray(node, &i);
 
-    if(allNodes == NULL) {
-        (*flag)=2;
+    if (allNodes == NULL) {
+        (*flag) = 2;
         return NULL;
     }
 
@@ -253,7 +253,7 @@ static int* transformTreeToArray(struct node* node, int* size) {
     int i = 0;
     int* allNodes = malloc(count * sizeof(int));
 
-    if(allNodes==NULL) {
+    if (allNodes == NULL) {
         return allNodes;
     }
 
@@ -334,13 +334,11 @@ static void generateDotSubGraph(struct node* node, char* treeName, int* i, int c
 static void generateDot(struct node* node, FILE* out) {
     if (node != NULL) {
         if (node->found) {
-            if(node->color==RED){
+            if (node->color == RED) {
                 fprintf(out, "\tn%d [style=\"filled, setlinewidth(2)\" color=\"red\" fillcolor=\"greenyellow\"] ;\n", node->dotNumber);
-            }
-            else if (node->color==BLACK){
+            } else if (node->color == BLACK) {
                 fprintf(out, "\tn%d [style=\"filled, setlinewidth(2)\" color=\"black\" fillcolor=\"greenyellow\"] ;\n", node->dotNumber);
-            }
-            else {
+            } else {
                 fprintf(out, "\tn%d [color=\"greenyellow\" style=\"filled\"] ;\n", node->dotNumber);
             }
         } else if (node->color == RED) {

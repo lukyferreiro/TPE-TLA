@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "avl_tree.h"
 #include "../../backend/support/logger.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 static int height(struct node* node);
 static int max(int a, int b);
@@ -22,8 +22,8 @@ static int max(int a, int b) {
 
 static struct node* newAvlNode(int key, int* flag) {
     struct node* temp = (struct node*)calloc(1, sizeof(struct node));
-    if(temp==NULL){
-        (*flag)=2;
+    if (temp == NULL) {
+        (*flag) = 2;
         LogError("El programa finalizo abruptamente debido a que ya no hay memoria disponible");
         return NULL;
     }
@@ -32,7 +32,7 @@ static struct node* newAvlNode(int key, int* flag) {
     temp->right = NULL;
     temp->height = 1;
     temp->type = AVL_TYPE;
-    temp->color=NONE;
+    temp->color = NONE;
     return temp;
 }
 
@@ -72,14 +72,12 @@ struct node* insertAvlNode(struct node* node, int key, int* flag) {
     if (node == NULL)
         return newAvlNode(key, flag);
 
-    if (key < node->key){
+    if (key < node->key) {
         node->left = insertAvlNode(node->left, key, flag);
-    }
-    else if (key > node->key){
+    } else if (key > node->key) {
         node->right = insertAvlNode(node->right, key, flag);
-    }
-    else{
-        (*flag)=*flag == 0 ? 1: *flag;
+    } else {
+        (*flag) = *flag == 0 ? 1 : *flag;
         LogWarn("No se pudo agregar. El nodo %d ya se encontraba en el árbol", key);
         return node;
     }
@@ -108,18 +106,16 @@ struct node* insertAvlNode(struct node* node, int key, int* flag) {
 
 struct node* deleteAvlNode(struct node* node, int key, int* flag) {
     if (node == NULL) {
-        (*flag)=*flag == 0 ? 1: *flag;
+        (*flag) = *flag == 0 ? 1 : *flag;
         LogWarn("No se pudo eliminar. El nodo %d no se encontraba en el árbol", key);
         return node;
     }
 
     if (key < node->key) {
         node->left = deleteAvlNode(node->left, key, flag);
-    }
-    else if (key > node->key) {
+    } else if (key > node->key) {
         node->right = deleteAvlNode(node->right, key, flag);
-    }
-    else {
+    } else {
         if ((node->left == NULL) || (node->right == NULL)) {
             struct node* temp = node->left ? node->left : node->right;
 

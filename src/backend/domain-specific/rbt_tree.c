@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "rbt_tree.h"
 #include "../../backend/support/logger.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 static struct node* newRbtNode(int key, int* flag);
 static struct node* bstInsertNode(struct node* trav, struct node* temp, int* flag);
@@ -9,7 +9,7 @@ static struct node* rightRotate(struct node* root, struct node* x);
 static struct node* lefttrotate(struct node* root, struct node* x);
 static struct node* fixup(struct node* root, struct node* pt);
 
-static int alreadyAdded=0;
+static int alreadyAdded = 0;
 
 struct node* insertRbtNode(struct node* node, int key, int* flag) {
     struct node* toAdd = newRbtNode(key, flag);
@@ -17,9 +17,9 @@ struct node* insertRbtNode(struct node* node, int key, int* flag) {
         return node;
     }
     node = bstInsertNode(node, toAdd, flag);
-    if(alreadyAdded){
+    if (alreadyAdded) {
         free(toAdd);
-        alreadyAdded=0;
+        alreadyAdded = 0;
         return node;
     }
     node = fixup(node, toAdd);
@@ -51,11 +51,10 @@ struct node* bstInsertNode(struct node* trav, struct node* temp, int* flag) {
     } else if (temp->key > trav->key) {
         trav->right = bstInsertNode(trav->right, temp, flag);
         trav->right->par = trav;
-    }
-    else if (temp->key == trav->key){
+    } else if (temp->key == trav->key) {
         (*flag) = *flag == 0 ? 1 : *flag;
         LogWarn("No se pudo agregar. El nodo %d ya se encontraba en el árbol", temp->key);
-        alreadyAdded=1;
+        alreadyAdded = 1;
     }
 
     return trav;
@@ -99,7 +98,7 @@ struct node* leftRotate(struct node* root, struct node* x) {
 // This function fixes violations
 // caused by BST insertion
 static struct node* fixup(struct node* root, struct node* pt) {
-    if(pt==NULL){
+    if (pt == NULL) {
         return root;
     }
     struct node* parent_pt = NULL;

@@ -1,9 +1,9 @@
 #include "generator.h"
-#include "../../backend/support/logger.h"
 #include "../../backend/domain-specific/tree.h"
-#include <string.h>
-#include <stdlib.h>
+#include "../../backend/support/logger.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define MAX_NUM_TREES 20
 
@@ -156,18 +156,22 @@ void GeneratorBlock(Block* block) {
                 LogError("Error abriendo archivo .dot\n");
                 free(currentFile->fullPathName);
                 free(currentFile);
-                programSuccess=2;
+                programSuccess = 2;
                 return;
             }
 
             generateDotFile(currentFile->currentTrees, currentFile->treeNames, currentFile->treeSize, currentFile->legendParams, outputFile);
 
-            if(currentFile->treeSize == 0){
+            fclose(outputFile);
+
+            if (currentFile->treeSize == 0) {
                 LogWarn("No se agregaron arboles. El archivo %s se ha generado vacio.", currentFile->name);
             }
 
             // Creo el comando que transformará en foto el archivo .dot
             generateCommand();
+
+            LogInfo("Se ha generado la imagen: %s", currentFile->command);
 
             if (system(currentFile->command) == -1) {
                 LogError("Se produjo un error al convertir el .dot en .png.");
@@ -179,7 +183,6 @@ void GeneratorBlock(Block* block) {
             free(currentFile->command);
             free(currentFile);
             resetFoundNodes();
-            fclose(outputFile);
 
             break;
         default:
@@ -291,9 +294,6 @@ void GeneratorTreeArray(TreeArray* treeArray) {
         case VARIOUS_TREES:
             // Agrego nombre del árbol y root en la struct currentFile
             // Me desplazo al siguiente y sigo agregando árboles
-
-            
-
             currentFile->treeNames[currentFile->treeSize] = treeArray->treeName;
             currentFile->currentTrees[currentFile->treeSize++] = myGeneratorState->currentTrees[GeneratorTreeName(treeArray->treeName)];
             GeneratorTreeArray(treeArray->nextTreeArray);
@@ -473,13 +473,9 @@ static void generateDotFullPathName() {
         strcat(currentFile->fullPathName, currentFile->name);
         strcat(currentFile->fullPathName, dotAux);
     }
-
-    printf("FullPathName: %s\n", currentFile->fullPathName);
 }
 
 static void generateCommand() {
-    printf("Antes de comando: %s\n", currentFile->fullPathName);
-
     char* pngAux = ".png";
     char* dotCommandAux = "dot -Tpng ";
     char* outAux = " -o ";
@@ -505,5 +501,4 @@ static void generateCommand() {
 
     free(currentFile->fullPathName);
 
-    printf("Despues de comando: \n%s\n", currentFile->command);
 }

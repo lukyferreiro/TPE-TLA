@@ -22,14 +22,12 @@
 variableName    [A-Za-z][A-Za-z0-9]*
 filePath        (([/]{1}[A-Za-z0-9_-]+)+([/]){1})|(^([\/]{1}))
 digit			[0-9]
-endline			[\n]
 whitespace		[ \f\n\r\t\v]
 
 %%
 
 "/*"										{ BEGIN(COMMENT); BeginCommentPatternAction(); }
 <COMMENT>.									{ ; }
-<COMMENT>{endline}							{ ; }
 <COMMENT>"*/"								{ EndCommentPatternAction(); BEGIN(INITIAL); }
 
 "\""								        { BEGIN(CONTEXT_FILE_PATH); return BeginContextFilePathPatternAction(); }
@@ -72,7 +70,6 @@ whitespace		[ \f\n\r\t\v]
 {variableName}                              { return VariableNamePatternAction(yytext, yyleng); }
 
 {whitespace}+								{ IgnoredPatternAction(yytext, yyleng); }
-{endline}                                   { IgnoredPatternAction(yytext, yyleng); }
 
 .											{ return UnknownPatternAction(yytext, yyleng); }
 

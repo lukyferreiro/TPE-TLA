@@ -6,4 +6,4 @@
 struct node* insertBstNode(struct node* node, int key, int* flag);
 struct node* deleteBstNode(struct node* node, int key, int* flag);
 
-#endif  
+#endif

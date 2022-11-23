@@ -6,4 +6,4 @@
 struct node* insertAvlNode(struct node* node, int key, int* flag);
 struct node* deleteAvlNode(struct node* node, int key, int* flag);
 
-#endif 
+#endif
